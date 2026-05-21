@@ -24,7 +24,7 @@ def authenticate_reddit():
 def get_comments(reddit_instance, url):
     """
     Takes a PRAW reddit instance and a reddit post url
-    and list of at most 15 comments.
+    and returns a list of 5 top level comments.
     """
     
     try:
@@ -33,62 +33,20 @@ def get_comments(reddit_instance, url):
         return {"error": "invalid url"}
     except RedditAPIException:
         return {"error": "reddit api"}
+    except Exception as e:
+        return {"error": f"{e}"}
 
     # replace_more() method opens "MoreComments" objects
     # limit parameter sets number of "MoreComments" to replace
     submission.comments.replace_more(limit=5)
-
-    # seeds to first 5 top level comments
     comment_stack = submission.comments[:5]
-    count = 0
-    comments = []
-    comment_map = {}
 
-    # DFS traversal of comment forest
-    # copies comment tree structure to comments list
-    while comment_stack:
-        # pops top of stack/last element of list
-        comment = comment_stack.pop()
-        print(comment)
+    return comment_stack
 
-        comment_info = {
-                "comment_id": str(comment.id),
-                "user_id": str(comment.author.id),
-                "parent_id": str(comment.parent_id),
-                "comment": str(comment.body),
-                "replies": []
-        }
-
-        # maps comment id as key, comment info as value
-        # acts as reference to append replies to
-        # dicts are pass by reference
-        comment_map[comment.id] = comment_info
-
-        # top level comment's parent id starts with t3_
-        if comment.parent_id.startswith("t3_"):
-            comments.append(comment_info)
-            count+=1
-
-        # replies' parent id starts with t1_
-        # appends to dict in comment map which also modifies 
-        # dict in comment list
-        elif comment.parent_id.startswith("t1_"):
-            parent_id = comment.parent_id[3:]
-            if parent_id in comment_map:
-                comment_map[parent_id]["replies"].append(comment_info)
-                count+=1
-        
-        if count >= 15:
-            break
-
-        # push replies to top of stack/end of list
-        comment_stack.extend(comment.replies)
-        
-    return comments
 
 def connect_sentiment():
     """
-    Returns the API url from environment variables
+    Returns the API url from environment variables.
     """
 
     sentiment_url = os.getenv("url")
@@ -99,15 +57,3 @@ def connect_sentiment():
     else:
         return sentiment_url
 
-if __name__ == "__main__":
-    from dotenv import load_dotenv
-    import json
-
-    load_dotenv()
-    reddit = authenticate_reddit()
-    url = "https://www.reddit.com/r/nba/comments/1tfb662/vorkunov_dundon_on_not_sending_2way_players_on/"
-    
-    comments = get_comments(reddit, url)
-    print(json.dumps(comments, indent=4))
-    with open("data.json", "w") as file:
-        json.dump(comments, file, indent=4)
