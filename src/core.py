@@ -1,10 +1,11 @@
 import httpx
+import json
 
 def comment_tree(comment_stack):
     """
     Takes a comment_stack object from get_comments() and 
     recreates the comment tree structure through a DFS approach
-    and also creates payload for wpaas api.
+    and creates payload for wpaas api.
     """
     count = 0
     comments = []
@@ -12,12 +13,11 @@ def comment_tree(comment_stack):
     texts = []
 
     # DFS traversal of comment forest
-    # copies comment tree structure to comments list
+    # copies comment tree structure to 'comments' list
     # also creates payload in same DFS order
     while comment_stack:
         # pops top of stack/last element of list
         comment = comment_stack.pop()
-        print(comment)
 
         comment_info = {
                 "comment_id": str(comment.id),
@@ -27,27 +27,29 @@ def comment_tree(comment_stack):
                 "replies": []
         }
 
+        # append text id and text body to payload list
         texts.append({
             "text": str(comment.body),
             "text_id": str(comment.id)
         })
 
         # maps comment id as key, comment info as value
-        # acts as reference to append replies to
-        # dicts are pass by reference
+        # acts as a reference to append replies to
         comment_map[comment.id] = comment_info
 
-        # top level comment's parent id starts with t3_
+        # top level comments' parent id starts with t3_
         if comment.parent_id.startswith("t3_"):
             comments.append(comment_info)
             count+=1
 
         # replies' parent id starts with t1_
-        # appends to dict in comment map which also modifies 
-        # dict in comment list
         elif comment.parent_id.startswith("t1_"):
+
             parent_id = comment.parent_id[3:]
+
             if parent_id in comment_map:
+
+                # this modifies 'replies' field in the 'comments' list
                 comment_map[parent_id]["replies"].append(comment_info)
                 count+=1
         
@@ -72,7 +74,7 @@ def call_sentiment_endpoint(payload, sentiment_url):
     
     try:
         response = httpx.post(sentiment_url, json=payload, timeout=60)
-        print(response)
+
         if response.status_code == 404:
             return {"error": "incorrect api url"}
         elif response.status_code != 200:
@@ -89,50 +91,58 @@ def call_sentiment_endpoint(payload, sentiment_url):
     return response.json()
 
 
-def calculate_final_sentiment(response_json):
+def calculate_final_sentiment(comments):
     """
     Takes the response object and calculates average/overall
     sentiment amongst comments in the submitted post.
     """
-    sentiment_count = {"NEGATIVE": 0, "POSITIVE": 0}
-    sentiment_confidence = float(0)
+    count = {"NEGATIVE": 0, "POSITIVE": 0}
+    confidence = float(0)
 
-    for result in response_json:
+    # same DFS approach to traverse comment tree
+    comment_stack = []
+    comment_stack.extend(comments[:])
 
-        sentiment_confidence+=max(result["sentiment_confidence"])
+    while comment_stack:
+        comment = comment_stack.pop()
 
-        if result["sentiment_classification"] == "NEGATIVE":
-            sentiment_count["NEGATIVE"]+=1
-        else:
-            sentiment_count["POSITIVE"]+=1
+        confidence += max(comment["sentiment"]["score"])
 
-    mean_conf = sentiment_confidence/len(response_json)
-    return [{"sentiment_count": sentiment_count},
-            {"sentiment_confidence": round(mean_conf, 3)}]
+        if comment["sentiment"]["classification"] == "NEGATIVE":
+            count["NEGATIVE"] += 1
+        elif comment["sentiment"]["classification"] == "POSITIVE":
+            count["POSITIVE"] += 1
+        
+        if "replies" in comment:
+            comment_stack.extend(comment["replies"])
+
+
+    mean_conf = confidence/sum(count.values())
+    return [{"count": count},
+            {"confidence": round(mean_conf, 3)}]
 
 
 def format_response(comments, response):
     """
-    Takes the payload and response objects and build one
-    context JSON object to be rendered in jinja templates
+    Takes the payload and response objects and builds comment
+    tree structure with sentiment analysis results to be rendered 
+    in jinja templates
     """
     # comment_id, comment key-value pair e.g {"abc124": "this is the comment"}
     payload_map = {}
     for res in response["sentiment"]:
         payload_map.update({
             res["text_id"]: {
-                "sentiment": res["sentiment_classification"],
+                "classification": res["sentiment_classification"],
                 "score": res["sentiment_confidence"],
                 "text_id": res["text_id"]
                 }
             })
     
-    print(f"payload_map: {payload_map}")
-    # # appends original text to sentiment result object
+
+    # enriches comment tree with sentiment results via same DFS approach
     comment_stack = []
-    # print(comment_stack)
-    comment_stack.append(comments[0])
-    # print(comment_stack[0]["parent_id"])
+    comment_stack.extend(comments[:])
 
     while comment_stack:
         comment = comment_stack.pop()
@@ -142,7 +152,5 @@ def format_response(comments, response):
         if "replies" in comment:
             comment_stack.extend(comment["replies"])
 
-    # print(f"comments: {comments}")
-    # print(json.dumps(comments, indent=4))
     return comments
 

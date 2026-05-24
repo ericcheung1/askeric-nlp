@@ -29,3 +29,6 @@ Thumbs.db # Windows
 *.sqlite3
 # Environment variables file (often contains sensitive data like API keys)
 .env
+
+# others ;)
+*.json

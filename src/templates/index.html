@@ -2,33 +2,66 @@
 <html>
 <head>
     <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>word-processor</title>
 </head>
-<body>
-    <p>
-        Welcome to word-processor-dot-com! This prototype web app was made as a client to the WPaaS API.
-    </p>
-    <p>Currently this site support sentiment analysis of individual sentences.</p>
-    <p>
-        And it supports sentiment analysis on Reddit <strong>Posts</strong>.
-        More specifically it analyses up to 15 top level comments on a post.
-    </p>
-    
-    
-    <h2>Enter Text!!</h2>
-    <form hx-post="/sentiment-stand-alone" hx-target="#result">
-        <p><input type="text" id="name" name="text" required></p>
-        <button type="submit">Analyze Text</button>
-        <p id="result"></p>
-    </form>
+<body class="bg-gray-50 min-h-screen flex justify-center">
+    <main class="w-full max-w-3xl p-6">
+        <div class="space-y-2 leading-relaxed mb-6">
+            Welcome to word-processor-dot-com! This prototype web app was made as one of the clients to the Wpaas API.  
+            Currently it supports sentiment analysis of individual sentences
+            as well as sentiment analysis of Reddit posts.
+            More specifically it analyzes up to 15 comments and replies on a post.
+        </div>
+        
+        <div class="space-y-2 leading-relaxed mb-6">
+            <h2>Enter A Sentence.</h2>
+            <form hx-post="/sentiment-stand-alone" hx-target="#result">
+                <p><input type="text" name="text" required
+                    class="w-full p-3 border border-black bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-black rounded-none"
+                /></p>
+                <button type="submit" 
+                    class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-none">
+                    Analyze Text
+                </button>
+            </form>
+        </div>
 
-    <h2>Enter Reddit Post URL!!</h2>
-    <p>Please make sure it is a specific post and not a full subreddit.</p>
-    <form hx-post="/sentiment-reddit" hx-target="#result1">
-        <p><input type="text" id="name" name="url" required></p>
-        <button type="submit">Analyse Reddit Post</button>
-        <p id="result1"></p>
-    </form>
-    <p>v0.0.2</p>
+        <div id="result" class="space-y-2 leading-relaxed mb-6"></div>
+
+        <div class="space-y-2 leading-relaxed mb-6">
+            <p>
+                Enter Reddit Post URL.
+                Please make sure it's a specific post and not a full subreddit.
+            </p>
+
+
+            <form 
+                hx-post="/sentiment-reddit" 
+                hx-target="#result1-content"
+                hx-indicator="#spinner1"
+            >
+                <p><input type="text" name="url" required
+                    class="w-full p-3 border border-black bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-black rounded-none"
+                /></p>
+                <button type="submit" 
+                    class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-none">
+                    Analyze Reddit Post
+                </button>
+            </form>
+        </div>
+
+        <div id="result1" class="space-y-2">
+
+            <div id="spinner1" class="htmx-indicator text-gray-600">
+                Loading...
+            </div>
+
+            <div id="result1-content"></div>
+
+        </div>
+
+        <p>v0.0.3</p>
+    </main>
 </body>
 </html>

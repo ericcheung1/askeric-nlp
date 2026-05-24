@@ -21,6 +21,7 @@ def authenticate_reddit():
     print(f'Logged in as user: {reddit_instance.user.me()}')
     return reddit_instance
 
+
 def get_comments(reddit_instance, url):
     """
     Takes a PRAW reddit instance and a reddit post url
@@ -40,6 +41,9 @@ def get_comments(reddit_instance, url):
     # limit parameter sets number of "MoreComments" to replace
     submission.comments.replace_more(limit=5)
     comment_stack = submission.comments[:5]
+
+    if not comment_stack:
+        return {"error": "no comments"}
 
     return comment_stack
 
