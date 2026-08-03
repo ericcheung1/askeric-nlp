@@ -2,7 +2,13 @@ from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from app.clients.reddit import get_comments, process_comments, build_tree
-from app.core.users import clean_model_inputs, prepare_model_inputs, reconcile_outputs, rebuild_comment_tree
+from app.core.users import (
+    clean_model_inputs, 
+    prepare_model_inputs, 
+    reconcile_outputs, 
+    rebuild_comment_tree, 
+    calculate_overall_sentiment
+)
 from ml.sentiment.inference import sentiment_score, softmax
 
 
@@ -27,26 +33,38 @@ def user_input(request: Request, input: str=Form(...)):
 def reddit_input(request: Request, url: str=Form(...)):
 
     reddit = request.app.state.reddit
-    if reddit:
-        print("reddit loaded")
     model_session = request.app.state.model_session
-    if model_session:
-        print("model loaded")
     tokenizer = request.app.state.tokenizer
-    if tokenizer:
-        print("tokenizer loaded")
 
-    comment_stack = get_comments(reddit=reddit, url=url)
-    model_inputs = process_comments(comment_stack=comment_stack)
-    comment_tree = build_tree(comment_stack=comment_stack)
+    comments = get_comments(reddit=reddit, url=url)
 
+    # clean comments, preparing for sentiment scoring
+    model_inputs = process_comments(comments=comments)
     clean_model_inputs(model_inputs=model_inputs)
     raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
 
+    # pre-building comment tree structure, fill with sentiment scores after
+    comment_tree = build_tree(comments=comments)
+
+    # scores comments with sentiment, formats outputs
     raw_outputs = sentiment_score(model_session=model_session, tokenizer=tokenizer, input=raw_inputs)
     result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
+
+    # fills pre-built comment tree with sentiment scores
     rebuild_comment_tree(comment_tree=comment_tree, result_map=result_map)
 
-    print(comment_tree)
+    overall_sentiment = calculate_overall_sentiment(comment_tree=comment_tree)
+
+    # context object to use in HTML template
+    context = {
+        "comment_tree": comment_tree,
+        "overall_sentiment": overall_sentiment
+    }
+
+    return templates.TemplateResponse(
+        request=request,
+        name="result_update_r.html",
+        context=context
+    )
 
     

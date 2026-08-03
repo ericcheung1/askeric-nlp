@@ -1,74 +1,41 @@
-from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
-import uvicorn
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
 from dotenv import load_dotenv
-from app.core_old import comment_tree, call_sentiment_endpoint, calculate_final_sentiment, format_response
-from utils import authenticate_reddit, get_comments, connect_sentiment
+from app.clients.reddit import authenticate_reddit
+from ml.sentiment.inference import sentiment_load_model, sentiment_load_tokenizer
+from app.router import index
+import uvicorn
+import logging
+import os
 
 
-app = FastAPI(docs_url=None, redoc_url=None)
+DEBUG_LOGS = os.environ.get("DEBUG_LOGS", "0") == "1"
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+
+    load_dotenv()
+    app.state.reddit = authenticate_reddit()
+    app.state.model_session = sentiment_load_model()
+    app.state.tokenizer = sentiment_load_tokenizer()
+
+    yield
 
 
-load_dotenv()
-reddit = authenticate_reddit()
-sentiment_endpoint = connect_sentiment()
-templates = Jinja2Templates(directory="templates")
+level = logging.DEBUG if DEBUG_LOGS else logging.INFO
+logging.basicConfig
+logging.basicConfig(
+    level=level,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    datefmt="%H:%M:%S",
+)
+logging.getLogger("prawcore").setLevel(logging.WARNING)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
-@app.get("/", response_class=HTMLResponse)
-def home(request: Request):
-    return templates.TemplateResponse(
-        request=request,
-        name="index.html"
-    )
-
-
-@app.post("/sentiment-stand-alone", response_class=HTMLResponse)
-def sentiment_stand_alone(request: Request, text: str = Form(...)):
-
-    payload = {"texts": [{"text": text}]}
-    response = call_sentiment_endpoint(payload, sentiment_endpoint)
-    if isinstance(response, dict) and ("error" in response):
-        return HTMLResponse(content=f"<div>Could Not Connect to API</div>") 
-    
-    context = {"response": response}
-    
-    return templates.TemplateResponse(
-        request=request,
-        name="result_update_s.html",
-        context=context
-    )
-
-
-@app.post("/sentiment-reddit", response_class=HTMLResponse)
-def sentiment_reddit(request: Request, url: str = Form(...)):
-    
-    comment_stack = get_comments(reddit, url)
-    if isinstance(comment_stack, dict) and "error" in comment_stack:
-        error = comment_stack
-        return HTMLResponse(content=f"<div>Result: {error} </div>")
-    
-    else:
-        comments, payload = comment_tree(comment_stack)
-
-        response = call_sentiment_endpoint(payload, sentiment_endpoint)
-        if isinstance(response, dict) & ("error" in response):
-            error = response
-            return HTMLResponse(content=f"<div>Result: {error} </div>")
-
-        formatted_response = format_response(comments, response)
-        overall_sentiment = calculate_final_sentiment(comments)
-    
-    context = {"response": formatted_response, 
-                "overall_sentiment": overall_sentiment}
-    
-    return templates.TemplateResponse(
-        request=request,
-        name="result_update_r.html",
-        context=context
-    )
+app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None)
+app.include_router(router=index.router)
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", port=5000, reload=True)
+    uvicorn.run("app.main:app", port=5000, reload=True)
