@@ -1,4 +1,4 @@
-## Word-Processor-Dot-Com - Text Processing Web App
+# Word-Processor-Dot-Com - Text Processing Web App
 
 Prototype Live On: https://www.word-processor-dot-com.site/
 

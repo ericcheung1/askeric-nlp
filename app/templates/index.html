@@ -35,11 +35,11 @@
 
 
             <form 
-                hx-post="/sentiment-reddit" 
+                hx-post="/reddit_input" 
                 hx-target="#result1-content"
                 hx-indicator="#spinner1"
             >
-                <p><input type="text" name="url" required
+                <p><input type="url" name="url" required
                     class="w-full p-3 border border-black bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-black rounded-none"
                 /></p>
                 <button type="submit" 

@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import uvicorn
 from dotenv import load_dotenv
-from core import comment_tree, call_sentiment_endpoint, calculate_final_sentiment, format_response
+from app.core_old import comment_tree, call_sentiment_endpoint, calculate_final_sentiment, format_response
 from utils import authenticate_reddit, get_comments, connect_sentiment
 
 
