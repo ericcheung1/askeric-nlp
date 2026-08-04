@@ -3,19 +3,19 @@
 <head>
     <script src="https://unpkg.com/htmx.org@2.0.0"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>word-processor</title>
+    <title>Analyze Text</title>
 </head>
 <body class="bg-gray-50 min-h-screen flex justify-center">
     <main class="w-full max-w-3xl p-6">
         <div class="space-y-2 leading-relaxed mb-6">
-            Welcome to word-processor-dot-com! This web app uses NLP models to score sentiment on individual pieces of text and on Reddit posts.
-            Currently sentiment analysis can be on individual sentences as well as sentiment analysis of up to 15 comments and replies of Reddit posts.
+            Welcome! This web app uses NLP models to analyze individual text snippets and Reddit posts.
+            Currently, it supports sentiment analysis for standalone sentences, as well as for up to 15 comments and replies on Reddit posts.
         </div>
         
         <div class="space-y-2 leading-relaxed mb-6">
             <h2>Enter A Sentence.</h2>
-            <form hx-post="/sentiment-stand-alone" hx-target="#result">
-                <p><input type="text" name="text" required
+            <form hx-post="/user_input" hx-target="#result">
+                <p><input type="text" name="input" required
                     class="w-full p-3 border border-black bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-black rounded-none"
                 /></p>
                 <button type="submit" 

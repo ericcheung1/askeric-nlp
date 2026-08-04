@@ -8,7 +8,6 @@ import uvicorn
 import logging
 import os
 
-
 DEBUG_LOGS = os.environ.get("DEBUG_LOGS", "0") == "1"
 
 @asynccontextmanager
@@ -23,7 +22,6 @@ async def lifespan(app: FastAPI):
 
 
 level = logging.DEBUG if DEBUG_LOGS else logging.INFO
-logging.basicConfig
 logging.basicConfig(
     level=level,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",

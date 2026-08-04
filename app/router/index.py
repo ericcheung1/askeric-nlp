@@ -26,7 +26,35 @@ def index(request: Request):
 
 @router.post("/user_input", response_class=HTMLResponse)
 def user_input(request: Request, input: str=Form(...)):
-    pass
+
+    model_session = request.app.state.model_session
+    tokenizer = request.app.state.tokenizer
+
+    # build a mock model input object with mock id
+    mock_id = "abc123"
+    model_inputs = [{
+        "text": str(input),
+        "text_id": "abc123"
+    }]
+
+    # clean comments, preparing for sentiment scoring
+    clean_model_inputs(model_inputs=model_inputs)
+    raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
+
+    # scores comments with sentiment, formats outputs
+    raw_outputs = sentiment_score(model_session=model_session, tokenizer=tokenizer, input=raw_inputs)
+    result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
+
+    context = {
+        "classification": result_map[mock_id]["sentiment_class"],
+        "confidence": result_map[mock_id]["sentiment_conf"]
+    }
+
+    return templates.TemplateResponse(
+        request=request,
+        name="result_update_s.html",
+        context=context
+    )
 
 
 @router.post("/reddit_input", response_class=HTMLResponse)

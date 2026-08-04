@@ -1,6 +1,6 @@
 <ul class="font-semibold mb-4">
     <li>
-        Classification: {{ response.sentiment[0].sentiment_classification }},
-        Confidence: {{ response.sentiment[0].sentiment_confidence|max|round(3) }}
+        Classification: {{ classification }},
+        Confidence: {{ confidence|max|round(3) }}
     </li>
 </ul>

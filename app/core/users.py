@@ -53,7 +53,7 @@ def reconcile_outputs(raw_outputs, ids, softmax):
         })
 
     logger.debug("Result Map from 'reconcile_outputs'\n%s", result_map)
-    logger.info("Successfully Reconciled Sentiment Scores with Comment IDS in 'reconcile_outputs'")
+    logger.info("Successfully Reconciled Sentiment Scores with Comment IDs in 'reconcile_outputs'")
 
     return result_map
 
