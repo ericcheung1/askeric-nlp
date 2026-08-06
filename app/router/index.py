@@ -11,9 +11,7 @@ from app.core.users import (
 )
 from ml.sentiment.inference import sentiment_score, softmax
 
-
 router = APIRouter()
-
 templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/", response_class=HTMLResponse)
