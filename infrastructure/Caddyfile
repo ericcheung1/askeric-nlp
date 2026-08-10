@@ -1,3 +1,0 @@
-word-processor-dot-com.site, www.word-processor-dot-com.site {
-    reverse_proxy wp-dot-com:8000
-}

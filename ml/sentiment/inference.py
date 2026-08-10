@@ -2,22 +2,36 @@ from pathlib import Path
 from tokenizers import Tokenizer
 import onnxruntime as ort
 import numpy as np
+import logging
+
+logger = logging.getLogger(__name__)
 
 DISTILBERT_ONNX = Path("ml/sentiment/distilbert_fp16_onnx/distilbert_fp16.onnx")
 TOKENIZER_JSON = Path("ml/sentiment/distilbert_fp16_onnx/tokenizer.json")
 
-
 def sentiment_load_model():
 
-    model_session = ort.InferenceSession(DISTILBERT_ONNX, providers=["CPUExecutionProvider"])
+    try:
+        model_session = ort.InferenceSession(DISTILBERT_ONNX, providers=["CPUExecutionProvider"])
+        logger.info("Successfully Loaded Sentiment Model in 'sentiment_load_model'")
+
+    except Exception as e:
+        logger.critical(f"Exception {e}: Failed to Load Sentiment Model in 'sentiment_load_model'")
+        raise FileNotFoundError
 
     return model_session
 
 
 def sentiment_load_tokenizer():
 
-    tokenizer = Tokenizer.from_file(str(TOKENIZER_JSON))
-    tokenizer.enable_padding(pad_id=0, pad_token="[PAD]", direction="right")
+    try:
+        tokenizer = Tokenizer.from_file(str(TOKENIZER_JSON))
+        tokenizer.enable_padding(pad_id=0, pad_token="[PAD]", direction="right")
+        logger.info("Successfully Loaded Tokenizer in 'sentiment_load_tokenizer'")
+
+    except Exception as e:
+        logger.critical(f"Exception {e}: Failed to Load Tokenizer in 'sentiment_load_tokenizer'")
+        raise FileNotFoundError
 
     return tokenizer
 

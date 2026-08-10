@@ -1,6 +1,6 @@
-# Word-Processor-Dot-Com - Text Processing Web App
+*Old iteration of this app
 
-Prototype Live On: https://www.word-processor-dot-com.site/
+# Word-Processor-Dot-Com - Text Processing Web App
 
 A lightweight backend-for-frontend (BFF) web application that serves as a client for the [WPaaS](https://github.com/ericcheung1/WPaaS) NLP Inference API. The app provides real‑time sentiment analysis for both standalone text and Reddit posts.
 

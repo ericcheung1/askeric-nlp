@@ -25,8 +25,8 @@ def index(request: Request):
 @router.post("/user_input", response_class=HTMLResponse)
 def user_input(request: Request, input: str=Form(...)):
 
-    model_session = request.app.state.model_session
-    tokenizer = request.app.state.tokenizer
+    model_session = request.state.model_session
+    tokenizer = request.state.tokenizer
 
     # build a mock model input object with mock id
     mock_id = "abc123"
@@ -58,9 +58,9 @@ def user_input(request: Request, input: str=Form(...)):
 @router.post("/reddit_input", response_class=HTMLResponse)
 def reddit_input(request: Request, url: str=Form(...)):
 
-    reddit = request.app.state.reddit
-    model_session = request.app.state.model_session
-    tokenizer = request.app.state.tokenizer
+    reddit = request.state.reddit
+    model_session = request.state.model_session
+    tokenizer = request.state.tokenizer
 
     comments = get_comments(reddit=reddit, url=url)
 
