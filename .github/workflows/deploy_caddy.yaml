@@ -1,10 +1,10 @@
 name: Deploy Caddy as Reverse Proxy
 
 on:
-  push:
-    branches: [ "main" ]
-    paths:
-      - 'infrastructure/**'
+  # push:
+  #   branches: [ "main" ]
+  #   paths:
+  #     - 'infrastructure/**'
   workflow_dispatch:
 
 jobs:

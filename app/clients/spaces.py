@@ -8,6 +8,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 def start_spaces_client():
+    """Uses boto3 as a client to access spaces"""
 
     try:
         session = boto3.session.Session()

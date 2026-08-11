@@ -22,7 +22,7 @@ def index(request: Request):
     )
 
 
-@router.post("/user_input", response_class=HTMLResponse)
+@router.post("/sentence_input", response_class=HTMLResponse)
 def user_input(request: Request, input: str=Form(...)):
 
     model_session = request.state.model_session
@@ -32,7 +32,7 @@ def user_input(request: Request, input: str=Form(...)):
     mock_id = "abc123"
     model_inputs = [{
         "text": str(input),
-        "text_id": "abc123"
+        "text_id": mock_id
     }]
 
     # clean comments, preparing for sentiment scoring

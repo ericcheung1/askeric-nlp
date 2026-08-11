@@ -1,4 +1,4 @@
-# r/AskEricNLP - Reddit and Sentence Analysis
+## r/AskEricNLP - Reddit and Sentence Analysis
 
 A backend-for-frontend (BFF) web application built with FastAPI that uses natural language processing (NLP) to provide real‑time analysis on both standalone text and Reddit posts.
 
@@ -21,7 +21,7 @@ askeric-nlp/
 │   └── main.py                     # App entry point
 └── ml/
     └── sentiment/
-        ├── distilbert_fp16_onnx/   # ML weights directory, no included in repo
+        ├── distilbert_fp16_onnx/   # ML weights directory, not included in repo
         │   ├── distilbert_fp16.onnx
         │   └── tokenizer.json
         └── inference.py            # Loads model and handles ML inference

@@ -6,20 +6,20 @@ import copy
 
 logger = logging.getLogger(__name__)
 
-def authenticate_reddit():
-    """
-    Authenticates a reddit instance in PRAW.
+def start_reddit_client():
+    """Authenticates a reddit instance in PRAW"""
 
-    Authenticates a reddit instance using 
-    information and keys from a .env file.
-    """
-    client_id = os.getenv("client_id")
-    client_secret = os.getenv("client_secret")
-    reddit = praw.Reddit(
-        client_id=client_id,
-        client_secret=client_secret,
-        user_agent="test_bot"
-    )
+    try:
+        reddit = praw.Reddit(
+            client_id=os.getenv("client_id"),
+            client_secret=os.getenv("client_secret"),
+            user_agent="test_bot"
+        )
+        logger.info("Successfully Started Reddit Client in 'start_reddit_client'")
+
+    except Exception as e:
+        logger.critical(f"Exception {e}: Failed to Start Reddit Client in 'start_reddit_client'")
+        raise ValueError
 
     # TODO: in authenticate_reddit() add error handling 
     # to failed reddit connections
@@ -66,6 +66,7 @@ def get_comments(reddit, url):
 
 def process_comments(comments):
     """Processes comment_stack into model_inputs map"""
+
     count = 0
     model_inputs = []
 
@@ -98,6 +99,7 @@ def build_tree(comments):
     Takes a comment_stack object from get_comments() and 
     recreates the comment tree structure through a DFS approach.
     """
+
     count = 0
     comment_tree = []
     comment_map = {}

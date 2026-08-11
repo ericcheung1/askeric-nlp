@@ -81,6 +81,7 @@ def rebuild_comment_tree(comment_tree, result_map):
 
 
 def calculate_overall_sentiment(comment_tree):
+    """Calculates counts and averages for sentiment in comment tree"""
 
     count = {"Negative": 0, "Positive": 0}
     total_conf = float(0)
@@ -113,7 +114,3 @@ def calculate_overall_sentiment(comment_tree):
         "count": count,
         "confidence": round(avg_conf, 3)
     }]
-
-
-if __name__ == "__main__":
-    pass

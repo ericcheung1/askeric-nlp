@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from dotenv import load_dotenv
-from app.clients.reddit import authenticate_reddit
+from app.clients.reddit import start_reddit_client
 from app.clients.spaces import start_spaces_client, weight_dir_check, download_spaces_files
 from ml.sentiment.inference import sentiment_load_model, sentiment_load_tokenizer
 from app.router import index
@@ -29,7 +29,7 @@ async def lifespan(app: FastAPI):
     weight_dir_check()
     download_spaces_files(spaces_client=spaces_client)
 
-    reddit = authenticate_reddit()
+    reddit = start_reddit_client()
     model_session = sentiment_load_model()
     tokenizer = sentiment_load_tokenizer()
 

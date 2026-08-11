@@ -10,6 +10,7 @@ DISTILBERT_ONNX = Path("ml/sentiment/distilbert_fp16_onnx/distilbert_fp16.onnx")
 TOKENIZER_JSON = Path("ml/sentiment/distilbert_fp16_onnx/tokenizer.json")
 
 def sentiment_load_model():
+    """Loads sentiment model in onnx runtime"""
 
     try:
         model_session = ort.InferenceSession(DISTILBERT_ONNX, providers=["CPUExecutionProvider"])
@@ -23,6 +24,7 @@ def sentiment_load_model():
 
 
 def sentiment_load_tokenizer():
+    """Loads tokenizer"""
 
     try:
         tokenizer = Tokenizer.from_file(str(TOKENIZER_JSON))
@@ -62,6 +64,8 @@ def sentiment_score(model_session, tokenizer, input):
 
 
 def softmax(input, axis=None):
+    """An implementation of the softmax function"""
+
     x = np.array(input)
     e_x = np.exp(x - np.max(x, axis=axis, keepdims=True))
     return e_x / np.sum(e_x, axis=axis, keepdims=True)
