@@ -8,16 +8,18 @@ A backend-for-frontend (BFF) web application built with FastAPI that uses natura
 askeric-nlp/
 ├── app/
 │   ├── clients/
-│   │   ├── reddit.py               # Authenticates PRAW, gets reddit posts
-│   │   └── spaces.py               # Downloads weight files from object store
+│   │   ├── exceptions.py           # Handles exceptions occuring in client modules
+│   │   ├── reddit.py               # Connects with PRAW to get reddit posts
+│   │   └── spaces.py               # Connects and downloads weight files from object store
 │   ├── core/
-│   │   └── user.py                 # Handles user input, transforms data
+│   │   └── user.py                 # Handles core user input and data transform logic
 │   ├── router/
-│   │   └── index.py                # Defines routes used in main page
+│   │   └── text_analysis.py        # Defines routes used in main text analysis page
 │   ├── templates/
+│   │   ├── error.html
 │   │   ├── index.html
-│   │   ├── result_update_r.html
-│   │   └── result_update_s.html
+│   │   ├── reddit_result.html
+│   │   └── sentence_result.html
 │   └── main.py                     # App entry point
 └── ml/
     └── sentiment/

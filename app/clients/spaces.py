@@ -20,11 +20,11 @@ def start_spaces_client():
         )
         logger.info("Successfully Started Spaces Client in 'start_spaces_client'")
 
-    except Exception as e:
-        logger.critical(f"Exception {e}: Failed to Start Spaces Client in 'start_spaces_client'")
-        raise ValueError
+        return client
 
-    return client
+    except Exception as e:
+        logger.critical(f"{e} in 'start_spaces_client'")
+        raise RuntimeError
 
 
 def weight_dir_check():

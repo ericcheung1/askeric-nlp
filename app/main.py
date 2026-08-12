@@ -4,10 +4,11 @@ from dotenv import load_dotenv
 from app.clients.reddit import start_reddit_client
 from app.clients.spaces import start_spaces_client, weight_dir_check, download_spaces_files
 from ml.sentiment.inference import sentiment_load_model, sentiment_load_tokenizer
-from app.router import index
+from app.router import text_analysis
 import uvicorn
 import logging
 import os
+from app.clients.exceptions import CommentFetchingError, comment_error_handler
 
 DEBUG_LOGS = os.environ.get("DEBUG_LOGS", "0") == "1"
 
@@ -22,6 +23,8 @@ async def lifespan(app: FastAPI):
     )
     logging.getLogger("prawcore").setLevel(logging.WARNING)
     logging.getLogger("urllib3").setLevel(logging.WARNING)
+    logging.getLogger("botocore").setLevel(logging.WARNING)
+    logging.getLogger("python_multipart").setLevel(logging.WARNING)
 
     load_dotenv()
 
@@ -43,7 +46,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None)
-app.include_router(router=index.router)
+app.add_exception_handler(CommentFetchingError, comment_error_handler)
+app.include_router(router=text_analysis.router)
 
 
 if __name__ == "__main__":

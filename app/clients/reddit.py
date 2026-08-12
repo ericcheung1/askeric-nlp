@@ -3,6 +3,7 @@ from praw.exceptions import RedditAPIException, InvalidURL
 import os
 import logging
 import copy
+from app.clients.exceptions import CommentFetchingError
 
 logger = logging.getLogger(__name__)
 
@@ -17,14 +18,11 @@ def start_reddit_client():
         )
         logger.info("Successfully Started Reddit Client in 'start_reddit_client'")
 
+        return reddit
+
     except Exception as e:
-        logger.critical(f"Exception {e}: Failed to Start Reddit Client in 'start_reddit_client'")
-        raise ValueError
-
-    # TODO: in authenticate_reddit() add error handling 
-    # to failed reddit connections
-
-    return reddit
+        logger.critical(f"{e} in 'start_reddit_client'")
+        raise RuntimeError
 
 
 def get_comments(reddit, url):
@@ -32,36 +30,35 @@ def get_comments(reddit, url):
     Takes a PRAW reddit instance and a reddit post url
     and returns a list of 5 top level comments.
     """
-    # NOTE: log the errors then figure out how to handle downstream effects
+
     try:
         submission = reddit.submission(url=url)
 
-    except InvalidURL:
-        logger.warning("Invalid URL Error Encountered in 'get_comments'")
-        return {"error": "invalid url"}
+        # replace_more() method opens "MoreComments" objects
+        # limit parameter sets number of "MoreComments" to replace
+        submission.comments.replace_more(limit=5)
+        comments = submission.comments[:5]
 
-    except RedditAPIException:
-        logger.warning("Reddit API Error Encountered in 'get_comments'")
-        return {"error": "reddit api"}
+        logger.debug("Comments from 'get_comments':\n%s", comments)
+
+        if not comments:
+            logger.warning("Failed to Retrieve Comments in 'get_comments'")
+            raise CommentFetchingError(message=f"could not retrieve comments")
+
+        logger.info("Successfully Retrieved Comments in 'get_comments'")
+        return comments
+
+    except InvalidURL as e:
+        logger.warning(f"'{e}' Encountered in 'get_comments'")
+        raise CommentFetchingError(message=f"Invalid Url")
+
+    except RedditAPIException as e:
+        logger.warning(f"'{e}' Encountered in 'get_comments'")
+        raise CommentFetchingError(message=f"Reddit API Error")
 
     except Exception as e:
-        logger.warning("Error Encountered in 'get_comments'")
-        return {"error": f"{e}"}
-
-    # replace_more() method opens "MoreComments" objects
-    # limit parameter sets number of "MoreComments" to replace
-    submission.comments.replace_more(limit=5)
-    comments = submission.comments[:5]
-
-    logger.debug("Comments from 'get_comments':\n%s", comments)
-
-    if not comments:
-        logger.warning("Failed to Retrieve Comments in 'get_comments'")
-        return {"error": "no comments"}
-
-    logger.info("Successfully Retrieved Comments in 'get_comments'")
-
-    return comments
+        logger.warning(f"{e} in 'get_comments'")
+        raise CommentFetchingError(message=f"Error")
 
 
 def process_comments(comments):
@@ -115,7 +112,6 @@ def build_tree(comments):
         comment_info = {
             "comment": str(comment.body),
             "comment_id": str(comment.id),
-            "user_id": str(comment.author.id),
             "parent_id": str(comment.parent_id),
             "replies": []
         }

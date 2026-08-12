@@ -17,7 +17,7 @@ def sentiment_load_model():
         logger.info("Successfully Loaded Sentiment Model in 'sentiment_load_model'")
 
     except Exception as e:
-        logger.critical(f"Exception {e}: Failed to Load Sentiment Model in 'sentiment_load_model'")
+        logger.critical(f"{e} in 'sentiment_load_model'")
         raise FileNotFoundError
 
     return model_session
@@ -32,7 +32,7 @@ def sentiment_load_tokenizer():
         logger.info("Successfully Loaded Tokenizer in 'sentiment_load_tokenizer'")
 
     except Exception as e:
-        logger.critical(f"Exception {e}: Failed to Load Tokenizer in 'sentiment_load_tokenizer'")
+        logger.critical(f"{e} in 'sentiment_load_tokenizer'")
         raise FileNotFoundError
 
     return tokenizer
