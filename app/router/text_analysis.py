@@ -50,7 +50,7 @@ def user_input(request: Request, input: str=Form(...)):
 
     return templates.TemplateResponse(
         request=request,
-        name="result_update_s.html",
+        name="sentence_result.html",
         context=context
     )
 
@@ -89,8 +89,6 @@ def reddit_input(request: Request, url: str=Form(...)):
 
     return templates.TemplateResponse(
         request=request,
-        name="result_update_r.html",
+        name="reddit_result.html",
         context=context
     )
-
-    
