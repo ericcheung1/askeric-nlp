@@ -16,11 +16,11 @@ def sentiment_load_model():
         model_session = ort.InferenceSession(DISTILBERT_ONNX, providers=["CPUExecutionProvider"])
         logger.info("Successfully Loaded Sentiment Model in 'sentiment_load_model'")
 
+        return model_session
+
     except Exception as e:
         logger.critical(f"{e} in 'sentiment_load_model'")
         raise FileNotFoundError
-
-    return model_session
 
 
 def sentiment_load_tokenizer():
@@ -31,11 +31,11 @@ def sentiment_load_tokenizer():
         tokenizer.enable_padding(pad_id=0, pad_token="[PAD]", direction="right")
         logger.info("Successfully Loaded Tokenizer in 'sentiment_load_tokenizer'")
 
+        return tokenizer
+    
     except Exception as e:
         logger.critical(f"{e} in 'sentiment_load_tokenizer'")
         raise FileNotFoundError
-
-    return tokenizer
 
 
 def sentiment_score(model_session, tokenizer, input):
