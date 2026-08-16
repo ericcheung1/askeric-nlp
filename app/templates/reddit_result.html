@@ -1,65 +1,45 @@
-{% macro render_comments(comment_tree, level) %}
+{% macro render_comments(comment_tree) %}
     {% for comment in comment_tree %}
-    <ul class="mb-4">
-
-        <div class="flex">
-            {# left column: guide line #}
-            {% if level > 0 %}
-                <div class="w-4 border-l border-gray-400 mr-2"></div>
-            {% else %}
-                <div class="w-4 mr-2"></div>
-            {% endif %}
-
-            {# right column: comment content #}
-            <div class="flex-1">
-                <p class="font-normal mb-4">
-                    Comment: {{ comment.comment }}
-                </p>
-
-                <ul class="text-sm pl-4">
-                    <li class="font-semibold mb-4">
-                        Sentiment: {{ comment.sentiment.sentiment_class }}, 
-                        Confidence: {{ comment.sentiment.sentiment_conf|max|round(3) }}
-                    </li>
-                </ul>
-
-                {% if comment.replies %}
-                <ul class="mt-2">
-                    {{ render_comments(comment.replies, level + 1) }}
-                </ul>
-                {% endif %}
-            </div>
+    <li class="mb-4">
+        
+        {# Comment content #}
+        <div class="mb-2">
+            <p class="font-normal">
+                {{ comment.comment }}
+            </p>
+            <p class="text-sm text-black font-semibold mt-1">
+                Sentiment: {{ comment.sentiment.sentiment_class }}, 
+                Confidence: {{ comment.sentiment.sentiment_conf|max|round(3) }}
+            </p>
         </div>
 
-    </ul>
+        {# Threaded Replies - The left border creates the guide line #}
+        {% if comment.replies %}
+        <ul class="mt-6 ml-2 pl-4 border-l-2 border-gray-300 hover:border-gray-400 transition-colors">
+            {{ render_comments(comment.replies) }}
+        </ul>
+        {% endif %}
+        
+    </li>
     {% endfor %}
 {% endmacro %}
 
 
 {# ===== ROOT (Overall + Tree) ===== #}
 
-<ul>
-
-    <div class="flex">
-        <div class="w-4 mr-2"></div>
-
-        <div class="flex-1">
-
-            <ul class="font-medium pl-2 mb-4">
-                <li>
-                    Overall Sentiment:
-                    {{ overall_sentiment[0].count.Positive }} POSITIVE,
-                    {{ overall_sentiment[0].count.Negative }} NEGATIVE,
-                    Confidence: {{ overall_sentiment[0].confidence }}
-                </li>
-            </ul>
-
-            {% if comment_tree %}
-                <ul class="mt-2">
-                    {{ render_comments(comment_tree, 1) }}
-                </ul>
-            {% endif %}
-        </div>
+<div class="max-w-3xl">
+    
+    <div class="font-medium mb-6">
+        Overall Sentiment:
+        {{ overall_sentiment[0].count.Positive }} POSITIVE,
+        {{ overall_sentiment[0].count.Negative }} NEGATIVE,
+        Confidence: {{ overall_sentiment[0].confidence }}
     </div>
 
-</ul>
+    {% if comment_tree %}
+    <ul class="mt-2">
+        {{ render_comments(comment_tree) }}
+    </ul>
+    {% endif %}
+    
+</div>

@@ -12,7 +12,9 @@ class CommentFetchingError(Exception):
 
 
 def comment_error_handler(request: Request, exception: CommentFetchingError):
+    """Handles CommentFetchingError by returning error HTML template"""
 
+    # NOTE: return 400 status to server output
     context = {
         "message": exception.message
     }

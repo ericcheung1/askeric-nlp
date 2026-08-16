@@ -5,34 +5,53 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Ask Eric NLP: Analyze Sentences and Reddit Posts</title>
 </head>
-<body class="bg-gray-50 min-h-screen flex justify-center">
-    <main class="w-full max-w-3xl p-6">
-        <div class="space-y-2 leading-relaxed mb-6">
+<body class="bg-slate-200 min-h-screen flex flex-col items-center overflow-y-scroll">
+
+    <!-- HEADER -->
+    <header class="w-full max-w-3xl p-6 mb-4 border-b border-gray-200">
+        <h1 class="text-2xl font-bold text-gray-800">r/AskEricNLP</h1>
+        <p class="text-black-600 mt-4">
             Welcome! This web app uses NLP models to analyze individual text snippets and Reddit posts.
             Currently, it supports sentiment analysis for standalone sentences, as well as for up to 15 comments and replies on Reddit posts.
-        </div>
+        </p>
         
+        <!-- <nav class="mt-4 space-x-4 text-sm">
+            <a href="#" class="text-blue-600 hover:underline">[Link 1]</a>
+            <a href="#" class="text-blue-600 hover:underline">[Link 2]</a>
+        </nav> -->
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="w-full max-w-3xl p-6 flex-grow">
+        
+        <!-- 
+          PASTE YOUR EXISTING CONTENT HERE 
+          (Everything from the welcome message down to the v0.0.4 paragraph)
+        -->
+        
+        <!-- START SENTENCE ANALYSIS -->
         <div class="space-y-2 leading-relaxed mb-6">
             <h2>Enter A Sentence.</h2>
             <form hx-post="/sentence_input" hx-target="#result">
                 <p><input type="text" name="input" required
-                    class="w-full p-3 border border-black bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-black rounded-none"
+                    class="w-full p-3 border border-black bg-slate-50 shadow-sm focus:outline-none rounded-sm"
                 /></p>
                 <button type="submit" 
-                    class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-none">
-                    Analyze Text
+                    class="mt-4 px-4 py-2 bg-sky-200 text-black rounded-sm">
+                    Analyze Sentence
                 </button>
             </form>
         </div>
 
         <div id="result" class="space-y-2 leading-relaxed mb-6"></div>
+        <!-- END SENTENCE ANALYSIS -->
 
+        <!-- START POST ANALYSIS -->
         <div class="space-y-2 leading-relaxed mb-6">
             <p>
                 Enter Reddit Post URL.
                 Please make sure it's a specific post and not a full subreddit.
             </p>
-
 
             <form 
                 hx-post="/reddit_input" 
@@ -40,10 +59,10 @@
                 hx-indicator="#spinner1"
             >
                 <p><input type="url" name="url" required
-                    class="w-full p-3 border border-black bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-black rounded-none"
+                    class="w-full p-3 border border-black bg-slate-50 shadow-sm focus:outline-none rounded-sm"
                 /></p>
                 <button type="submit" 
-                    class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-none">
+                    class="mt-4 px-4 py-2 bg-sky-200 text-black rounded-sm">
                     Analyze Reddit Post
                 </button>
             </form>
@@ -58,8 +77,18 @@
             <div id="result1-content"></div>
 
         </div>
-
-        <p>v0.0.4</p>
+        <!-- END POST ANALYSIS -->
+    
     </main>
+
+    <!-- FOOTER -->
+    <footer class="w-full max-w-3xl p-6 mt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+        <p>v0.0.4</p>
+        <!-- <div class="mt-2 space-x-4">
+            <a href="#" class="hover:text-gray-800">[Footer Link 1]</a>
+            <a href="#" class="hover:text-gray-800">[Footer Link 2]</a>
+        </div> -->
+    </footer>
+
 </body>
 </html>
