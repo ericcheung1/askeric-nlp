@@ -1,5 +1,6 @@
 import praw
 from praw.exceptions import RedditAPIException, InvalidURL
+from prawcore.exceptions import NotFound
 import os
 import logging
 import copy
@@ -42,27 +43,30 @@ def get_comments(reddit, url):
         logger.debug("Comments from 'get_comments':\n%s", comments)
 
         if not comments:
-            logger.warning("Failed to Retrieve Comments in 'get_comments'")
-            raise CommentFetchingError(message=f"could not retrieve comments")
+            raise CommentFetchingError(message=f"No Comments Found")
 
         logger.info("Successfully Retrieved Comments in 'get_comments'")
         return comments
 
     except InvalidURL as e:
-        logger.warning(f"'{e}' Encountered in 'get_comments'")
+        logger.warning(f"'{str(e)}' Encountered in 'get_comments'")
         raise CommentFetchingError(message=f"Invalid Url")
 
     except RedditAPIException as e:
-        logger.warning(f"'{e}' Encountered in 'get_comments'")
+        logger.warning(f"'{str(e)}' Encountered in 'get_comments'")
         raise CommentFetchingError(message=f"Reddit API Error")
+
+    except NotFound as e:
+        logger.warning(f"{str(e)} Encountered in 'get_comments'")
+        raise CommentFetchingError(message=f"Not Found")
 
     except Exception as e:
         logger.warning(f"{e} in 'get_comments'")
-        raise CommentFetchingError(message=f"Error")
+        raise CommentFetchingError(message=f"{str(e)}") from e
 
 
 def process_comments(comments):
-    """Processes comment_stack into model_inputs map"""
+    """Processes comments into model_inputs map"""
 
     count = 0
     model_inputs = []
@@ -92,10 +96,7 @@ def process_comments(comments):
 
 
 def build_tree(comments):
-    """
-    Takes a comment_stack object from get_comments() and 
-    recreates the comment tree structure through a DFS approach.
-    """
+    """Takes comments and recreates the comment tree structure through a DFS approach."""
 
     count = 0
     comment_tree = []

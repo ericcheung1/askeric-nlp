@@ -11,7 +11,6 @@ def clean_model_inputs(model_inputs):
     for input in model_inputs:
         text = input.get("text", "")
         cleaned_text = text.lower().strip()
-        id = input.get("text_id", "")
 
         input.update({
             "cleaned_text": cleaned_text

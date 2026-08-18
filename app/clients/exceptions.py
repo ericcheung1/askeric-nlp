@@ -10,6 +10,8 @@ class CommentFetchingError(Exception):
         self.message = message
         self.status_code = status_code
 
+        super().__init__(message)
+
 
 def comment_error_handler(request: Request, exception: CommentFetchingError):
     """Handles CommentFetchingError by returning error HTML template"""

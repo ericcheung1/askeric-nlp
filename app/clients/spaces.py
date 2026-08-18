@@ -23,7 +23,7 @@ def start_spaces_client():
         return client
 
     except Exception as e:
-        logger.critical(f"{e} in 'start_spaces_client'")
+        logger.critical(f"{str(e)} in 'start_spaces_client'")
         raise RuntimeError
 
 
@@ -43,7 +43,7 @@ def download_spaces_files(spaces_client):
         "ml/sentiment/distilbert_fp16_onnx/tokenizer.json"
     ]
 
-    weights_exists = all(Path(local_file) for local_file in local_files)
+    weights_exists = all(Path(local_file).is_file() for local_file in local_files)
 
     if not weights_exists:
         spaces_files = [
@@ -51,13 +51,18 @@ def download_spaces_files(spaces_client):
             "distilbert_fp16_onnx/tokenizer.json",
         ]
 
-        for file in spaces_files:
-            spaces_client.download_file(
-                Bucket=os.getenv("Bucket"), 
-                Key=file, 
-                Filename=f"ml/sentiment/{file}"
-            )
-        logger.info("Successfully Downloaded Weight Files in 'download_spaces_files'")
+        try:
+            for file in spaces_files:
+                spaces_client.download_file(
+                    Bucket=os.getenv("Bucket"), 
+                    Key=file, 
+                    Filename=f"ml/sentiment/{file}"
+                )
+            logger.info("Successfully Downloaded Weight Files in 'download_spaces_files'")
+
+        except Exception as e:
+            logger.critical(f"{str(e)} in 'download_spaces_files'")
+            raise RuntimeError
 
     else:
         logger.info("Weight Files Already Exist")

@@ -19,7 +19,7 @@ def sentiment_load_model():
         return model_session
 
     except Exception as e:
-        logger.critical(f"{e} in 'sentiment_load_model'")
+        logger.critical(f"{str(e)} in 'sentiment_load_model'")
         raise FileNotFoundError
 
 
@@ -34,7 +34,7 @@ def sentiment_load_tokenizer():
         return tokenizer
     
     except Exception as e:
-        logger.critical(f"{e} in 'sentiment_load_tokenizer'")
+        logger.critical(f"{str(e)} in 'sentiment_load_tokenizer'")
         raise FileNotFoundError
 
 
