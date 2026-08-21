@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js" 
+    integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V" 
+    crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.4" 
+    integrity="sha384-T41oglUPvXLGBVyRdZsVRxNWnOOqCynaPubjUVjxhsjFTKrFJGEMm3/0KGmNQ+Pg" 
+    crossorigin="anonymous">
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Ask Eric NLP: Analyze Sentences and Reddit Posts</title>
 </head>
-<body class="bg-slate-200 min-h-screen flex flex-col items-center overflow-y-scroll">
+<body hx-ext="response-targets" class="bg-slate-200 min-h-screen flex flex-col items-center overflow-y-scroll">
 
     <!-- HEADER -->
     <header class="w-full max-w-3xl p-6 mb-4 border-b border-gray-200">
@@ -32,7 +39,7 @@
         <!-- START SENTENCE ANALYSIS -->
         <div class="space-y-2 leading-relaxed mb-6">
             <h2>Enter A Sentence.</h2>
-            <form hx-post="/sentence_input" hx-target="#result">
+            <form hx-post="/sentence_input" hx-target="#sentence_result">
                 <p><input type="text" name="input" required
                     class="w-full p-3 border border-black bg-slate-50 shadow-sm focus:outline-none rounded-sm"
                 /></p>
@@ -43,7 +50,7 @@
             </form>
         </div>
 
-        <div id="result" class="space-y-2 leading-relaxed mb-6"></div>
+        <div id="sentence_result" class="space-y-2 leading-relaxed mb-6"></div>
         <!-- END SENTENCE ANALYSIS -->
 
         <!-- START POST ANALYSIS -->
@@ -55,7 +62,8 @@
 
             <form 
                 hx-post="/reddit_input" 
-                hx-target="#result1-content"
+                hx-target="#post_result"
+                hx-target-400="#post_result"
                 hx-indicator="#spinner1"
             >
                 <p><input type="url" name="url" required
@@ -68,13 +76,13 @@
             </form>
         </div>
 
-        <div id="result1" class="space-y-2">
+        <div id="result1" class="space-y-2 leading-relaxed mb-6">
 
             <div id="spinner1" class="htmx-indicator text-gray-600">
                 Loading...
             </div>
 
-            <div id="result1-content"></div>
+            <div id="post_result"></div>
 
         </div>
         <!-- END POST ANALYSIS -->

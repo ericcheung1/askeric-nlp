@@ -61,7 +61,7 @@ def get_comments(reddit, url):
         raise CommentFetchingError(message=f"Not Found")
 
     except Exception as e:
-        logger.warning(f"{e} in 'get_comments'")
+        logger.warning(f"{str(e)} in 'get_comments'")
         raise CommentFetchingError(message=f"{str(e)}") from e
 
 

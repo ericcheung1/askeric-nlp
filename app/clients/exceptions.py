@@ -1,4 +1,4 @@
-from fastapi import Request
+from fastapi import Request, status
 from fastapi.templating import Jinja2Templates
 
 templates = Jinja2Templates(directory="app/templates")
@@ -24,5 +24,6 @@ def comment_error_handler(request: Request, exception: CommentFetchingError):
     return templates.TemplateResponse(
         request=request,
         name="error.html",
-        context=context
+        context=context,
+        status_code=status.HTTP_400_BAD_REQUEST
     )
