@@ -13,7 +13,7 @@ env:
   IMAGE_NAME: ericcheung1/askeric-nlp
 
 jobs:
-  build-and-push:
+  build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -39,7 +39,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=edge,branch=main
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=sha,format=short
 
       - name: Build and push Docker image
