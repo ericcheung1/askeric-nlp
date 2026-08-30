@@ -53,4 +53,4 @@ jobs:
           script: |
             cd /opt/askeric-nlp
             docker compose pull
-            docker compose up -d --removed-orphans
+            docker compose up -d --remove-orphans
