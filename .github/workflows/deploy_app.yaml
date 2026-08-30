@@ -31,7 +31,7 @@ jobs:
             client_secret=${{ secrets.client_secret }}
             region_name=${{ secrets.region_name }}
             endpoint_url=${{ secrets.endpoint_url }}
-            Bucket=${{ secrets.Bucket }}" >> .env          
+            Bucket=${{ secrets.Bucket }}" > .env          
 
       - name: Copy config and compose to server
         uses: appleboy/scp-action@v1
@@ -39,6 +39,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          timeout: 120s
           source: 'infrastructure/'
           target: '/opt/askeric-nlp'
           strip_components: 1
