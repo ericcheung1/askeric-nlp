@@ -1,0 +1,55 @@
+name: Deploy to Production
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-app:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Ensure target directory exists
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: mkdir -p /opt/askeric-nlp
+
+      - name: Copy .env variables to server
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/askeric-nlp
+            echo "client_id=${{ secrets.client_id }}
+            client_secret=${{ secrets.client_secret }}
+            region_name=${{ secrets.region_name }}
+            endpoint_url=${{ secrets.endpoint_url }}
+            Bucket=${{ secrets.Bucket }}" >> .env          
+
+      - name: Copy config and compose to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: 'infrastructure/'
+          target: '/opt/askeric-nlp'
+          strip_components: 1
+
+      - name: Execute remote ssh commands
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/askeric-nlp
+            docker compose pull
+            docker compose up -d --removed-orphans

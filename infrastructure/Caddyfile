@@ -1,0 +1,3 @@
+askeric-nlp.theeric.dev, www.askeric-nlp.theeric.dev {
+    reverse_proxy askeric-nlp:8000
+}
