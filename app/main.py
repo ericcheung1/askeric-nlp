@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from dotenv import load_dotenv
-from app.clients.reddit import start_reddit_client
+from app.clients.reddit import start_reddit_client, close_reddit
 from app.clients.spaces import start_spaces_client, weight_dir_check, download_spaces_files
 from ml.sentiment.inference import sentiment_load_model, sentiment_load_tokenizer
 from app.router import text_analysis
@@ -43,6 +43,8 @@ async def lifespan(app: FastAPI):
     }
 
     yield state_data
+
+    await close_reddit(reddit=reddit)
 
 
 app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None)

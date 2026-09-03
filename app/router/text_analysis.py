@@ -56,13 +56,13 @@ def user_input(request: Request, input: str=Form(...)):
 
 
 @router.post("/reddit_input", response_class=HTMLResponse)
-def reddit_input(request: Request, url: str=Form(...)):
+async def reddit_input(request: Request, url: str=Form(...)):
 
     reddit = request.state.reddit
     model_session = request.state.model_session
     tokenizer = request.state.tokenizer
 
-    comments = get_comments(reddit=reddit, url=url)
+    comments = await get_comments(reddit=reddit, url=url)
 
     # clean comments, preparing for sentiment scoring
     model_inputs = process_comments(comments=comments)
