@@ -1,6 +1,6 @@
-import praw
-from praw.exceptions import RedditAPIException, InvalidURL
-from prawcore.exceptions import NotFound
+import asyncpraw
+from asyncpraw.exceptions import RedditAPIException, InvalidURL
+from asyncprawcore.exceptions import NotFound
 import os
 import logging
 import copy
@@ -9,13 +9,13 @@ from app.clients.exceptions import CommentFetchingError
 logger = logging.getLogger(__name__)
 
 def start_reddit_client():
-    """Authenticates a reddit instance in PRAW"""
+    """Authenticates a reddit instance in AsyncPRAW"""
 
     try:
-        reddit = praw.Reddit(
+        reddit = asyncpraw.Reddit(
             client_id=os.getenv("client_id"),
             client_secret=os.getenv("client_secret"),
-            user_agent="test_bot"
+            user_agent="web:askeric-nlp:v0.0.5 (by u/eric321k)"
         )
         logger.info("Successfully Started Reddit Client in 'start_reddit_client'")
 
@@ -26,19 +26,19 @@ def start_reddit_client():
         raise RuntimeError
 
 
-def get_comments(reddit, url):
+async def get_comments(reddit, url):
     """
-    Takes a PRAW reddit instance and a reddit post url
+    Takes a AsyncPRAW reddit instance and a reddit post url
     and returns a list of 5 top level comments.
     """
 
     try:
-        submission = reddit.submission(url=url)
+        submission = await reddit.submission(url=url)
 
         # replace_more() method opens "MoreComments" objects
         # limit parameter sets number of "MoreComments" to replace
-        submission.comments.replace_more(limit=5)
-        comments = submission.comments[:5]
+        await submission.comments.replace_more(limit=5)
+        comments = submission.comments[:]
 
         logger.debug("Comments from 'get_comments':\n%s", comments)
 
@@ -49,20 +49,21 @@ def get_comments(reddit, url):
         return comments
 
     except InvalidURL as e:
-        logger.warning(f"'{str(e)}' Encountered in 'get_comments'")
-        raise CommentFetchingError(message=f"Invalid Url")
+        raise CommentFetchingError(message=f"{str(e)}") from e
 
     except RedditAPIException as e:
-        logger.warning(f"'{str(e)}' Encountered in 'get_comments'")
-        raise CommentFetchingError(message=f"Reddit API Error")
+        raise CommentFetchingError(message=f"{str(e)}") from e
 
     except NotFound as e:
-        logger.warning(f"{str(e)} Encountered in 'get_comments'")
-        raise CommentFetchingError(message=f"Not Found")
+        raise CommentFetchingError(message=f"{str(e)}") from e
 
     except Exception as e:
-        logger.warning(f"{str(e)} in 'get_comments'")
         raise CommentFetchingError(message=f"{str(e)}") from e
+
+
+async def close_reddit(reddit):
+    """Closes connect to AsyncPRAW reddit instance"""
+    await reddit.close()
 
 
 def process_comments(comments):
