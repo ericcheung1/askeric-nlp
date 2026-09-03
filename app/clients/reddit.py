@@ -49,19 +49,15 @@ async def get_comments(reddit, url):
         return comments
 
     except InvalidURL as e:
-        logger.warning(f"'{str(e)}' Encountered in 'get_comments'")
-        raise CommentFetchingError(message=f"Invalid Url")
+        raise CommentFetchingError(message=f"{str(e)}") from e
 
     except RedditAPIException as e:
-        logger.warning(f"'{str(e)}' Encountered in 'get_comments'")
-        raise CommentFetchingError(message=f"Reddit API Error")
+        raise CommentFetchingError(message=f"{str(e)}") from e
 
     except NotFound as e:
-        logger.warning(f"{str(e)} Encountered in 'get_comments'")
-        raise CommentFetchingError(message=f"Not Found")
+        raise CommentFetchingError(message=f"{str(e)}") from e
 
     except Exception as e:
-        logger.warning(f"{str(e)} in 'get_comments'")
         raise CommentFetchingError(message=f"{str(e)}") from e
 
 

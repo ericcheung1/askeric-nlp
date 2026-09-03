@@ -1,5 +1,8 @@
 from fastapi import Request, status
 from fastapi.templating import Jinja2Templates
+import logging
+
+logger = logging.getLogger(__name__)
 
 templates = Jinja2Templates(directory="app/templates")
 
@@ -20,6 +23,8 @@ def comment_error_handler(request: Request, exception: CommentFetchingError):
     context = {
         "message": exception.message
     }
+
+    logger.error(f"{str(exception.message)} msg", exc_info=exception)
 
     return templates.TemplateResponse(
         request=request,
