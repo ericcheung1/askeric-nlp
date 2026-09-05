@@ -10,6 +10,7 @@ from app.core.users import (
     calculate_overall_sentiment
 )
 from ml.sentiment.inference import sentiment_score, softmax
+import anyio
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -23,7 +24,7 @@ def index(request: Request):
 
 
 @router.post("/sentence_input", response_class=HTMLResponse)
-def user_input(request: Request, input: str=Form(...)):
+async def user_input(request: Request, input: str=Form(...)):
 
     model_session = request.state.model_session
     tokenizer = request.state.tokenizer
@@ -40,7 +41,7 @@ def user_input(request: Request, input: str=Form(...)):
     raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
 
     # scores comments with sentiment, formats outputs
-    raw_outputs = sentiment_score(model_session=model_session, tokenizer=tokenizer, input=raw_inputs)
+    raw_outputs = await anyio.to_thread.run_sync(sentiment_score, model_session, tokenizer, raw_inputs)
     result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
 
     context = {
@@ -73,7 +74,7 @@ async def reddit_input(request: Request, url: str=Form(...)):
     comment_tree = build_tree(comments=comments)
 
     # scores comments with sentiment, formats outputs
-    raw_outputs = sentiment_score(model_session=model_session, tokenizer=tokenizer, input=raw_inputs)
+    raw_outputs = await anyio.to_thread.run_sync(sentiment_score, model_session, tokenizer, raw_inputs)
     result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
 
     # fills pre-built comment tree with sentiment scores
