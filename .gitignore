@@ -33,3 +33,4 @@ Thumbs.db # Windows
 # others ;)
 *.json
 *.onnx
+*.db

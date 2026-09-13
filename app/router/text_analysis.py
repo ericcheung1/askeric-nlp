@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from app.clients.reddit import build_tree, get_comments, process_comments
-# from app.clients.cache import query_from_table, write_to_table
+from app.clients.cache import query_from_table, write_to_table
 from app.core.users import (
     calculate_overall_sentiment,
     clean_model_inputs,
@@ -61,32 +61,35 @@ async def user_input(request: Request, input: str=Form(...)):
 @router.post("/reddit_input", response_class=HTMLResponse)
 async def reddit_input(request: Request, url: str=Form(...)):
 
-    reddit = request.state.reddit
+    con = request.state.con
     model_session = request.state.model_session
+    reddit = request.state.reddit
     tokenizer = request.state.tokenizer
 
     comments, submission_id = await get_comments(reddit=reddit, url=url)
 
-    # query_from_table(submission_id=submission_id, con="")
+    comment_tree, overall_sentiment = query_from_table(submission_id=submission_id, con=con)
 
-    # clean comments, preparing for sentiment scoring
-    model_inputs = process_comments(comments=comments)
-    clean_model_inputs(model_inputs=model_inputs)
-    raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
+    if comment_tree is None and overall_sentiment is None:
 
-    # pre-building comment tree structure, fill with sentiment scores after
-    comment_tree = build_tree(comments=comments)
+        model_inputs = process_comments(comments=comments)
+        clean_model_inputs(model_inputs=model_inputs)
+        raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
 
-    # scores comments with sentiment, formats outputs
-    raw_outputs = await anyio.to_thread.run_sync(sentiment_score, model_session, tokenizer, raw_inputs)
-    result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
+        # pre-building comment tree structure, fill with sentiment scores after
+        comment_tree = build_tree(comments=comments)
 
-    # fills pre-built comment tree with sentiment scores
-    rebuild_comment_tree(comment_tree=comment_tree, result_map=result_map)
+        # scores comments with sentiment, formats outputs
+        raw_outputs = await anyio.to_thread.run_sync(sentiment_score, model_session, tokenizer, raw_inputs)
+        result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
 
-    overall_sentiment = calculate_overall_sentiment(comment_tree=comment_tree)
+        # fills pre-built comment tree with sentiment scores
+        rebuild_comment_tree(comment_tree=comment_tree, result_map=result_map)
 
-    # context object to use in HTML template
+        overall_sentiment = calculate_overall_sentiment(comment_tree=comment_tree)
+        write_to_table(submission_id=submission_id, comment_tree=comment_tree, overall_sentiment=overall_sentiment, con=con)
+
+
     context = {
         "comment_tree": comment_tree,
         "overall_sentiment": overall_sentiment

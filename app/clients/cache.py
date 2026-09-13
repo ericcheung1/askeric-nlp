@@ -1,33 +1,32 @@
-import sqlite3
+import json
+import logging
 from pathlib import Path
+import sqlite3
 
-DB_DIR = Path("app/data/cache.db")
+logger = logging.getLogger(__name__)
 
 def init_sqlite():
     """Initialized sqlite and creates table"""
 
-    DB_DIR = Path("app/data/cache.db")
-    DB_DIR.touch(exist_ok=True)
-    con = sqlite3.connect(DB_DIR)
+    DB_DIR = Path("app/data")
+    DB_DIR.mkdir(exist_ok=True)
+    DB_PATH = Path(DB_DIR, "cache.db")
+    con = sqlite3.connect(DB_PATH)
 
     with con:
         con.execute("PRAGMA journal_mode = WAL")
 
-        con.execute("""
-        CREATE TABLE IF NOT EXISTS cache (
+        query = """
+            CREATE TABLE IF NOT EXISTS cache (
                 submission_id TEXT PRIMARY KEY,
                 comment_tree TEXT NOT NULL,
-            )
-        """)
+                overall_sentiment TEXT NOT NULL
+            );
+        """
+        con.execute(query)
         con.commit()
 
-    return con
-
-
-def connect_sqlite():
-
-    DB_DIR.touch(exist_ok=True)
-    con = sqlite3.connect(DB_DIR)
+    logger.info("Successfully Initialized Cache in 'init_sqlite'")
 
     return con
 
@@ -38,17 +37,34 @@ def close_sqlite(con):
 
 
 def query_from_table(submission_id, con):
-    """Queries table for post"""
+    """Queries database table for post and analysis results"""
 
-    cursor = con.execute("""
-        SELECT comment_tree 
-        FROM cache
-        WHERE submission = ?
-    """, (submission_id,))
-    comment_tree = cursor.fetchone()
+    query = "SELECT comment_tree, overall_sentiment FROM cache WHERE submission_id = ?;"
+    cur = con.execute(query, (submission_id,))
+    query_result = cur.fetchone()
 
-    return comment_tree
+    if query_result is None:
+
+        comment_tree = None
+        overall_sentiment = None
+        logger.info("Post Not Cached in Database Table in 'query_from_table'")
+
+    else:
+        comment_tree = json.loads(query_result[0])
+        overall_sentiment = json.loads(query_result[1])
+        logger.info("Post Found in Database Table in 'query_from_table'")
+
+    return comment_tree, overall_sentiment
 
 
-def write_to_table():
-    pass
+def write_to_table(submission_id, comment_tree, overall_sentiment, con):
+    """Caches post and analysis results in database table"""
+
+    comment_tree_str = json.dumps(comment_tree, default=str)
+    overall_sentiment_str = json.dumps(overall_sentiment, default=str)
+
+    with con:
+        query = "INSERT INTO cache (submission_id, comment_tree, overall_sentiment) VALUES (?, ?, ?);"
+        con.execute(query, (submission_id, comment_tree_str, overall_sentiment_str))
+        con.commit()
+        logger.info("Successfully Cached Post to Database Table in 'write_to_table'")
