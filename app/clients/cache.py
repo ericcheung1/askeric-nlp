@@ -13,22 +13,27 @@ def init_sqlite():
     DB_PATH = Path(DB_DIR, "cache.db")
     con = sqlite3.connect(DB_PATH)
 
-    with con:
-        con.execute("PRAGMA journal_mode = WAL")
+    try:
+        with con:
+            con.execute("PRAGMA journal_mode = WAL")
 
-        query = """
-            CREATE TABLE IF NOT EXISTS cache (
-                submission_id TEXT PRIMARY KEY,
-                comment_tree TEXT NOT NULL,
-                overall_sentiment TEXT NOT NULL
-            );
-        """
-        con.execute(query)
-        con.commit()
+            query = """
+                CREATE TABLE IF NOT EXISTS cache (
+                    submission_id TEXT PRIMARY KEY,
+                    comment_tree TEXT NOT NULL,
+                    overall_sentiment TEXT NOT NULL
+                );
+            """
+            con.execute(query)
+            con.commit()
 
-    logger.info("Successfully Initialized Cache in 'init_sqlite'")
+        logger.info("Successfully Initialized Cache in 'init_sqlite'")
 
-    return con
+        return con
+    
+    except sqlite3.Error as e:
+        logger.critical(f"{str(e)} in 'init_sqlite'")
+        raise RuntimeError
 
 
 def close_sqlite(con):
@@ -39,12 +44,16 @@ def close_sqlite(con):
 def query_from_table(submission_id, con):
     """Queries database table for post and analysis results"""
 
-    query = "SELECT comment_tree, overall_sentiment FROM cache WHERE submission_id = ?;"
-    cur = con.execute(query, (submission_id,))
-    query_result = cur.fetchone()
+    try:
+        query = "SELECT comment_tree, overall_sentiment FROM cache WHERE submission_id = ?;"
+        cur = con.execute(query, (submission_id,))
+        query_result = cur.fetchone()
+
+    except sqlite3.Error as e:
+        logger.warning(f"{str(e)} in 'query_from_table'")
+        query_result = None
 
     if query_result is None:
-
         comment_tree = None
         overall_sentiment = None
         logger.info("Post Not Cached in Database Table in 'query_from_table'")
@@ -63,8 +72,12 @@ def write_to_table(submission_id, comment_tree, overall_sentiment, con):
     comment_tree_str = json.dumps(comment_tree, default=str)
     overall_sentiment_str = json.dumps(overall_sentiment, default=str)
 
-    with con:
-        query = "INSERT INTO cache (submission_id, comment_tree, overall_sentiment) VALUES (?, ?, ?);"
-        con.execute(query, (submission_id, comment_tree_str, overall_sentiment_str))
-        con.commit()
-        logger.info("Successfully Cached Post to Database Table in 'write_to_table'")
+    try:
+        with con:
+            query = "INSERT INTO cache (submission_id, comment_tree, overall_sentiment) VALUES (?, ?, ?);"
+            con.execute(query, (submission_id, comment_tree_str, overall_sentiment_str))
+            con.commit()
+            logger.info("Successfully Cached Post to Database Table in 'write_to_table'")
+
+    except sqlite3.Error as e:
+        logger.warning(f"{str(e)} in 'write_to_table'")
