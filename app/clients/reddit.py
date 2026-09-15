@@ -43,7 +43,7 @@ async def get_comments(reddit, url):
         await submission.comments.replace_more(limit=5)
         comments = submission.comments[:]
 
-        logger.debug("Comments from from submission [%s]'get_comments':\n%s", submission_id, comments)
+        logger.debug("Comments from from submission [%s] in 'get_comments':\n%s", submission_id, comments)
 
         if not comments:
             raise CommentFetchingError(message=f"No Comments Found")

@@ -16,6 +16,7 @@ from ml.sentiment.inference import sentiment_score, softmax
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
+limiter = anyio.CapacityLimiter(1)
 
 @router.get("/", response_class=HTMLResponse)
 def index(request: Request):
@@ -43,7 +44,13 @@ async def user_input(request: Request, input: str=Form(...)):
     raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
 
     # scores comments with sentiment, formats outputs
-    raw_outputs = await anyio.to_thread.run_sync(sentiment_score, model_session, tokenizer, raw_inputs)
+    raw_outputs = await anyio.to_thread.run_sync(
+        sentiment_score,
+        model_session,
+        tokenizer,
+        raw_inputs,
+        limiter=limiter
+    )
     result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
 
     context = {
@@ -80,15 +87,25 @@ async def reddit_input(request: Request, url: str=Form(...)):
         comment_tree = build_tree(comments=comments)
 
         # scores comments with sentiment, formats outputs
-        raw_outputs = await anyio.to_thread.run_sync(sentiment_score, model_session, tokenizer, raw_inputs)
+        raw_outputs = await anyio.to_thread.run_sync(
+            sentiment_score,
+            model_session,
+            tokenizer,
+            raw_inputs,
+            limiter=limiter
+        )
         result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
 
         # fills pre-built comment tree with sentiment scores
         rebuild_comment_tree(comment_tree=comment_tree, result_map=result_map)
-
         overall_sentiment = calculate_overall_sentiment(comment_tree=comment_tree)
-        write_to_table(submission_id=submission_id, comment_tree=comment_tree, overall_sentiment=overall_sentiment, con=con)
 
+        write_to_table(
+            submission_id=submission_id,
+            comment_tree=comment_tree,
+            overall_sentiment=overall_sentiment,
+            con=con
+        )
 
     context = {
         "comment_tree": comment_tree,
