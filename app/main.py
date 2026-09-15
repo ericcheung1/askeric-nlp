@@ -6,9 +6,10 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 import uvicorn
 
-from app.clients.exceptions import CommentFetchingError, comment_error_handler
-from app.clients.reddit import start_reddit_client, close_reddit_client
-from app.clients.spaces import start_spaces_client, weight_dir_check, download_spaces_files
+from app.clients.cache import close_sqlite, init_sqlite
+from app.clients.exceptions import comment_error_handler, CommentFetchingError
+from app.clients.reddit import close_reddit_client, start_reddit_client
+from app.clients.spaces import download_spaces_files, start_spaces_client, weight_dir_check
 from app.router import text_analysis
 from ml.sentiment.inference import sentiment_load_model, sentiment_load_tokenizer
 
@@ -33,19 +34,22 @@ async def lifespan(app: FastAPI):
     spaces_client = start_spaces_client()
     weight_dir_check()
     download_spaces_files(spaces_client=spaces_client)
+    con = init_sqlite()
 
     reddit = start_reddit_client()
     model_session = sentiment_load_model()
     tokenizer = sentiment_load_tokenizer()
 
     state_data = {
-        "reddit": reddit, 
+        "con": con,
         "model_session": model_session, 
+        "reddit": reddit,
         "tokenizer": tokenizer
     }
 
     yield state_data
 
+    close_sqlite(con=con)
     await close_reddit_client(reddit=reddit)
 
 

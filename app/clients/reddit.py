@@ -36,19 +36,21 @@ async def get_comments(reddit, url):
 
     try:
         submission = await reddit.submission(url=url)
+        submission_id = submission.id
 
         # replace_more() method opens "MoreComments" objects
         # limit parameter sets number of "MoreComments" to replace
         await submission.comments.replace_more(limit=5)
         comments = submission.comments[:]
 
-        logger.debug("Comments from 'get_comments':\n%s", comments)
+        logger.debug("Comments from from submission [%s] in 'get_comments':\n%s", submission_id, comments)
 
         if not comments:
             raise CommentFetchingError(message=f"No Comments Found")
 
         logger.info("Successfully Retrieved Comments in 'get_comments'")
-        return comments
+
+        return comments, submission_id
 
     except InvalidURL as e:
         raise CommentFetchingError(message=f"{str(e)}") from e

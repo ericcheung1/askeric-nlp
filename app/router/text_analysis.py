@@ -1,20 +1,22 @@
 import anyio
-from fastapi import APIRouter, Request, Form
+from fastapi import APIRouter, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from app.clients.reddit import get_comments, process_comments, build_tree
+from app.clients.reddit import build_tree, get_comments, process_comments
+from app.clients.cache import query_from_table, write_to_table
 from app.core.users import (
-    clean_model_inputs, 
-    prepare_model_inputs, 
-    reconcile_outputs, 
-    rebuild_comment_tree, 
-    calculate_overall_sentiment
+    calculate_overall_sentiment,
+    clean_model_inputs,
+    prepare_model_inputs,
+    rebuild_comment_tree,
+    reconcile_outputs
 )
 from ml.sentiment.inference import sentiment_score, softmax
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
+limiter = anyio.CapacityLimiter(1)
 
 @router.get("/", response_class=HTMLResponse)
 def index(request: Request):
@@ -42,7 +44,13 @@ async def user_input(request: Request, input: str=Form(...)):
     raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
 
     # scores comments with sentiment, formats outputs
-    raw_outputs = await anyio.to_thread.run_sync(sentiment_score, model_session, tokenizer, raw_inputs)
+    raw_outputs = await anyio.to_thread.run_sync(
+        sentiment_score,
+        model_session,
+        tokenizer,
+        raw_inputs,
+        limiter=limiter
+    )
     result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
 
     context = {
@@ -60,30 +68,45 @@ async def user_input(request: Request, input: str=Form(...)):
 @router.post("/reddit_input", response_class=HTMLResponse)
 async def reddit_input(request: Request, url: str=Form(...)):
 
-    reddit = request.state.reddit
+    con = request.state.con
     model_session = request.state.model_session
+    reddit = request.state.reddit
     tokenizer = request.state.tokenizer
 
-    comments = await get_comments(reddit=reddit, url=url)
+    comments, submission_id = await get_comments(reddit=reddit, url=url)
 
-    # clean comments, preparing for sentiment scoring
-    model_inputs = process_comments(comments=comments)
-    clean_model_inputs(model_inputs=model_inputs)
-    raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
+    comment_tree, overall_sentiment = query_from_table(submission_id=submission_id, con=con)
 
-    # pre-building comment tree structure, fill with sentiment scores after
-    comment_tree = build_tree(comments=comments)
+    if comment_tree is None and overall_sentiment is None:
 
-    # scores comments with sentiment, formats outputs
-    raw_outputs = await anyio.to_thread.run_sync(sentiment_score, model_session, tokenizer, raw_inputs)
-    result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
+        model_inputs = process_comments(comments=comments)
+        clean_model_inputs(model_inputs=model_inputs)
+        raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
 
-    # fills pre-built comment tree with sentiment scores
-    rebuild_comment_tree(comment_tree=comment_tree, result_map=result_map)
+        # pre-building comment tree structure, fill with sentiment scores after
+        comment_tree = build_tree(comments=comments)
 
-    overall_sentiment = calculate_overall_sentiment(comment_tree=comment_tree)
+        # scores comments with sentiment, formats outputs
+        raw_outputs = await anyio.to_thread.run_sync(
+            sentiment_score,
+            model_session,
+            tokenizer,
+            raw_inputs,
+            limiter=limiter
+        )
+        result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
 
-    # context object to use in HTML template
+        # fills pre-built comment tree with sentiment scores
+        rebuild_comment_tree(comment_tree=comment_tree, result_map=result_map)
+        overall_sentiment = calculate_overall_sentiment(comment_tree=comment_tree)
+
+        write_to_table(
+            submission_id=submission_id,
+            comment_tree=comment_tree,
+            overall_sentiment=overall_sentiment,
+            con=con
+        )
+
     context = {
         "comment_tree": comment_tree,
         "overall_sentiment": overall_sentiment
