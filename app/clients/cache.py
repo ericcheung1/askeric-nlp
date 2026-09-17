@@ -11,7 +11,7 @@ def init_sqlite():
     DB_DIR = Path("app/data")
     DB_DIR.mkdir(exist_ok=True)
     DB_PATH = Path(DB_DIR, "cache.db")
-    con = sqlite3.connect(DB_PATH)
+    con = sqlite3.connect(DB_PATH, check_same_thread=False)
 
     try:
         with con:
@@ -74,7 +74,15 @@ def write_to_table(submission_id, comment_tree, overall_sentiment, con):
 
     try:
         with con:
-            query = "INSERT INTO cache (submission_id, comment_tree, overall_sentiment) VALUES (?, ?, ?);"
+            query = """
+                INSERT INTO cache (
+                    submission_id, 
+                    comment_tree, 
+                    overall_sentiment
+                ) 
+                VALUES (?, ?, ?)
+                ON CONFLICT(submission_id) DO NOTHING;
+            """
             con.execute(query, (submission_id, comment_tree_str, overall_sentiment_str))
             con.commit()
             logger.info("Successfully Cached Post to Database Table in 'write_to_table'")
