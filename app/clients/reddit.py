@@ -1,6 +1,7 @@
 import copy
 import logging
 import os
+import re
 
 import asyncpraw
 from asyncpraw.exceptions import RedditAPIException, InvalidURL
@@ -28,14 +29,27 @@ def start_reddit_client():
         raise RuntimeError
 
 
-async def get_comments(reddit, url):
+def parse_submission_id(url):
+
+    pattern = r"^https?:\/\/(?:www\.)?reddit\.com\/r\/\w+\/comments\/([a-z0-9]+)(?:\/[^\s\/]+)?\/?$"
+    match = re.fullmatch(pattern, url)
+
+    if match:
+        submission_id = match.group(1)
+        return submission_id
+
+    else:
+        raise CommentFetchingError(message="Failed to Parse For Submission ID")
+
+
+async def get_comments(reddit, id):
     """
     Takes a AsyncPRAW reddit instance and a reddit post url
     and returns a list of 5 top level comments.
     """
 
     try:
-        submission = await reddit.submission(url=url)
+        submission = await reddit.submission(id=id)
         submission_id = submission.id
 
         # replace_more() method opens "MoreComments" objects
@@ -50,7 +64,7 @@ async def get_comments(reddit, url):
 
         logger.info("Successfully Retrieved Comments in 'get_comments'")
 
-        return comments, submission_id
+        return comments
 
     except InvalidURL as e:
         raise CommentFetchingError(message=f"{str(e)}") from e
