@@ -3,7 +3,7 @@ from fastapi import APIRouter, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from app.clients.reddit import build_tree, get_comments, process_comments
+from app.clients.reddit import build_tree, get_comments, parse_submission_id, process_comments
 from app.clients.cache import query_from_table, write_to_table
 from app.core.users import (
     calculate_overall_sentiment,
@@ -74,8 +74,7 @@ async def reddit_input(request: Request, url: str=Form(...)):
     reddit = request.state.reddit
     tokenizer = request.state.tokenizer
 
-    comments, submission_id = await get_comments(reddit=reddit, url=url)
-
+    submission_id = parse_submission_id(url=url)
     comment_tree, overall_sentiment = await anyio.to_thread.run_sync(
         query_from_table, 
         submission_id, 
@@ -84,6 +83,7 @@ async def reddit_input(request: Request, url: str=Form(...)):
 
     if comment_tree is None and overall_sentiment is None:
 
+        comments = await get_comments(reddit=reddit, id=submission_id)
         model_inputs = process_comments(comments=comments)
         clean_model_inputs(model_inputs=model_inputs)
         raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
