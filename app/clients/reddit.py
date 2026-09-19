@@ -30,6 +30,7 @@ def start_reddit_client():
 
 
 def parse_submission_id(url):
+    """Parses submission id from url to act as primary key in cache table"""
 
     pattern = r"^https?:\/\/(?:www\.)?reddit\.com\/r\/\w+\/comments\/([a-z0-9]+)(?:\/[^\s\/]+)?\/?$"
     match = re.fullmatch(pattern, url)
@@ -45,7 +46,7 @@ def parse_submission_id(url):
 async def get_comments(reddit, id):
     """
     Takes a AsyncPRAW reddit instance and a reddit post url
-    and returns a list of 5 top level comments.
+    and returns a list of 5 top level comments
     """
 
     try:
@@ -115,7 +116,7 @@ def process_comments(comments):
 
 
 def build_tree(comments):
-    """Takes comments and recreates the comment tree structure through a DFS approach."""
+    """Takes comments and recreates the comment tree structure through a DFS approach"""
 
     count = 0
     comment_tree = []
