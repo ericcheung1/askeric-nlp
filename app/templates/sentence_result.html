@@ -1,6 +1,17 @@
-<ul class="font-semibold mb-4">
-    <li>
-        Classification: {{ classification }},
+<div class="flex items-center gap-2 font-bold text-sm">
+    <span class="text-gray-700">Classification:</span>
+    
+    {# Styled like an Old Reddit link flair #}
+    {% set s_class = classification | string | upper %}
+    {% if s_class == 'POSITIVE' %}
+        <span class="text-green-700 border border-green-600 px-1.5 py-0.5 text-xs bg-green-50 rounded-sm">POSITIVE</span>
+    {% elif s_class == 'NEGATIVE' %}
+        <span class="text-[#FF4500] border border-[#FF4500] px-1.5 py-0.5 text-xs bg-orange-50 rounded-sm">NEGATIVE</span>
+    {% else %}
+        <span class="text-gray-700 border border-gray-400 px-1.5 py-0.5 text-xs bg-gray-100 rounded-sm">{{ s_class }}</span>
+    {% endif %}
+    
+    <span class="text-gray-500 font-normal ml-2 text-xs">
         Confidence: {{ confidence|max|round(3) }}
-    </li>
-</ul>
+    </span>
+</div>
