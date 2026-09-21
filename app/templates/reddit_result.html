@@ -12,14 +12,14 @@
             {# Color-coded sentiment badges #}
             {% set s_class = comment.sentiment.sentiment_class | upper %}
             {% if s_class == 'POSITIVE' %}
-                <span class="font-bold text-green-600 ml-1">POSITIVE</span>
+                <span class="font-bold text-green-700 border border-green-600 px-1.5 py-0.5 text-xs bg-green-50 rounded-sm ml-1">POSITIVE</span>
             {% elif s_class == 'NEGATIVE' %}
-                <span class="font-bold text-[#FF4500] ml-1">NEGATIVE</span>
+                <span class="font-bold text-[#FF4500] border border-[#FF4500] px-1.5 py-0.5 text-xs bg-orange-50 rounded-sm ml-1">NEGATIVE</span>
             {% else %}
-                <span class="font-bold text-gray-600 ml-1">{{ s_class }}</span>
+                <span class="font-bold text-gray-700 border border-gray-400 px-1.5 py-0.5 text-xs bg-gray-100 rounded-sm ml-1">{{ s_class }}</span>
             {% endif %}
             
-            <span class="text-gray-500">({{ comment.sentiment.sentiment_conf|max|round(3) }})</span>
+            <span class="text-gray-500 font-normal ml-2 text-xs">Confidence: {{ comment.sentiment.sentiment_conf|max|round(3) }}</span>
         </div>
         
         {# Comment Body #}
@@ -81,9 +81,9 @@
     <div class="mb-5 bg-[#f6f7f8] border border-gray-300 p-3 rounded-sm text-sm">
         <div class="font-bold text-gray-700 mb-1">Thread Sentiment Summary</div>
         <div class="flex gap-4 text-xs">
-            <span class="font-bold text-green-600">Positive: {{ overall_sentiment[0].count.Positive }}</span>
-            <span class="font-bold text-[#FF4500]">Negative: {{ overall_sentiment[0].count.Negative }}</span>
-            <span class="text-gray-600">Avg Confidence: {{ overall_sentiment[0].confidence|round(3) }}</span>
+            <span class="font-bold text-green-600 border border-green-600 px-1.5 py-0.5 text-xs bg-green-50 rounded-sm">POSITIVE: {{ overall_sentiment[0].count.Positive }}</span>
+            <span class="font-bold text-[#FF4500] border border-[#FF4500] px-1.5 py-0.5 text-xs bg-orange-50 rounded-sm">NEGATIVE: {{ overall_sentiment[0].count.Negative }}</span>
+            <span class="text-gray-600"><strong>Average Confidence: {{ overall_sentiment[0].confidence|round(3) }}</strong></span>
         </div>
     </div>
 

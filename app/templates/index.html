@@ -12,7 +12,8 @@
     crossorigin="anonymous">
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>askeric-nlp: Analyze Sentences and Reddit Posts</title>
+    <title>askeric-nlp</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23FF4500' stroke='white' stroke-width='4'/></svg>" type="image/svg+xml">
     <style>
         /* Custom HTMX indicator styling */
         .htmx-indicator {
@@ -26,28 +27,21 @@
         }
     </style>
 </head>
-<body hx-ext="response-targets" class="min-h-screen bg-white font-sans text-gray-900 flex flex-col">
+<body hx-ext="response-targets" class="min-h-screen bg-white font-sans text-gray-900 flex flex-col overflow-y-scroll">
 
     <!-- TOP "SUBREDDIT" MENU BAR -->
     <nav class="bg-gray-100 border-b border-gray-300 text-xs px-4 py-1.5 flex gap-4 text-gray-600 uppercase tracking-wider">
-        <a href="#" class="hover:underline hover:text-blue-600 font-bold">Home</a>
-        <a href="#" class="hover:underline hover:text-blue-600">Documentation</a>
-        <a href="#" class="hover:underline hover:text-blue-600">GitHub</a>
+        <a href="/" class="hover:underline hover:text-blue-600 font-bold">Home</a>
+        <a href="https://github.com/ericcheung1/askeric-nlp" target="_blank" class="hover:underline hover:text-blue-600">GitHub</a>
     </nav>
 
     <!-- MAIN HEADER -->
     <header class="bg-[#CEE3F8] border-b border-gray-300 px-6 py-4 flex flex-col sm:flex-row sm:items-end gap-6 shadow-sm">
         <div class="flex items-center gap-4">
-            <!-- Orange Snoo-style placeholder icon -->
+            <!-- Orange Snoo-style icon -->
             <div class="w-10 h-10 bg-[#FF4500] border-2 border-white rounded-full flex-shrink-0 shadow-sm"></div>
             <h1 class="text-2xl font-bold tracking-tight text-blue-900">askeric-nlp</h1>
         </div>
-        
-        <!-- Fake Old Reddit Tabs -->
-        <ul class="flex gap-4 text-sm font-bold text-gray-600 mb-0.5">
-            <li class="text-[#FF4500] border-b-2 border-[#FF4500] pb-1 cursor-pointer">Analyze</li>
-            <li class="hover:text-blue-800 cursor-pointer pb-1">About</li>
-        </ul>
     </header>
 
     <!-- MAIN CONTENT AREA -->
@@ -56,8 +50,8 @@
         <!-- WELCOME TEXT -->
         <div class="text-sm text-gray-800 leading-relaxed bg-[#CEE3F8]/30 p-4 border border-[#CEE3F8] rounded-sm">
             <p>
-                <strong>Welcome!</strong> This web app uses ONNX-quantized NLP models to analyze individual text snippets and Reddit posts.
-                Currently, it supports sentiment analysis for standalone sentences, as well as for up to 15 comments and replies on Reddit posts.
+                <strong>Welcome!</strong> This web app uses NLP model(s) to analyze Reddit posts and individual text snippets.
+                Currently, it supports sentiment analysis for for up to 15 comments and replies on Reddit posts, as well as standalone sentences.
             </p>
         </div>
 
@@ -115,13 +109,9 @@
 
     <!-- FOOTER -->
     <footer class="border-t border-gray-300 bg-[#CEE3F8] mt-auto">
-        <div class="max-w-3xl mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-700 gap-2">
+        <div class="max-w-3xl mx-auto px-6 py-4 flex flex-col items-center justify-center text-center text-xs text-gray-700 gap-2">
             <div>
-                <p><strong>r/AskEricNLP</strong> v0.0.6</p>
-                <p class="mt-0.5 text-gray-600">Powered by FastAPI, HTMX, & TailwindCSS</p>
-            </div>
-            <div class="sm:text-right">
-                <p>Built by Eric Cheung</p>
+                <p><strong>askeric-nlp</strong> v0.1.0</p>
             </div>
         </div>
     </footer>
