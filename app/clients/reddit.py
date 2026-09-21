@@ -52,6 +52,10 @@ async def get_comments(reddit, id):
     try:
         submission = await reddit.submission(id=id)
         submission_id = submission.id
+        submission_title = submission.title
+        submission_selftext = submission.selftext
+        submission_subreddit = submission.subreddit.display_name
+        submission_author = submission.author.name
 
         # replace_more() method opens "MoreComments" objects
         # limit parameter sets number of "MoreComments" to replace
@@ -65,7 +69,15 @@ async def get_comments(reddit, id):
 
         logger.info("Successfully Retrieved Comments in 'get_comments'")
 
-        return comments
+        metadata = {
+            "comments": comments,
+            "title": submission_title,
+            "post_body": submission_selftext,
+            "subreddit": submission_subreddit,
+            "author": submission_author
+        }
+
+        return metadata
 
     except InvalidURL as e:
         raise CommentFetchingError(message=f"{str(e)}") from e
@@ -99,8 +111,8 @@ def process_comments(comments):
         comment = comment_stack.pop()
 
         model_inputs.append({
-                "text": str(comment.body),
-                "text_id": str(comment.id)
+            "text": str(comment.body),
+            "text_id": str(comment.id)
         })
         count+=1
 
@@ -134,6 +146,7 @@ def build_tree(comments):
             "comment": str(comment.body),
             "comment_id": str(comment.id),
             "parent_id": str(comment.parent_id),
+            "username": str(comment.author.name),
             "replies": []
         }
 

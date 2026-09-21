@@ -3,9 +3,9 @@
     <li class="mt-3">
         
         {# Metadata Header - Styled like an Old Reddit username row #}
-        <div class="text-xs text-gray-500 mb-0.5 flex items-center gap-1">
+        <div class="text-xs text-gray-500 mb-1 flex items-center gap-1">
             <span class="text-gray-400 font-bold cursor-pointer hover:text-gray-600">[–]</span>
-            <span class="font-bold text-blue-600">comment_node</span>
+            <span class="font-bold text-blue-600">{{ comment.username | default("user") }}</span>
             <span class="text-gray-400 text-[10px]">points hidden</span>
             <span class="text-gray-400">•</span>
             
@@ -23,15 +23,15 @@
         </div>
         
         {# Comment Body #}
-        <div class="text-sm text-gray-900 leading-snug mb-1">
+        <div class="text-sm text-gray-900 leading-snug mb-1.5">
             {{ comment.comment }}
         </div>
 
-        {# Fake Reddit Action bar to complete the aesthetic #}
+        <!-- {# Fake Reddit Action bar to complete the aesthetic #}
         <ul class="flex gap-2 text-[10px] font-bold text-gray-400 uppercase">
-            <li class="hover:underline cursor-pointer">permalink</li>
-            <li class="hover:underline cursor-pointer">embed</li>
-        </ul>
+            <li class="hover:underline cursor-pointer"> </li>
+            <li class="hover:underline cursor-pointer"> </li>
+        </ul> -->
 
         {# Threaded Replies - Thinner border, tighter padding #}
         {% if comment.replies %}
@@ -59,7 +59,7 @@
         {# Post Metadata #}
         <div class="text-[10px] text-gray-500 font-bold mb-3">
             submitted by <span class="text-blue-600 hover:underline cursor-pointer">{{ post_author | default("author_placeholder") }}</span> 
-            to <span class="hover:underline cursor-pointer">{{ subreddit_name | default("r/AskEricNLP") }}</span>
+            to <span class="hover:underline cursor-pointer">r/{{ subreddit_name | default("askeric-nlp") }}</span>
         </div>
         
         {# Post Body Content Box #}
@@ -67,13 +67,13 @@
             {{ post_body | default("This is a placeholder for the main Reddit post body text. Having this context at the top is great UX, so the user knows exactly what the comments below are reacting to. Once you update your FastAPI route to pass 'post_title' and 'post_body', this text will automatically swap out.") }}
         </div>
         
-        {# Post Action Bar #}
+        <!-- {# Post Action Bar #}
         <ul class="flex gap-4 text-[10px] font-bold text-gray-400 uppercase mt-2">
-            <li class="hover:underline cursor-pointer text-gray-500">{{ total_comments | default("15") }} comments</li>
+            <li class="hover:underline cursor-pointer text-gray-500">{{ overall_sentiment.total_comments | default("15") }} comments</li>
             <li class="hover:underline cursor-pointer">share</li>
             <li class="hover:underline cursor-pointer">save</li>
             <li class="hover:underline cursor-pointer">report</li>
-        </ul>
+        </ul> -->
     </div>
     {# --- END ORIGINAL POST PLACEHOLDER --- #}
     
@@ -81,9 +81,9 @@
     <div class="mb-5 bg-[#f6f7f8] border border-gray-300 p-3 rounded-sm text-sm">
         <div class="font-bold text-gray-700 mb-1">Thread Sentiment Summary</div>
         <div class="flex gap-4 text-xs">
-            <span class="font-bold text-green-600 border border-green-600 px-1.5 py-0.5 text-xs bg-green-50 rounded-sm">POSITIVE: {{ overall_sentiment[0].count.Positive }}</span>
-            <span class="font-bold text-[#FF4500] border border-[#FF4500] px-1.5 py-0.5 text-xs bg-orange-50 rounded-sm">NEGATIVE: {{ overall_sentiment[0].count.Negative }}</span>
-            <span class="text-gray-600"><strong>Average Confidence: {{ overall_sentiment[0].confidence|round(3) }}</strong></span>
+            <span class="font-bold text-green-600 border border-green-600 px-1.5 py-0.5 text-xs bg-green-50 rounded-sm">POSITIVE: {{ overall_sentiment.count.Positive }}</span>
+            <span class="font-bold text-[#FF4500] border border-[#FF4500] px-1.5 py-0.5 text-xs bg-orange-50 rounded-sm">NEGATIVE: {{ overall_sentiment.count.Negative }}</span>
+            <span class="text-gray-600 px-1.5 py-0.5 text-xs rounded-sm"><strong>Average Confidence: {{ overall_sentiment.confidence|round(3) }}</strong></span>
         </div>
     </div>
 

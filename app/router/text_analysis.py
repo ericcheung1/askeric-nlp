@@ -83,13 +83,13 @@ async def reddit_input(request: Request, url: str=Form(...)):
 
     if comment_tree is None and overall_sentiment is None:
 
-        comments = await get_comments(reddit=reddit, id=submission_id)
-        model_inputs = process_comments(comments=comments)
+        metadata = await get_comments(reddit=reddit, id=submission_id)
+        model_inputs = process_comments(comments=metadata["comments"])
         clean_model_inputs(model_inputs=model_inputs)
         raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
 
         # pre-building comment tree structure, fill with sentiment scores after
-        comment_tree = build_tree(comments=comments)
+        comment_tree = build_tree(comments=metadata["comments"])
 
         # scores comments with sentiment, formats outputs
         raw_outputs = await anyio.to_thread.run_sync(
@@ -116,7 +116,11 @@ async def reddit_input(request: Request, url: str=Form(...)):
 
     context = {
         "comment_tree": comment_tree,
-        "overall_sentiment": overall_sentiment
+        "overall_sentiment": overall_sentiment,
+        "post_title": metadata["title"],
+        "post_body": metadata["post_body"],
+        "subreddit_name": metadata["subreddit"],
+        "post_author": metadata["author"]
     }
 
     return templates.TemplateResponse(
