@@ -105,8 +105,6 @@ def calculate_overall_sentiment(comment_tree):
         if "replies" in comment:
             comment_stack.extend(comment["replies"])
 
-    total_comments = count["Negative"] + count["Positive"]
-
     try:
         avg_conf = total_conf / sum(count.values())
     except ZeroDivisionError:
@@ -116,6 +114,5 @@ def calculate_overall_sentiment(comment_tree):
 
     return {
         "count": count,
-        "confidence": round(avg_conf, 3),
-        "total_comments": total_comments
+        "confidence": round(avg_conf, 3)
     }

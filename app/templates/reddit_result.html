@@ -27,12 +27,6 @@
             {{ comment.comment }}
         </div>
 
-        <!-- {# Fake Reddit Action bar to complete the aesthetic #}
-        <ul class="flex gap-2 text-[10px] font-bold text-gray-400 uppercase">
-            <li class="hover:underline cursor-pointer"> </li>
-            <li class="hover:underline cursor-pointer"> </li>
-        </ul> -->
-
         {# Threaded Replies - Thinner border, tighter padding #}
         {% if comment.replies %}
         <ul class="ml-1.5 pl-3 mt-1.5 border-l border-gray-300 hover:border-gray-500 transition-colors">
@@ -66,14 +60,6 @@
         <div class="text-sm text-gray-900 leading-relaxed bg-[#f9f9f9] border border-gray-200 p-3 rounded-sm">
             {{ post_body | default("This is a placeholder for the main Reddit post body text. Having this context at the top is great UX, so the user knows exactly what the comments below are reacting to. Once you update your FastAPI route to pass 'post_title' and 'post_body', this text will automatically swap out.") }}
         </div>
-        
-        <!-- {# Post Action Bar #}
-        <ul class="flex gap-4 text-[10px] font-bold text-gray-400 uppercase mt-2">
-            <li class="hover:underline cursor-pointer text-gray-500">{{ overall_sentiment.total_comments | default("15") }} comments</li>
-            <li class="hover:underline cursor-pointer">share</li>
-            <li class="hover:underline cursor-pointer">save</li>
-            <li class="hover:underline cursor-pointer">report</li>
-        </ul> -->
     </div>
     {# --- END ORIGINAL POST PLACEHOLDER --- #}
     

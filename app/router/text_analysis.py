@@ -75,21 +75,21 @@ async def reddit_input(request: Request, url: str=Form(...)):
     tokenizer = request.state.tokenizer
 
     submission_id = parse_submission_id(url=url)
-    comment_tree, overall_sentiment = await anyio.to_thread.run_sync(
+    comment_tree, overall_sentiment, metadata = await anyio.to_thread.run_sync(
         query_from_table, 
         submission_id, 
         con
     )
 
-    if comment_tree is None and overall_sentiment is None:
+    if comment_tree is None or overall_sentiment is None or metadata is None:
 
-        metadata = await get_comments(reddit=reddit, id=submission_id)
-        model_inputs = process_comments(comments=metadata["comments"])
+        comments, metadata = await get_comments(reddit=reddit, id=submission_id)
+        model_inputs = process_comments(comments=comments)
         clean_model_inputs(model_inputs=model_inputs)
         raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
 
         # pre-building comment tree structure, fill with sentiment scores after
-        comment_tree = build_tree(comments=metadata["comments"])
+        comment_tree = build_tree(comments=comments)
 
         # scores comments with sentiment, formats outputs
         raw_outputs = await anyio.to_thread.run_sync(
@@ -110,6 +110,7 @@ async def reddit_input(request: Request, url: str=Form(...)):
             submission_id,
             comment_tree,
             overall_sentiment,
+            metadata,
             con,
             limiter=limiter_3
         )

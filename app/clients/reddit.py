@@ -70,14 +70,13 @@ async def get_comments(reddit, id):
         logger.info("Successfully Retrieved Comments in 'get_comments'")
 
         metadata = {
-            "comments": comments,
             "title": submission_title,
             "post_body": submission_selftext,
             "subreddit": submission_subreddit,
             "author": submission_author
         }
 
-        return metadata
+        return comments, metadata
 
     except InvalidURL as e:
         raise CommentFetchingError(message=f"{str(e)}") from e
@@ -146,7 +145,7 @@ def build_tree(comments):
             "comment": str(comment.body),
             "comment_id": str(comment.id),
             "parent_id": str(comment.parent_id),
-            "username": str(comment.author.name),
+            "username": str(comment.author.name) if comment.author else "[user]",
             "replies": []
         }
 

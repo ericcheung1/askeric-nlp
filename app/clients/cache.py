@@ -21,7 +21,8 @@ def init_sqlite():
                 CREATE TABLE IF NOT EXISTS cache (
                     submission_id TEXT PRIMARY KEY,
                     comment_tree TEXT NOT NULL,
-                    overall_sentiment TEXT NOT NULL
+                    overall_sentiment TEXT NOT NULL,
+                    metadata TEXT NOT NULL
                 );
             """
             con.execute(query)
@@ -45,7 +46,7 @@ def query_from_table(submission_id, con):
     """Queries database table for post and analysis results"""
 
     try:
-        query = "SELECT comment_tree, overall_sentiment FROM cache WHERE submission_id = ?;"
+        query = "SELECT comment_tree, overall_sentiment, metadata FROM cache WHERE submission_id = ?;"
         cur = con.execute(query, (submission_id,))
         query_result = cur.fetchone()
 
@@ -56,21 +57,24 @@ def query_from_table(submission_id, con):
     if query_result is None:
         comment_tree = None
         overall_sentiment = None
+        metadata = None
         logger.info("Post Not Cached in Database Table in 'query_from_table'")
 
     else:
         comment_tree = json.loads(query_result[0])
         overall_sentiment = json.loads(query_result[1])
+        metadata = json.loads(query_result[2])
         logger.info("Post Found in Database Table in 'query_from_table'")
 
-    return comment_tree, overall_sentiment
+    return comment_tree, overall_sentiment, metadata
 
 
-def write_to_table(submission_id, comment_tree, overall_sentiment, con):
+def write_to_table(submission_id, comment_tree, overall_sentiment, metadata, con):
     """Caches post and analysis results in database table"""
 
     comment_tree_str = json.dumps(comment_tree, default=str)
     overall_sentiment_str = json.dumps(overall_sentiment, default=str)
+    metadata_str = json.dumps(metadata, default=str)
 
     try:
         with con:
@@ -78,12 +82,13 @@ def write_to_table(submission_id, comment_tree, overall_sentiment, con):
                 INSERT INTO cache (
                     submission_id, 
                     comment_tree, 
-                    overall_sentiment
+                    overall_sentiment,
+                    metadata
                 ) 
-                VALUES (?, ?, ?)
+                VALUES (?, ?, ?, ?)
                 ON CONFLICT(submission_id) DO NOTHING;
             """
-            con.execute(query, (submission_id, comment_tree_str, overall_sentiment_str))
+            con.execute(query, (submission_id, comment_tree_str, overall_sentiment_str, metadata_str))
             con.commit()
             logger.info("Successfully Cached Post to Database Table in 'write_to_table'")
 
