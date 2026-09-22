@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js" 
     integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V" 
     crossorigin="anonymous">
@@ -10,54 +12,54 @@
     crossorigin="anonymous">
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Ask Eric NLP: Analyze Sentences and Reddit Posts</title>
+    <title>askeric-nlp</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23FF4500' stroke='white' stroke-width='4'/></svg>" type="image/svg+xml">
+    <style>
+        /* Custom HTMX indicator styling */
+        .htmx-indicator {
+            display: none;
+        }
+        .htmx-request .htmx-indicator {
+            display: inline-block;
+        }
+        .htmx-request.htmx-indicator {
+            display: inline-block;
+        }
+    </style>
 </head>
-<body hx-ext="response-targets" class="bg-slate-200 min-h-screen flex flex-col items-center overflow-y-scroll">
+<body hx-ext="response-targets" class="min-h-screen bg-white font-sans text-gray-900 flex flex-col overflow-y-scroll">
 
-    <!-- HEADER -->
-    <header class="w-full max-w-3xl p-6 mb-4 border-b border-gray-200">
-        <h1 class="text-2xl font-bold text-gray-800">r/AskEricNLP</h1>
-        <p class="text-black-600 mt-4">
-            Welcome! This web app uses NLP models to analyze individual text snippets and Reddit posts.
-            Currently, it supports sentiment analysis for standalone sentences, as well as for up to 15 comments and replies on Reddit posts.
-        </p>
-        
-        <!-- <nav class="mt-4 space-x-4 text-sm">
-            <a href="#" class="text-blue-600 hover:underline">[Link 1]</a>
-            <a href="#" class="text-blue-600 hover:underline">[Link 2]</a>
-        </nav> -->
+    <!-- TOP "SUBREDDIT" MENU BAR -->
+    <nav class="bg-gray-100 border-b border-gray-300 text-xs px-4 py-1.5 flex gap-4 text-gray-600 uppercase tracking-wider">
+        <a href="/" class="hover:underline hover:text-blue-600 font-bold">Home</a>
+        <a href="https://github.com/ericcheung1/askeric-nlp" target="_blank" class="hover:underline hover:text-blue-600">GitHub</a>
+    </nav>
+
+    <!-- MAIN HEADER -->
+    <header class="bg-[#CEE3F8] border-b border-gray-300 px-6 py-4 flex flex-col sm:flex-row sm:items-end gap-6 shadow-sm">
+        <div class="flex items-center gap-4">
+            <!-- Orange Snoo-style icon -->
+            <div class="w-10 h-10 bg-[#FF4500] border-2 border-white rounded-full flex-shrink-0 shadow-sm"></div>
+            <h1 class="text-2xl font-bold tracking-tight text-blue-900">askeric-nlp</h1>
+        </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="w-full max-w-3xl p-6 flex-grow">
+    <!-- MAIN CONTENT AREA -->
+    <main class="max-w-3xl w-full mx-auto py-8 px-4 flex-grow flex flex-col gap-8">
         
-        <!-- 
-          PASTE YOUR EXISTING CONTENT HERE 
-          (Everything from the welcome message down to the v0.0.4 paragraph)
-        -->
-        
-        <!-- START SENTENCE ANALYSIS -->
-        <div class="space-y-2 leading-relaxed mb-6">
-            <h2>Enter A Sentence.</h2>
-            <form hx-post="/sentence_input" hx-target="#sentence_result">
-                <p><input type="text" name="input" required
-                    class="w-full p-3 border border-black bg-slate-50 shadow-sm focus:outline-none rounded-sm"
-                /></p>
-                <button type="submit" 
-                    class="mt-4 px-4 py-2 bg-sky-200 text-black rounded-sm">
-                    Analyze Sentence
-                </button>
-            </form>
+        <!-- WELCOME TEXT -->
+        <div class="text-sm text-gray-800 leading-relaxed bg-[#CEE3F8]/30 p-4 border border-[#CEE3F8] rounded-sm">
+            <p>
+                <strong>Welcome!</strong> This web app uses NLP model(s) to analyze Reddit posts and individual text snippets.
+                Currently, it supports sentiment analysis for for up to 15 comments and replies on Reddit posts, as well as standalone sentences.
+            </p>
         </div>
 
-        <div id="sentence_result" class="space-y-2 leading-relaxed mb-6"></div>
-        <!-- END SENTENCE ANALYSIS -->
-
-        <!-- START POST ANALYSIS -->
-        <div class="space-y-2 leading-relaxed mb-6">
-            <p>
-                Enter Reddit Post URL.
-                Please make sure it's a specific post and not a full subreddit.
+        <!-- TOOL 1: REDDIT POST (Moved to top as flagship feature) -->
+        <div class="bg-gray-50 border border-gray-300 p-5 rounded-sm">
+            <h2 class="text-lg font-bold text-blue-800 mb-1">Analyze a Reddit Post</h2>
+            <p class="text-xs text-gray-500 mb-4">
+                Enter Reddit Post URL. Please make sure it's a specific post and not a full subreddit.
             </p>
 
             <form 
@@ -66,36 +68,52 @@
                 hx-target-400="#post_result"
                 hx-indicator="#spinner1"
             >
-                <p><input type="url" name="url" required
-                    class="w-full p-3 border border-black bg-slate-50 shadow-sm focus:outline-none rounded-sm"
-                /></p>
+                <input type="url" name="url" required value="https://www.reddit.com/r/foodhacks/comments/1whxbxb/cheap_trick_for_meals/" 
+                    class="w-full p-2.5 border border-gray-400 bg-white shadow-inner focus:outline-none focus:border-blue-500 rounded-sm text-sm"
+                />
                 <button type="submit" 
-                    class="mt-4 px-4 py-2 bg-sky-200 text-black rounded-sm">
+                    class="mt-3 px-5 py-2 bg-[#FF4500] hover:bg-[#e03d00] text-white font-bold text-sm rounded-sm transition-colors shadow-sm">
                     Analyze Reddit Post
                 </button>
             </form>
-        </div>
 
-        <div id="result1" class="space-y-2 leading-relaxed mb-6">
-
-            <div id="spinner1" class="htmx-indicator text-gray-600">
-                Loading...
+            <div id="result1" class="mt-4">
+                <div id="spinner1" class="htmx-indicator text-sm font-bold text-[#FF4500] mb-2">
+                    Loading analysis...
+                </div>
+                <!-- empty:hidden prevents the div from taking up space before HTMX injects content -->
+                <div id="post_result" class="empty:hidden bg-white border border-gray-200 p-3 text-sm"></div>
             </div>
-
-            <div id="post_result"></div>
-
         </div>
-        <!-- END POST ANALYSIS -->
+
+        <!-- TOOL 2: SENTENCE -->
+        <div class="bg-gray-50 border border-gray-300 p-5 rounded-sm">
+            <h2 class="text-lg font-bold text-blue-800 mb-1">Analyze a Sentence</h2>
+            <p class="text-xs text-gray-500 mb-4">Enter a standalone sentence to check its sentiment.</p>
+
+            <form hx-post="/sentence_input" hx-target="#sentence_result">
+                <input type="text" name="input" required placeholder="Type your sentence here..."
+                    class="w-full p-2.5 border border-gray-400 bg-white shadow-inner focus:outline-none focus:border-blue-500 rounded-sm text-sm"
+                />
+                <button type="submit" 
+                    class="mt-3 px-5 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold text-sm rounded-sm transition-colors shadow-sm border border-gray-400">
+                    Analyze Sentence
+                </button>
+            </form>
+
+            <!-- empty:hidden prevents the div from taking up space before HTMX injects content -->
+            <div id="sentence_result" class="mt-4 empty:hidden bg-white border border-gray-200 p-3 text-sm"></div>
+        </div>
     
     </main>
 
     <!-- FOOTER -->
-    <footer class="w-full max-w-3xl p-6 mt-8 border-t border-gray-200 text-center text-sm text-gray-500">
-        <p>v0.0.6</p>
-        <!-- <div class="mt-2 space-x-4">
-            <a href="#" class="hover:text-gray-800">[Footer Link 1]</a>
-            <a href="#" class="hover:text-gray-800">[Footer Link 2]</a>
-        </div> -->
+    <footer class="border-t border-gray-300 bg-[#CEE3F8] mt-auto">
+        <div class="max-w-3xl mx-auto px-6 py-4 flex flex-col items-center justify-center text-center text-xs text-gray-700 gap-2">
+            <div>
+                <p><strong>askeric-nlp</strong> v0.1.0</p>
+            </div>
+        </div>
     </footer>
 
 </body>

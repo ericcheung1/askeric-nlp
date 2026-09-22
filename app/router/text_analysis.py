@@ -75,15 +75,15 @@ async def reddit_input(request: Request, url: str=Form(...)):
     tokenizer = request.state.tokenizer
 
     submission_id = parse_submission_id(url=url)
-    comment_tree, overall_sentiment = await anyio.to_thread.run_sync(
+    comment_tree, overall_sentiment, metadata = await anyio.to_thread.run_sync(
         query_from_table, 
         submission_id, 
         con
     )
 
-    if comment_tree is None and overall_sentiment is None:
+    if comment_tree is None or overall_sentiment is None or metadata is None:
 
-        comments = await get_comments(reddit=reddit, id=submission_id)
+        comments, metadata = await get_comments(reddit=reddit, id=submission_id)
         model_inputs = process_comments(comments=comments)
         clean_model_inputs(model_inputs=model_inputs)
         raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
@@ -110,13 +110,18 @@ async def reddit_input(request: Request, url: str=Form(...)):
             submission_id,
             comment_tree,
             overall_sentiment,
+            metadata,
             con,
             limiter=limiter_3
         )
 
     context = {
         "comment_tree": comment_tree,
-        "overall_sentiment": overall_sentiment
+        "overall_sentiment": overall_sentiment,
+        "post_title": metadata["title"],
+        "post_body": metadata["post_body"],
+        "subreddit_name": metadata["subreddit"],
+        "post_author": metadata["author"]
     }
 
     return templates.TemplateResponse(
