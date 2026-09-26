@@ -10,7 +10,7 @@ from app.clients.cache import close_sqlite, init_sqlite
 from app.clients.exceptions import comment_error_handler, CommentFetchingError
 from app.clients.reddit import close_reddit_client, start_reddit_client
 from app.clients.spaces import download_spaces_files, start_spaces_client, weight_dir_check
-from app.router import text_analysis
+from app.router import api, webpage
 from ml.sentiment.inference import sentiment_load_model, sentiment_load_tokenizer
 
 DEBUG_LOGS = os.environ.get("DEBUG_LOGS", "0") == "1"
@@ -55,7 +55,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None)
 app.add_exception_handler(CommentFetchingError, comment_error_handler)
-app.include_router(router=text_analysis.router)
+app.include_router(router=api.router)
+app.include_router(router=webpage.router)
 
 
 if __name__ == "__main__":
