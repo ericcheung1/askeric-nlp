@@ -1,6 +1,29 @@
-## r/AskEricNLP - Reddit and Sentence Analysis
+# askeric-nlp - Reddit & Sentence Analysis App
 
-A web application built with FastAPI that uses natural language processing (NLP) to provide real‑time sentiment analysis on both standalone text and Reddit posts.
+A FastAPI application for real-time sentiment analysis on standalone text and live Reddit threads. Built with a dynamic HTMX web interface and a dedicated REST API layer for programmatic JSON payloads, the application is designed for throughput and concurrency on minimal production resources.
+
+### Highlights
+
+* **Web & API Access:** Serves an HTMX-powered webpage alongside a REST endpoint for programmatic JSON sentence analysis.
+* **Thread-Offloaded Inference:** Runs ML predictions on separate worker threads to keep the main event loop responsive under concurrent load.
+* **Lightweight FP16 ONNX Weights:** Uses an FP16-quantized DistilBERT model for low-memory, fast CPU inference.
+* **Cached Reddit Pipeline:** Ingests Reddit threads asynchronously via `AsyncPRAW` and caches results in SQLite to bypass redundant processing.
+
+## Built With
+
+* **Backend & API:** FastAPI, Python, SQLite
+* **Frontend:** Jinja2, HTMX, Tailwind CSS
+* **ML Inference:** ONNX Runtime, Hugging Face Tokenizer
+* **External APIs:** AsyncPRAW (Reddit API)
+* **Infrastructure & Ops:** Docker, Caddy, Terraform, GitHub Actions
+
+The application follows a Server-Side Rendering (SSR) pattern with HTMX handling dynamic UI state updates. On application startup, model artifacts are fetched from object storage and loaded into memory for immediate inference execution.
+
+## API Documentation
+
+The REST API layer accepts JSON payloads for sentence sentiment analysis. 
+
+* **Interactive OpenAPI Docs:** Available at `/docs` on the production URL.
 
 ## File Structure
 
@@ -8,13 +31,16 @@ A web application built with FastAPI that uses natural language processing (NLP)
 askeric-nlp/
 ├── app/
 │   ├── clients/
+│   │   ├── cache.py                # Handles mechanism for caching already processed posts  
 │   │   ├── exceptions.py           # Handles exceptions occuring in client modules
-│   │   ├── reddit.py               # Connects with PRAW to get reddit posts
+│   │   ├── reddit.py               # Connects with AsyncPRAW to get reddit posts
 │   │   └── spaces.py               # Connects to object store to download weight files from
 │   ├── core/
-│   │   └── user.py                 # Handles core user input and data transform logic
+│   │   ├── api_service.py          # Handles core data transform logic for api side
+│   │   └── webpage_service.py      # Handles core user input and data transform logic for the webpage side
 │   ├── router/
-│   │   └── text_analysis.py        # Defines routes used in main text analysis page
+│   │   ├── api.py                  # Defines routes used in the api layer
+│   │   └── webpage.py              # Defines routes used in main text analysis webpage
 │   ├── templates/
 │   │   ├── error.html
 │   │   ├── index.html
@@ -23,26 +49,16 @@ askeric-nlp/
 │   └── main.py                     # App entry point
 └── ml/
     └── sentiment/
-        ├── distilbert_fp16_onnx/   # ML weights directory, not included in repo
+        ├── distilbert_fp16_onnx/   # ML weights directory, not committed in repo
         │   ├── distilbert_fp16.onnx
         │   └── tokenizer.json
         └── inference.py            # Loads model and handles ML inference
 ```
 
-## Architecture
+## Model & Artifact Details
 
-The app follows Server-Side Rendering (SSR) pattern using FastAPI. ML model weight files are downloaded from remote object storage and loaded at app start-time.
+#### Sentiment
 
-The backend handles:
-- Reddit content ingestion via PRAW (Python Reddit API Wrapper)
-- ML model loading and inference using a DistilBERT model
-- Rendering of a Jinja2 HTML index page
-- HTMX‑driven updates for dynamic UI without full reloads
-
-## Model(s)
-
-### Sentiment
-
-- DistilBERT [[HuggingFace Model Card](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english)] for binary sentiment classification
-- Weights have been converted to .onnx format and FP16 precision for improved loading and inference speeds
-- See `docs/distilbert_onnx/` for script to export .onnx model weights
+- **Architecture:** DistilBERT ([`distilbert-base-uncased-finetuned-sst-2-english`](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english)) fine-tuned for binary sentiment classification.
+- **Optimization:** Exported to `.onnx` and quantized to FP16 precision for improved loading and CPU inference speed. Model artifacts are downloaded dynamically on startup if not present locally.
+- **Export Scripts:** Located in `docs/distilbert_onnx/`.
