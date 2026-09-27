@@ -53,10 +53,10 @@ async def lifespan(app: FastAPI):
     await close_reddit_client(reddit=reddit)
 
 
-app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None)
+app = FastAPI(lifespan=lifespan)
 app.add_exception_handler(CommentFetchingError, comment_error_handler)
 app.include_router(router=api.router)
-app.include_router(router=webpage.router)
+app.include_router(router=webpage.router, include_in_schema=False)
 
 
 if __name__ == "__main__":
