@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.clients.reddit import build_tree, get_comments, parse_submission_id, process_comments
 from app.clients.cache import query_from_table, write_to_table
-from app.core.users import (
+from app.core.webpage_service import (
     calculate_overall_sentiment,
     clean_model_inputs,
     prepare_model_inputs,
