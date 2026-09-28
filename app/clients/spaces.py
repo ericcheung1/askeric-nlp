@@ -15,8 +15,8 @@ def start_spaces_client():
         session = boto3.session.Session()
         client = session.client(
             "s3",
-            region_name=os.getenv("region_name"),
-            endpoint_url=os.getenv("endpoint_url"),
+            region_name=os.getenv("REGION_NAME"),
+            endpoint_url=os.getenv("ENDPOINT_URL"),
             config=Config(signature_version=UNSIGNED)
         )
         logger.info("Successfully Started Spaces Client in 'start_spaces_client'")
@@ -55,7 +55,7 @@ def download_spaces_files(spaces_client):
         try:
             for file in spaces_files:
                 spaces_client.download_file(
-                    Bucket=os.getenv("Bucket"), 
+                    Bucket=os.getenv("BUCKET"), 
                     Key=file, 
                     Filename=f"ml/sentiment/{file}"
                 )

@@ -4,7 +4,7 @@ import os
 import re
 
 import asyncpraw
-from asyncpraw.exceptions import RedditAPIException, InvalidURL
+from asyncpraw.exceptions import InvalidURL, RedditAPIException
 from asyncprawcore.exceptions import NotFound
 
 from app.clients.exceptions import CommentFetchingError
@@ -16,9 +16,9 @@ def start_reddit_client():
 
     try:
         reddit = asyncpraw.Reddit(
-            client_id=os.getenv("client_id"),
-            client_secret=os.getenv("client_secret"),
-            user_agent="web:askeric-nlp:v0.0.5 (by u/eric321k)"
+            client_id=os.getenv("CLIENT_ID"),
+            client_secret=os.getenv("CLIENT_SECRET"),
+            user_agent="web:askeric-nlp (by u/eric321k)"
         )
         logger.info("Successfully Started Reddit Client in 'start_reddit_client'")
 

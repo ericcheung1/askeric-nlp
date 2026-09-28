@@ -27,11 +27,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /opt/askeric-nlp
-            echo "client_id=${{ secrets.client_id }}
-            client_secret=${{ secrets.client_secret }}
-            region_name=${{ secrets.region_name }}
-            endpoint_url=${{ secrets.endpoint_url }}
-            Bucket=${{ secrets.Bucket }}" > .env          
+            echo "CLIENT_ID=${{ secrets.CLIENT_ID }}
+            CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
+            REGION_NAME=${{ secrets.REGION_NAME }}
+            ENDPOINT_URL=${{ secrets.ENDPOINT_URL }}
+            BUCKET=${{ secrets.BUCKET }}" > .env          
 
       - name: Copy config and compose to server
         uses: appleboy/scp-action@v1
