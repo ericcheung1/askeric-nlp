@@ -10,7 +10,8 @@ from app.core.webpage_service import (
     clean_model_inputs,
     prepare_model_inputs,
     rebuild_comment_tree,
-    reconcile_outputs
+    reconcile_outputs,
+    VERSION
 )
 from ml.sentiment.inference import sentiment_score, softmax
 
@@ -23,7 +24,8 @@ limiter_3 = anyio.CapacityLimiter(3)
 def index(request: Request):
     return templates.TemplateResponse(
         request=request,
-        name="index.html"
+        name="index.html",
+        context={"version": VERSION}
     )
 
 

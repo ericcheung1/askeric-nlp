@@ -1,6 +1,8 @@
 import copy
 import json
 import logging
+from pathlib import Path
+import tomllib
 
 import numpy as np
 
@@ -116,3 +118,22 @@ def calculate_overall_sentiment(comment_tree):
         "count": count,
         "confidence": round(avg_conf, 3)
     }
+
+
+def parse_version():
+    """Parses a .toml file for app version number"""
+
+    TOML_PATH = Path("pyproject.toml")
+
+    try:
+        with open(TOML_PATH, "rb") as f:
+            toml = tomllib.load(f)
+            version = toml["project"]["version"]
+
+        return version
+    
+    except (FileNotFoundError, OSError) as e:
+        logger.warning(f"{e} in 'parse_version'")
+        return "0.0.0"
+
+VERSION = parse_version()

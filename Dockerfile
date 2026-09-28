@@ -7,6 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY /app ./app
 COPY /ml ./ml
+COPY /pyproject.toml ./pyproject.toml
 
 EXPOSE 8000
 
