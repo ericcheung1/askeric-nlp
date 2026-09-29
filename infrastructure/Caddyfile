@@ -6,7 +6,9 @@ askeric-nlp.theeric.dev {
     root * /var/www
 
     @seo_files path /sitemap.xml /robots.txt
-    file_server @seo_files
+    handle @seo_files {
+        file_server
+    }
 
     reverse_proxy askeric-nlp:8000
 }
