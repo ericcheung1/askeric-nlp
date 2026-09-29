@@ -12,7 +12,9 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - /opt/askeric-nlp/Caddyfile:/etc/caddy/Caddyfile:ro
+      - /opt/askeric-nlp/robots.txt:/var/www/robots.txt:ro
+      - /opt/askeric-nlp/sitemap.xml:/var/www/sitemap.xml:ro
       - caddy_data:/data
       - caddy_config:/config
     depends_on:

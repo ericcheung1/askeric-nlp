@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Allow: /docs
+Disallow: /api/
+
+Sitemap: https://askeric-nlp.theeric.dev/sitemap.xml

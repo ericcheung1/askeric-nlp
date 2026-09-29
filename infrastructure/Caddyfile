@@ -1,3 +1,12 @@
-askeric-nlp.theeric.dev, www.askeric-nlp.theeric.dev {
+www.askeric-nlp.theeric.dev {
+    redir https://askeric-nlp.theeric.dev{uri} 307
+}
+
+askeric-nlp.theeric.dev {
+    root * /var/www
+
+    @seo_files /sitemap.xml /robots.txt
+    file_serve @seo_files
+
     reverse_proxy askeric-nlp:8000
 }
