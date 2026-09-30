@@ -15,6 +15,7 @@ services:
       - /opt/askeric-nlp/Caddyfile:/etc/caddy/Caddyfile:ro
       - /opt/askeric-nlp/robots.txt:/var/www/robots.txt:ro
       - /opt/askeric-nlp/sitemap.xml:/var/www/sitemap.xml:ro
+      - /opt/askeric-nlp/google00adf9179f7c17ef.html:/var/www/google00adf9179f7c17ef.html:ro
       - caddy_data:/data
       - caddy_config:/config
     depends_on:

@@ -5,7 +5,7 @@ www.askeric-nlp.theeric.dev {
 askeric-nlp.theeric.dev {
     root * /var/www
 
-    @seo_files path /sitemap.xml /robots.txt
+    @seo_files path /sitemap.xml /robots.txt /google00adf9179f7c17ef.html
     handle @seo_files {
         file_server
     }
