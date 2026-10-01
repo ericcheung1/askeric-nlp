@@ -10,18 +10,17 @@ from app.clients.cache import close_sqlite, init_sqlite
 from app.clients.exceptions import comment_error_handler, CommentFetchingError
 from app.clients.reddit import close_reddit_client, start_reddit_client
 from app.clients.spaces import download_spaces_files, start_spaces_client, weight_dir_check
+from app.core.multiprocessing_service import start_inference_process
 from app.router import api, webpage
-from ml.sentiment.inference import sentiment_load_model, sentiment_load_tokenizer
 
 DEBUG_LOGS = os.environ.get("DEBUG_LOGS", "0") == "1"
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-
     level = logging.DEBUG if DEBUG_LOGS else logging.INFO
     logging.basicConfig(
         level=level,
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        format="%(asctime)s [PID:%(process)d] [%(levelname)s] %(name)s: %(message)s",
         datefmt="%H:%M:%S",
     )
     logging.getLogger("prawcore").setLevel(logging.WARNING)
@@ -35,19 +34,31 @@ async def lifespan(app: FastAPI):
     weight_dir_check()
     download_spaces_files(spaces_client=spaces_client)
     con = init_sqlite()
-
     reddit = start_reddit_client()
-    model_session = sentiment_load_model()
-    tokenizer = sentiment_load_tokenizer()
+
+    task_queue, result_queue, inference_process = start_inference_process()
 
     state_data = {
         "con": con,
-        "model_session": model_session, 
         "reddit": reddit,
-        "tokenizer": tokenizer
+        "result_queue": result_queue,
+        "task_queue": task_queue,
+        "inference_process": inference_process,
     }
 
     yield state_data
+
+    task_queue.put(None)
+
+    task_queue.close()
+    task_queue.join_thread()
+    result_queue.close()
+    result_queue.join_thread()
+
+    inference_process.join(timeout=2)
+    if inference_process.is_alive():
+        inference_process.terminate()
+        inference_process.join()
 
     close_sqlite(con=con)
     await close_reddit_client(reddit=reddit)

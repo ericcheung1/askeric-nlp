@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.clients.reddit import build_tree, get_comments, parse_submission_id, process_comments
 from app.clients.cache import query_from_table, write_to_table
+from app.core.multiprocessing_service import start_inference_process
 from app.core.webpage_service import (
     calculate_overall_sentiment,
     clean_model_inputs,
@@ -13,7 +14,7 @@ from app.core.webpage_service import (
     reconcile_outputs,
     VERSION
 )
-from ml.sentiment.inference import sentiment_score, softmax
+from ml.sentiment.inference import softmax
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -32,8 +33,15 @@ def index(request: Request):
 @router.post("/sentence_input", response_class=HTMLResponse)
 async def user_input(request: Request, input: str=Form(...)):
 
-    model_session = request.state.model_session
-    tokenizer = request.state.tokenizer
+    result_queue = request.state.result_queue
+    task_queue = request.state.task_queue
+    inference_process = request.state.inference_process
+
+    if not inference_process.is_alive():
+        task_queue, result_queue, inference_process = start_inference_process()
+        request.state.result_queue = result_queue
+        request.state.task_queue = task_queue
+        request.state.inference_process = inference_process
 
     # build a mock model input object with mock id
     mock_id = "abc123"
@@ -46,14 +54,11 @@ async def user_input(request: Request, input: str=Form(...)):
     clean_model_inputs(model_inputs=model_inputs)
     raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
 
-    # scores comments with sentiment, formats outputs
-    raw_outputs = await anyio.to_thread.run_sync(
-        sentiment_score,
-        model_session,
-        tokenizer,
-        raw_inputs,
-        limiter=limiter_3
-    )
+    # scores comments with sentiment in separate process
+    task_queue.put(raw_inputs)
+    raw_outputs = result_queue.get()
+
+    # formats outputs
     result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
 
     context = {
@@ -72,9 +77,16 @@ async def user_input(request: Request, input: str=Form(...)):
 async def reddit_input(request: Request, url: str=Form(...)):
 
     con = request.state.con
-    model_session = request.state.model_session
     reddit = request.state.reddit
-    tokenizer = request.state.tokenizer
+    result_queue = request.state.result_queue
+    task_queue = request.state.task_queue
+    inference_process = request.state.inference_process
+
+    if not inference_process.is_alive():
+        task_queue, result_queue, inference_process = start_inference_process()
+        request.state.result_queue = result_queue
+        request.state.task_queue = task_queue
+        request.state.inference_process = inference_process
 
     submission_id = parse_submission_id(url=url)
     comment_tree, overall_sentiment, metadata = await anyio.to_thread.run_sync(
@@ -93,14 +105,11 @@ async def reddit_input(request: Request, url: str=Form(...)):
         # pre-building comment tree structure, fill with sentiment scores after
         comment_tree = build_tree(comments=comments)
 
-        # scores comments with sentiment, formats outputs
-        raw_outputs = await anyio.to_thread.run_sync(
-            sentiment_score,
-            model_session,
-            tokenizer,
-            raw_inputs,
-            limiter=limiter_1
-        )
+        # scores comments with sentiment in separate inference process
+        task_queue.put(raw_inputs)
+        raw_outputs = result_queue.get()
+
+        # formats outputs
         result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
 
         # fills pre-built comment tree with sentiment scores

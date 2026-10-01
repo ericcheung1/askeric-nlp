@@ -1,6 +1,5 @@
 import anyio
 from fastapi import APIRouter, Request
-from fastapi.responses import JSONResponse
 
 from app.core.api_service import (
     clean_sentence_input,
@@ -9,7 +8,8 @@ from app.core.api_service import (
     SentenceInput,
     SentenceOutput
 )
-from ml.sentiment.inference import sentiment_score, softmax
+from app.core.multiprocessing_service import start_inference_process
+from ml.sentiment.inference import softmax
 
 router = APIRouter()
 limiter_3 = anyio.CapacityLimiter(3)
@@ -23,21 +23,24 @@ async def healthcheck(request: Request):
 @router.post("/api/v1/sentence-sentiment", response_model=SentenceOutput)
 async def sentence_sentiment(request: Request, sentence_input: SentenceInput):
 
-    model_session = request.state.model_session
-    tokenizer = request.state.tokenizer
+    result_queue = request.state.result_queue
+    task_queue = request.state.task_queue
+    inference_process = request.state.inference_process
+
+    if not inference_process.is_alive():
+        task_queue, result_queue, inference_process = start_inference_process()
+        request.state.result_queue = result_queue
+        request.state.task_queue = task_queue
+        request.state.inference_process = inference_process
 
     # clean comments, preparing for sentiment scoring
     clean_sentence_input(sentence_input=sentence_input)
     texts, ids = prepare_model_inputs(sentence_input=sentence_input)
 
-    # scores comments with sentiment, formats outputs
-    sentiment_output = await anyio.to_thread.run_sync(
-        sentiment_score,
-        model_session,
-        tokenizer,
-        texts,
-        limiter=limiter_3
-    )
+    # scores comments with sentiment in separate process
+    task_queue.put(texts)
+    sentiment_output = result_queue.get()
+
     sentiment_results = formats_result(
         sentiment_output=sentiment_output,
         texts=texts,
