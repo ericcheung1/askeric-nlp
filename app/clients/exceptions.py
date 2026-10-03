@@ -1,10 +1,12 @@
 import logging
+
 from fastapi import Request, status
 from fastapi.templating import Jinja2Templates
 
 logger = logging.getLogger(__name__)
 
 templates = Jinja2Templates(directory="app/templates")
+
 
 class CommentFetchingError(Exception):
     """Exception class for errors on fetching comments from PRAW"""
@@ -20,15 +22,13 @@ def comment_error_handler(request: Request, exception: CommentFetchingError):
     """Handles CommentFetchingError by returning error HTML template"""
 
     # NOTE: return 400 status to server output
-    context = {
-        "message": exception.message
-    }
+    context = {"message": exception.message}
 
-    logger.error(f"{str(exception.message)} msg", exc_info=exception)
+    logger.error(f"{exception.message!s} msg", exc_info=exception)
 
     return templates.TemplateResponse(
         request=request,
         name="error.html",
         context=context,
-        status_code=status.HTTP_400_BAD_REQUEST
+        status_code=status.HTTP_400_BAD_REQUEST,
     )

@@ -1,14 +1,15 @@
 import logging
+from pathlib import Path
 
 import numpy as np
 import onnxruntime as ort
-from pathlib import Path
 from tokenizers import Tokenizer
 
 logger = logging.getLogger(__name__)
 
 DISTILBERT_ONNX = Path("ml/sentiment/distilbert_fp16_onnx/distilbert_fp16.onnx")
 TOKENIZER_JSON = Path("ml/sentiment/distilbert_fp16_onnx/tokenizer.json")
+
 
 def sentiment_load_model():
     """Loads sentiment model in onnx runtime"""
@@ -20,14 +21,16 @@ def sentiment_load_model():
         sess_options.intra_op_num_threads = 1
         sess_options.inter_op_num_threads = 1
         sess_options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
-        
-        model_session = ort.InferenceSession(DISTILBERT_ONNX, providers=["CPUExecutionProvider"])
+
+        model_session = ort.InferenceSession(
+            DISTILBERT_ONNX, providers=["CPUExecutionProvider"]
+        )
         logger.info("Successfully Loaded Sentiment Model in 'sentiment_load_model'")
 
         return model_session
 
     except Exception as e:
-        logger.critical(f"{str(e)} in 'sentiment_load_model'")
+        logger.critical(f"{e!s} in 'sentiment_load_model'")
         raise FileNotFoundError
 
 
@@ -40,16 +43,16 @@ def sentiment_load_tokenizer():
         logger.info("Successfully Loaded Tokenizer in 'sentiment_load_tokenizer'")
 
         return tokenizer
-    
+
     except Exception as e:
-        logger.critical(f"{str(e)} in 'sentiment_load_tokenizer'")
+        logger.critical(f"{e!s} in 'sentiment_load_tokenizer'")
         raise FileNotFoundError
 
 
 def sentiment_score(model_session, tokenizer, input):
     """
     Takes a onnx model session, tokenizer from tokenizers library,
-    tokenized text input, and text ids. Runs distilbert model on 
+    tokenized text input, and text ids. Runs distilbert model on
     text inputs and returns output logits as a list.
     """
 
@@ -57,10 +60,7 @@ def sentiment_score(model_session, tokenizer, input):
     token_ids = np.array([item.ids for item in tokenized_inputs])
     attention_masks = np.array([item.attention_mask for item in tokenized_inputs])
 
-    inputs = {
-        "input_ids": token_ids,
-        "attention_mask": attention_masks
-    }
+    inputs = {"input_ids": token_ids, "attention_mask": attention_masks}
 
     # runs onnx distilbert on tokenized inputs
     # outputs is a n-dim numpy array

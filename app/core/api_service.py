@@ -1,37 +1,44 @@
 import logging
+
 import numpy as np
 from pydantic import BaseModel
-from typing import Dict, List
 
 logger = logging.getLogger(__name__)
 
+
 class Text(BaseModel):
     """Represents a single piece of text"""
+
     id: str | None = None
     text: str
+
 
 class SentenceInput(BaseModel):
     """Represents a whole input payload with list of texts"""
+
     id: str | None = None
-    inputs: List[Text]
+    inputs: list[Text]
+
 
 class SentimentResult(BaseModel):
     """Represents a result for analysis on a single piece of text"""
+
     id: str | None = None
     text: str
     classification: str
-    confidence: Dict[str, float]
+    confidence: dict[str, float]
+
 
 class SentenceOutput(BaseModel):
     """Represents an outgoing output payload with list of results"""
+
     id: str | None = None
-    sentiment: List[SentimentResult]
+    sentiment: list[SentimentResult]
 
 
 def clean_sentence_input(sentence_input: SentenceInput):
     """Lowercase and strip text in sentence input"""
     for item in sentence_input.inputs:
-
         item.text = item.text.lower().strip()
 
     logger.debug("Cleaned input: %s", sentence_input.inputs)
@@ -62,15 +69,12 @@ def formats_result(sentiment_output, texts, ids, softmax):
         softmax_result = softmax(result)
         confidence = {
             "NEGATIVE": float(softmax_result[0]),
-            "POSITIVE": float(softmax_result[1])
+            "POSITIVE": float(softmax_result[1]),
         }
         classification = sentiment_map[int(argmax)]
         sentiment_results.append(
             SentimentResult(
-                id=id,
-                text=text,
-                confidence=confidence,
-                classification=classification
+                id=id, text=text, confidence=confidence, classification=classification
             )
         )
 

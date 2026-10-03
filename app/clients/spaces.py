@@ -8,6 +8,7 @@ from botocore.config import Config
 
 logger = logging.getLogger(__name__)
 
+
 def start_spaces_client():
     """Uses boto3 as a client to access spaces"""
 
@@ -17,14 +18,14 @@ def start_spaces_client():
             "s3",
             region_name=os.getenv("REGION_NAME"),
             endpoint_url=os.getenv("ENDPOINT_URL"),
-            config=Config(signature_version=UNSIGNED)
+            config=Config(signature_version=UNSIGNED),
         )
         logger.info("Successfully Started Spaces Client in 'start_spaces_client'")
 
         return client
 
     except Exception as e:
-        logger.critical(f"{str(e)} in 'start_spaces_client'")
+        logger.critical(f"{e!s} in 'start_spaces_client'")
         raise RuntimeError
 
 
@@ -35,13 +36,13 @@ def weight_dir_check():
     WEIGHT_DIR.mkdir(parents=True, exist_ok=True)
     logger.info("Weight Directory Exists in 'weight_dir_check'")
 
-    
+
 def download_spaces_files(spaces_client):
     """Download weights files if they don't exist"""
 
     local_files = [
         "ml/sentiment/distilbert_fp16_onnx/distilbert_fp16.onnx",
-        "ml/sentiment/distilbert_fp16_onnx/tokenizer.json"
+        "ml/sentiment/distilbert_fp16_onnx/tokenizer.json",
     ]
 
     weights_exists = all(Path(local_file).is_file() for local_file in local_files)
@@ -55,14 +56,16 @@ def download_spaces_files(spaces_client):
         try:
             for file in spaces_files:
                 spaces_client.download_file(
-                    Bucket=os.getenv("BUCKET"), 
-                    Key=file, 
-                    Filename=f"ml/sentiment/{file}"
+                    Bucket=os.getenv("BUCKET"),
+                    Key=file,
+                    Filename=f"ml/sentiment/{file}",
                 )
-            logger.info("Successfully Downloaded Weight Files in 'download_spaces_files'")
+            logger.info(
+                "Successfully Downloaded Weight Files in 'download_spaces_files'"
+            )
 
         except Exception as e:
-            logger.critical(f"{str(e)} in 'download_spaces_files'")
+            logger.critical(f"{e!s} in 'download_spaces_files'")
             raise RuntimeError
 
     else:

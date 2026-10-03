@@ -1,9 +1,10 @@
 import json
 import logging
-from pathlib import Path
 import sqlite3
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
+
 
 def init_sqlite():
     """Initialized sqlite and creates table"""
@@ -31,9 +32,9 @@ def init_sqlite():
         logger.info("Successfully Initialized Cache in 'init_sqlite'")
 
         return con
-    
+
     except sqlite3.Error as e:
-        logger.critical(f"{str(e)} in 'init_sqlite'")
+        logger.critical(f"{e!s} in 'init_sqlite'")
         raise RuntimeError
 
 
@@ -51,7 +52,7 @@ def query_from_table(submission_id, con):
         query_result = cur.fetchone()
 
     except sqlite3.Error as e:
-        logger.warning(f"{str(e)} in 'query_from_table'")
+        logger.warning(f"{e!s} in 'query_from_table'")
         query_result = None
 
     if query_result is None:
@@ -88,9 +89,14 @@ def write_to_table(submission_id, comment_tree, overall_sentiment, metadata, con
                 VALUES (?, ?, ?, ?)
                 ON CONFLICT(submission_id) DO NOTHING;
             """
-            con.execute(query, (submission_id, comment_tree_str, overall_sentiment_str, metadata_str))
+            con.execute(
+                query,
+                (submission_id, comment_tree_str, overall_sentiment_str, metadata_str),
+            )
             con.commit()
-            logger.info("Successfully Cached Post to Database Table in 'write_to_table'")
+            logger.info(
+                "Successfully Cached Post to Database Table in 'write_to_table'"
+            )
 
     except sqlite3.Error as e:
-        logger.warning(f"{str(e)} in 'write_to_table'")
+        logger.warning(f"{e!s} in 'write_to_table'")

@@ -3,16 +3,21 @@ from fastapi import APIRouter, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from app.clients.reddit import build_tree, get_comments, parse_submission_id, process_comments
 from app.clients.cache import query_from_table, write_to_table
+from app.clients.reddit import (
+    build_tree,
+    get_comments,
+    parse_submission_id,
+    process_comments,
+)
 from app.core.multiprocessing_service import start_inference_process
 from app.core.webpage_service import (
+    VERSION,
     calculate_overall_sentiment,
     clean_model_inputs,
     prepare_model_inputs,
     rebuild_comment_tree,
     reconcile_outputs,
-    VERSION
 )
 from ml.sentiment.inference import softmax
 
@@ -21,17 +26,16 @@ templates = Jinja2Templates(directory="app/templates")
 limiter_1 = anyio.CapacityLimiter(1)
 limiter_3 = anyio.CapacityLimiter(3)
 
+
 @router.get("/", response_class=HTMLResponse)
 def index(request: Request):
     return templates.TemplateResponse(
-        request=request,
-        name="index.html",
-        context={"version": VERSION}
+        request=request, name="index.html", context={"version": VERSION}
     )
 
 
 @router.post("/sentence_input", response_class=HTMLResponse)
-async def user_input(request: Request, input: str=Form(...)):
+async def user_input(request: Request, input: str = Form(...)):
 
     result_queue = request.state.result_queue
     task_queue = request.state.task_queue
@@ -45,10 +49,7 @@ async def user_input(request: Request, input: str=Form(...)):
 
     # build a mock model input object with mock id
     mock_id = "abc123"
-    model_inputs = [{
-        "text": str(input),
-        "text_id": mock_id
-    }]
+    model_inputs = [{"text": str(input), "text_id": mock_id}]
 
     # clean comments, preparing for sentiment scoring
     clean_model_inputs(model_inputs=model_inputs)
@@ -63,18 +64,16 @@ async def user_input(request: Request, input: str=Form(...)):
 
     context = {
         "classification": result_map[mock_id]["sentiment_class"],
-        "confidence": result_map[mock_id]["sentiment_conf"]
+        "confidence": result_map[mock_id]["sentiment_conf"],
     }
 
     return templates.TemplateResponse(
-        request=request,
-        name="sentence_result.html",
-        context=context
+        request=request, name="sentence_result.html", context=context
     )
 
 
 @router.post("/reddit_input", response_class=HTMLResponse)
-async def reddit_input(request: Request, url: str=Form(...)):
+async def reddit_input(request: Request, url: str = Form(...)):
 
     con = request.state.con
     reddit = request.state.reddit
@@ -90,13 +89,10 @@ async def reddit_input(request: Request, url: str=Form(...)):
 
     submission_id = parse_submission_id(url=url)
     comment_tree, overall_sentiment, metadata = await anyio.to_thread.run_sync(
-        query_from_table, 
-        submission_id, 
-        con
+        query_from_table, submission_id, con
     )
 
     if comment_tree is None or overall_sentiment is None or metadata is None:
-
         comments, metadata = await get_comments(reddit=reddit, id=submission_id)
         model_inputs = process_comments(comments=comments)
         clean_model_inputs(model_inputs=model_inputs)
@@ -110,7 +106,9 @@ async def reddit_input(request: Request, url: str=Form(...)):
         raw_outputs = result_queue.get()
 
         # formats outputs
-        result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
+        result_map = reconcile_outputs(
+            raw_outputs=raw_outputs, ids=ids, softmax=softmax
+        )
 
         # fills pre-built comment tree with sentiment scores
         rebuild_comment_tree(comment_tree=comment_tree, result_map=result_map)
@@ -123,7 +121,7 @@ async def reddit_input(request: Request, url: str=Form(...)):
             overall_sentiment,
             metadata,
             con,
-            limiter=limiter_3
+            limiter=limiter_3,
         )
 
     context = {
@@ -132,11 +130,9 @@ async def reddit_input(request: Request, url: str=Form(...)):
         "post_title": metadata["title"],
         "post_body": metadata["post_body"],
         "subreddit_name": metadata["subreddit"],
-        "post_author": metadata["author"]
+        "post_author": metadata["author"],
     }
 
     return templates.TemplateResponse(
-        request=request,
-        name="reddit_result.html",
-        context=context
+        request=request, name="reddit_result.html", context=context
     )

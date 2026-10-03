@@ -1,19 +1,24 @@
 import logging
 import os
-
 from contextlib import asynccontextmanager
+
+import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI
-import uvicorn
 
 from app.clients.cache import close_sqlite, init_sqlite
-from app.clients.exceptions import comment_error_handler, CommentFetchingError
+from app.clients.exceptions import CommentFetchingError, comment_error_handler
 from app.clients.reddit import close_reddit_client, start_reddit_client
-from app.clients.spaces import download_spaces_files, start_spaces_client, weight_dir_check
+from app.clients.spaces import (
+    download_spaces_files,
+    start_spaces_client,
+    weight_dir_check,
+)
 from app.core.multiprocessing_service import start_inference_process
 from app.router import api, webpage
 
 DEBUG_LOGS = os.environ.get("DEBUG_LOGS", "0") == "1"
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

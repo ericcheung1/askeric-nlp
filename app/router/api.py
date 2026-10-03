@@ -2,11 +2,11 @@ import anyio
 from fastapi import APIRouter, Request
 
 from app.core.api_service import (
+    SentenceInput,
+    SentenceOutput,
     clean_sentence_input,
     formats_result,
     prepare_model_inputs,
-    SentenceInput,
-    SentenceOutput
 )
 from app.core.multiprocessing_service import start_inference_process
 from ml.sentiment.inference import softmax
@@ -42,10 +42,7 @@ async def sentence_sentiment(request: Request, sentence_input: SentenceInput):
     sentiment_output = result_queue.get()
 
     sentiment_results = formats_result(
-        sentiment_output=sentiment_output,
-        texts=texts,
-        ids=ids,
-        softmax=softmax
+        sentiment_output=sentiment_output, texts=texts, ids=ids, softmax=softmax
     )
 
     output = SentenceOutput(id=sentence_input.id, sentiment=sentiment_results)
