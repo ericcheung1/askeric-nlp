@@ -51,6 +51,7 @@ def score_sentiment(model_session, tokenizer, text_inputs):
 
 
 def inference_loop(task_queue, result_queue):
+    """Target function for dedicated inference process"""
     model_session = sentiment_load_model()
     tokenizer = sentiment_load_tokenizer()
 

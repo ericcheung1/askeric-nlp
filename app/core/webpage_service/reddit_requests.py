@@ -11,18 +11,14 @@ MAX_COMMENTS = 15
 
 
 def build_tree(comments):
-    """Takes comments and recreates the comment tree structure through a DFS approach"""
+    """Builds the comment tree structure in DFS order and clean comment body"""
 
     count = 0
     comment_tree = []
     comment_map = {}
     comment_stack = copy.deepcopy(comments)
 
-    # DFS traversal of comment forest
-    # copies comment tree structure to 'comments' list
-    # also creates payload in same DFS order
     while comment_stack:
-        # pops top of stack/last element of list
         comment = comment_stack.pop()
 
         comment_info = {
@@ -78,7 +74,7 @@ def format_reddit_input(comment_map):
 
 
 def format_reddit_output(output_list, comment_map):
-    """Formats outputs for Reddit request type"""
+    """Formats sentiment label and confidence output for Reddit request type"""
     sentiment_map = {0: "NEGATIVE", 1: "POSITIVE"}
 
     for output, comment_info in zip(output_list, comment_map.values()):
