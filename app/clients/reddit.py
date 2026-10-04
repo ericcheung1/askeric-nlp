@@ -1,4 +1,3 @@
-import copy
 import logging
 import os
 import re
@@ -44,7 +43,7 @@ def parse_submission_id(url):
         raise CommentFetchingError(message="Failed to Parse For Submission ID")
 
 
-async def get_comments(reddit, id):
+async def get_post(reddit, id):
     """
     Takes a AsyncPRAW reddit instance and a reddit post url
     and returns a list of 5 top level comments
@@ -64,7 +63,7 @@ async def get_comments(reddit, id):
         comments = submission.comments[:]
 
         logger.debug(
-            "Comments from from submission [%s] in 'get_comments':\n%s",
+            "Comments from from submission [%s] in 'get_post':\n%s",
             submission_id,
             comments,
         )
@@ -72,16 +71,17 @@ async def get_comments(reddit, id):
         if not comments:
             raise CommentFetchingError(message="No Comments Found")
 
-        logger.info("Successfully Retrieved Comments in 'get_comments'")
+        logger.info("Successfully Retrieved Comments in 'get_post'")
 
-        metadata = {
+        post = {
+            "comments": comments,
             "title": submission_title,
             "post_body": submission_selftext,
             "subreddit": submission_subreddit,
             "author": submission_author,
         }
 
-        return comments, metadata
+        return post
 
     except InvalidURL as e:
         raise CommentFetchingError(message=f"{e!s}") from e
@@ -99,83 +99,3 @@ async def get_comments(reddit, id):
 async def close_reddit_client(reddit):
     """Closes connect to AsyncPRAW reddit instance"""
     await reddit.close()
-
-
-def process_comments(comments):
-    """Processes comments into model_inputs map"""
-
-    count = 0
-    model_inputs = []
-
-    comment_stack = copy.deepcopy(comments)
-
-    while comment_stack:
-        # pops top of stack/last element of list
-        comment = comment_stack.pop()
-
-        model_inputs.append({"text": str(comment.body), "text_id": str(comment.id)})
-        count += 1
-
-        if count >= 15:
-            break
-
-        comment_stack.extend(comment.replies)
-
-    logger.debug("Model Inputs from 'process_comments':\n%s", model_inputs)
-    logger.info("Successfully Processed Comments in 'process_comments'")
-
-    return model_inputs
-
-
-def build_tree(comments):
-    """Takes comments and recreates the comment tree structure through a DFS approach"""
-
-    count = 0
-    comment_tree = []
-    comment_map = {}
-    comment_stack = copy.deepcopy(comments)
-
-    # DFS traversal of comment forest
-    # copies comment tree structure to 'comments' list
-    # also creates payload in same DFS order
-    while comment_stack:
-        # pops top of stack/last element of list
-        comment = comment_stack.pop()
-
-        comment_info = {
-            "comment": str(comment.body),
-            "comment_id": str(comment.id),
-            "parent_id": str(comment.parent_id),
-            "username": str(comment.author.name) if comment.author else "[user]",
-            "replies": [],
-        }
-
-        # maps comment id as key, comment info as value
-        # acts as a reference to append replies to
-        comment_map[comment.id] = comment_info
-
-        # top level comments' parent id starts with t3_
-        if comment.parent_id.startswith("t3_"):
-            comment_tree.append(comment_info)
-            count += 1
-
-        # replies' parent id starts with t1_
-        elif comment.parent_id.startswith("t1_"):
-            parent_id = comment.parent_id[3:]
-
-            if parent_id in comment_map:
-                # a child's parent id is the parent's comment id
-                # this modifies 'replies' field in the 'comments' list
-                comment_map[parent_id]["replies"].append(comment_info)
-                count += 1
-
-        if count >= 15:
-            break
-
-        # push replies to top of stack/end of list
-        comment_stack.extend(comment.replies)
-
-    logger.debug("Comment Tree from 'build_tree'\n%s", comment_tree)
-    logger.info("Successfully Built Comment Tree in 'built_tree'")
-
-    return comment_tree

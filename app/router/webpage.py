@@ -5,21 +5,22 @@ from fastapi.templating import Jinja2Templates
 
 from app.clients.cache import query_from_table, write_to_table
 from app.clients.reddit import (
-    build_tree,
-    get_comments,
+    get_post,
     parse_submission_id,
-    process_comments,
 )
-from app.core.multiprocessing_service import start_inference_process
-from app.core.webpage_service import (
-    VERSION,
+from app.core.inference_process import start_inference_process
+from app.core.webpage_service.common import VERSION
+from app.core.webpage_service.reddit_requests import (
+    build_tree,
     calculate_overall_sentiment,
-    clean_model_inputs,
-    prepare_model_inputs,
-    rebuild_comment_tree,
-    reconcile_outputs,
+    format_reddit_input,
+    format_reddit_output,
 )
-from ml.sentiment.inference import softmax
+from app.core.webpage_service.sentence_requests import (
+    clean_sentence_input,
+    format_sentence_input,
+    format_sentence_output,
+)
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -34,7 +35,7 @@ def index(request: Request):
     )
 
 
-@router.post("/sentence_input", response_class=HTMLResponse)
+@router.post("/sentence-request", response_class=HTMLResponse)
 async def user_input(request: Request, input: str = Form(...)):
 
     result_queue = request.state.result_queue
@@ -47,24 +48,18 @@ async def user_input(request: Request, input: str = Form(...)):
         request.state.task_queue = task_queue
         request.state.inference_process = inference_process
 
-    # build a mock model input object with mock id
-    mock_id = "abc123"
-    model_inputs = [{"text": str(input), "text_id": mock_id}]
-
-    # clean comments, preparing for sentiment scoring
-    clean_model_inputs(model_inputs=model_inputs)
-    raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
+    clean_sentence_input(input=input)
+    text_input = format_sentence_input(input=input)
 
     # scores comments with sentiment in separate process
-    task_queue.put(raw_inputs)
-    raw_outputs = result_queue.get()
+    task_queue.put(text_input)
+    output_list = result_queue.get()
 
-    # formats outputs
-    result_map = reconcile_outputs(raw_outputs=raw_outputs, ids=ids, softmax=softmax)
+    classification, confidence = format_sentence_output(output_list=output_list)
 
     context = {
-        "classification": result_map[mock_id]["sentiment_class"],
-        "confidence": result_map[mock_id]["sentiment_conf"],
+        "classification": classification,
+        "confidence": confidence,
     }
 
     return templates.TemplateResponse(
@@ -72,7 +67,7 @@ async def user_input(request: Request, input: str = Form(...)):
     )
 
 
-@router.post("/reddit_input", response_class=HTMLResponse)
+@router.post("/reddit-request", response_class=HTMLResponse)
 async def reddit_input(request: Request, url: str = Form(...)):
 
     con = request.state.con
@@ -88,49 +83,42 @@ async def reddit_input(request: Request, url: str = Form(...)):
         request.state.inference_process = inference_process
 
     submission_id = parse_submission_id(url=url)
-    comment_tree, overall_sentiment, metadata = await anyio.to_thread.run_sync(
-        query_from_table, submission_id, con
-    )
+    # comment_tree, overall_sentiment, metadata = await anyio.to_thread.run_sync(
+    #     query_from_table, submission_id, con
+    # )
+    comment_tree = None
+    overall_sentiment = None
 
-    if comment_tree is None or overall_sentiment is None or metadata is None:
-        comments, metadata = await get_comments(reddit=reddit, id=submission_id)
-        model_inputs = process_comments(comments=comments)
-        clean_model_inputs(model_inputs=model_inputs)
-        raw_inputs, ids = prepare_model_inputs(model_inputs=model_inputs)
+    if comment_tree is None or overall_sentiment is None:
+        post = await get_post(reddit=reddit, id=submission_id)
+        comment_tree, comment_map = build_tree(comments=post["comments"])
 
-        # pre-building comment tree structure, fill with sentiment scores after
-        comment_tree = build_tree(comments=comments)
+        text_inputs = format_reddit_input(comment_map=comment_map)
 
-        # scores comments with sentiment in separate inference process
-        task_queue.put(raw_inputs)
-        raw_outputs = result_queue.get()
+        task_queue.put(text_inputs)
+        output_list = result_queue.get()
 
-        # formats outputs
-        result_map = reconcile_outputs(
-            raw_outputs=raw_outputs, ids=ids, softmax=softmax
-        )
+        format_reddit_output(output_list=output_list, comment_map=comment_map)
 
-        # fills pre-built comment tree with sentiment scores
-        rebuild_comment_tree(comment_tree=comment_tree, result_map=result_map)
         overall_sentiment = calculate_overall_sentiment(comment_tree=comment_tree)
 
-        await anyio.to_thread.run_sync(
-            write_to_table,
-            submission_id,
-            comment_tree,
-            overall_sentiment,
-            metadata,
-            con,
-            limiter=limiter_3,
-        )
+        # await anyio.to_thread.run_sync(
+        #     write_to_table,
+        #     submission_id,
+        #     comment_tree,
+        #     overall_sentiment,
+        #     metadata,
+        #     con,
+        #     limiter=limiter_3,
+        # )
 
     context = {
         "comment_tree": comment_tree,
         "overall_sentiment": overall_sentiment,
-        "post_title": metadata["title"],
-        "post_body": metadata["post_body"],
-        "subreddit_name": metadata["subreddit"],
-        "post_author": metadata["author"],
+        "post_title": post["title"],
+        "post_body": post["post_body"],
+        "subreddit_name": post["subreddit"],
+        "post_author": post["author"],
     }
 
     return templates.TemplateResponse(

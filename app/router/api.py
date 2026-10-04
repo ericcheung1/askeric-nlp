@@ -8,8 +8,8 @@ from app.core.api_service import (
     formats_result,
     prepare_model_inputs,
 )
-from app.core.multiprocessing_service import start_inference_process
-from ml.sentiment.inference import softmax
+from app.core.inference_process import start_inference_process
+from app.core.webpage_service.common import softmax
 
 router = APIRouter()
 limiter_3 = anyio.CapacityLimiter(3)

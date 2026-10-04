@@ -10,7 +10,7 @@
             <span class="text-gray-400">•</span>
             
             {# Color-coded sentiment badges #}
-            {% set s_class = comment.sentiment.sentiment_class | upper %}
+            {% set s_class = comment.sentiment_class | upper %}
             {% if s_class == 'POSITIVE' %}
                 <span class="font-bold text-green-700 border border-green-600 px-1.5 py-0.5 text-xs bg-green-50 rounded-sm ml-1">POSITIVE</span>
             {% elif s_class == 'NEGATIVE' %}
@@ -19,7 +19,7 @@
                 <span class="font-bold text-gray-700 border border-gray-400 px-1.5 py-0.5 text-xs bg-gray-100 rounded-sm ml-1">{{ s_class }}</span>
             {% endif %}
             
-            <span class="text-gray-500 font-normal ml-2 text-xs">Confidence: {{ comment.sentiment.sentiment_conf|max|round(3) }}</span>
+            <span class="text-gray-500 font-normal ml-2 text-xs">Confidence: {{ comment.sentiment_conf|max|round(3) }}</span>
         </div>
         
         {# Comment Body #}
