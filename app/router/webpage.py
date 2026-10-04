@@ -83,15 +83,14 @@ async def reddit_input(request: Request, url: str = Form(...)):
         request.state.inference_process = inference_process
 
     submission_id = parse_submission_id(url=url)
-    # comment_tree, overall_sentiment, metadata = await anyio.to_thread.run_sync(
-    #     query_from_table, submission_id, con
-    # )
-    comment_tree = None
-    overall_sentiment = None
+    comment_tree, overall_sentiment, post = await anyio.to_thread.run_sync(
+        query_from_table, submission_id, con
+    )
 
-    if comment_tree is None or overall_sentiment is None:
+    if comment_tree is None or overall_sentiment is None or post is None:
         post = await get_post(reddit=reddit, id=submission_id)
-        comment_tree, comment_map = build_tree(comments=post["comments"])
+        comments = post.pop("comments")
+        comment_tree, comment_map = build_tree(comments=comments)
 
         text_inputs = format_reddit_input(comment_map=comment_map)
 
@@ -102,15 +101,15 @@ async def reddit_input(request: Request, url: str = Form(...)):
 
         overall_sentiment = calculate_overall_sentiment(comment_tree=comment_tree)
 
-        # await anyio.to_thread.run_sync(
-        #     write_to_table,
-        #     submission_id,
-        #     comment_tree,
-        #     overall_sentiment,
-        #     metadata,
-        #     con,
-        #     limiter=limiter_3,
-        # )
+        await anyio.to_thread.run_sync(
+            write_to_table,
+            submission_id,
+            comment_tree,
+            overall_sentiment,
+            post,
+            con,
+            limiter=limiter_3,
+        )
 
     context = {
         "comment_tree": comment_tree,
