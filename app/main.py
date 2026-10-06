@@ -14,7 +14,7 @@ from app.clients.spaces import (
     start_spaces_client,
     weight_dir_check,
 )
-from app.core.multiprocessing_service import start_inference_process
+from app.core.inference_process import start_inference_process
 from app.router import api, webpage
 
 DEBUG_LOGS = os.environ.get("DEBUG_LOGS", "0") == "1"

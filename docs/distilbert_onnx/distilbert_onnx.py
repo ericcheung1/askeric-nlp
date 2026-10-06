@@ -1,5 +1,3 @@
-from optimum.onnxruntime import ORTModelForSequenceClassification, ORTQuantizer
-from optimum.onnxruntime.configuration import AutoQuantizationConfig
 from optimum.onnxruntime import ORTModelForSequenceClassification, ORTOptimizer
 from optimum.onnxruntime.configuration import OptimizationConfig
 from transformers import AutoTokenizer
@@ -14,8 +12,8 @@ model = ORTModelForSequenceClassification.from_pretrained(model_id, export=True)
 optimizer = ORTOptimizer.from_pretrained(model)
 
 opt_config = OptimizationConfig(
-    optimization_level=99, # Enables all fusions (LayerNorm, Attention, etc.)
-    fp16=True             
+    optimization_level=99,  # Enables all fusions (LayerNorm, Attention, etc.)
+    fp16=True,
 )
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 

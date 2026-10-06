@@ -63,7 +63,7 @@
             </p>
 
             <form 
-                hx-post="/reddit_input" 
+                hx-post="/reddit-request" 
                 hx-target="#post_result"
                 hx-target-400="#post_result"
                 hx-indicator="#spinner1"
@@ -91,7 +91,7 @@
             <h2 class="text-lg font-bold text-blue-800 mb-1">Analyze a Sentence</h2>
             <p class="text-xs text-gray-500 mb-4">Enter a standalone sentence to check its sentiment.</p>
 
-            <form hx-post="/sentence_input" hx-target="#sentence_result">
+            <form hx-post="/sentence-request" hx-target="#sentence_result">
                 <input type="text" name="input" required placeholder="Type your sentence here..."
                     class="w-full p-2.5 border border-gray-400 bg-white shadow-inner focus:outline-none focus:border-blue-500 rounded-sm text-sm"
                 />
