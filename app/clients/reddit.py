@@ -56,6 +56,7 @@ async def get_post(reddit, id):
         submission_selftext = submission.selftext
         submission_subreddit = submission.subreddit.display_name
         submission_author = submission.author.name
+        submission_url = submission.url
 
         # replace_more() method opens "MoreComments" objects
         # limit parameter sets number of "MoreComments" to replace
@@ -79,6 +80,7 @@ async def get_post(reddit, id):
             "post_body": submission_selftext,
             "subreddit": submission_subreddit,
             "author": submission_author,
+            "url": submission_url,
         }
 
         return post

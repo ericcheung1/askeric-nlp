@@ -83,13 +83,14 @@ async def reddit_input(request: Request, url: str = Form(...)):
         request.state.inference_process = inference_process
 
     submission_id = parse_submission_id(url=url)
-    comment_tree, overall_sentiment, post = await anyio.to_thread.run_sync(
+    comment_tree, overall_sentiment, post_data = await anyio.to_thread.run_sync(
         query_from_table, submission_id, con
     )
+    print(post_data==True)
 
-    if comment_tree is None or overall_sentiment is None or post is None:
-        post = await get_post(reddit=reddit, id=submission_id)
-        comments = post.pop("comments")
+    if comment_tree is None or overall_sentiment is None or post_data is None:
+        post_data = await get_post(reddit=reddit, id=submission_id)
+        comments = post_data.pop("comments")
         comment_tree, comment_map = build_tree(comments=comments)
 
         text_inputs = format_reddit_input(comment_map=comment_map)
@@ -106,18 +107,28 @@ async def reddit_input(request: Request, url: str = Form(...)):
             submission_id,
             comment_tree,
             overall_sentiment,
-            post,
+            post_data,
             con,
             limiter=limiter_3,
         )
 
+    import json
+    info = {
+        "submission_id": submission_id,
+        "post_data": post_data,
+        "comment_tree": comment_tree,
+        "overall_sentiment": overall_sentiment,
+    }
+    with open(f"post-{submission_id}.json", mode="w") as f:
+        f.write(json.dumps(info, default=str, indent=2))
+
     context = {
         "comment_tree": comment_tree,
         "overall_sentiment": overall_sentiment,
-        "post_title": post["title"],
-        "post_body": post["post_body"],
-        "subreddit_name": post["subreddit"],
-        "post_author": post["author"],
+        "post_title": post_data["title"],
+        "post_body": post_data["post_body"],
+        "subreddit_name": post_data["subreddit"],
+        "post_author": post_data["author"],
     }
 
     return templates.TemplateResponse(
