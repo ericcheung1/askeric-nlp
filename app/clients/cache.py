@@ -42,6 +42,7 @@ def read_seed_data():
 
     DATA_DIRECTORY.mkdir(exist_ok=True)
     data = []
+    urls = []
 
     for file_path in DATA_DIRECTORY.glob("*.json"):
         with open(file_path, "r", encoding="utf-8") as file:
@@ -50,14 +51,18 @@ def read_seed_data():
         submission_id = post["submission_id"]
         comment_tree = json.dumps(post["comment_tree"], default=str)
         overall_sentiment = json.dumps(post["overall_sentiment"], default=str)
+
+        url = post["post_data"]["url"]
+
         post_data = json.dumps(post["post_data"], default=str)
 
+        urls.append(url)
         data.append((submission_id, comment_tree, overall_sentiment, post_data))
 
-    logger.debug("data: %s", data)
+    logger.debug("data: %s", data[0])
     logger.info("successfully read seed data in 'read_seed_data'")
 
-    return data
+    return data, urls
 
 
 def close_sqlite(con):

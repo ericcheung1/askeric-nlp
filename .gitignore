@@ -31,6 +31,8 @@ Thumbs.db # Windows
 .env
 
 # others ;)
-*.json
+tokenizer.json
 *.onnx
 *.db
+*.db-shm
+*.db-wal

@@ -40,8 +40,8 @@ async def lifespan(app: FastAPI):
     download_spaces_files(spaces_client=spaces_client)
     
     con = init_sqlite()
-    seed_data = read_seed_data()
-    # write_many_to_table(data=seed_data, con=con)
+    seed_data, urls = read_seed_data()
+    write_many_to_table(data=seed_data, con=con)
     
     reddit = start_reddit_client()
 
@@ -53,6 +53,7 @@ async def lifespan(app: FastAPI):
         "result_queue": result_queue,
         "task_queue": task_queue,
         "inference_process": inference_process,
+        "urls": urls
     }
 
     yield state_data

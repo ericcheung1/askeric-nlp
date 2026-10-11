@@ -1,6 +1,7 @@
 import copy
 import json
 import logging
+from pathlib import Path
 
 import numpy as np
 
@@ -119,3 +120,18 @@ def calculate_overall_sentiment(comment_tree):
     )
 
     return {"count": count, "confidence": round(avg_conf, 3)}
+
+
+def save_post(submission_id, post_data, comment_tree, overall_sentiment):
+
+    DATA_DIR = Path("app/data")
+    
+    info = {
+        "submission_id": submission_id,
+        "post_data": post_data,
+        "comment_tree": comment_tree,
+        "overall_sentiment": overall_sentiment,
+    }
+
+    with open(DATA_DIR.joinpath(f"post-{submission_id}.json"), mode="w") as f:
+        f.write(json.dumps(info, default=str, indent=2))

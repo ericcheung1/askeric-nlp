@@ -1,0 +1,218 @@
+{
+  "submission_id": "1wzxjx4",
+  "post_data": {
+    "title": "Egg nog pancakes",
+    "post_body": "Since the season for it is coming up, I'm looking forward to using egg nog instead of milk for pancakes for holiday flavoring (also add cinnamon and/or nutmeg to the dry ingredients). It's a family favorite every year.",
+    "subreddit": "foodhacks",
+    "author": "00508",
+    "url": "https://www.reddit.com/r/foodhacks/comments/1wzxjx4/egg_nog_pancakes/"
+  },
+  "comment_tree": [
+    {
+      "comment": "Eggnog over oatmeal or cream of wheat during the holiday season\u2026 \ud83c\udf80",
+      "cleaned_comment": "eggnog over oatmeal or cream of wheat during the holiday season\u2026 \ud83c\udf80",
+      "comment_id": "pf566wf",
+      "parent_id": "t3_1wzxjx4",
+      "username": "dizzledorf",
+      "replies": [],
+      "sentiment_class": "NEGATIVE",
+      "sentiment_conf": [
+        0.9935493919296705,
+        0.006450608070329378
+      ]
+    },
+    {
+      "comment": "Yum. We did French toast like this and it was amazing",
+      "cleaned_comment": "yum. we did french toast like this and it was amazing",
+      "comment_id": "pejh3d4",
+      "parent_id": "t3_1wzxjx4",
+      "username": "Smallloudcat",
+      "replies": [],
+      "sentiment_class": "POSITIVE",
+      "sentiment_conf": [
+        0.00012780925926562684,
+        0.9998721907407344
+      ]
+    },
+    {
+      "comment": "I have never heard of this... I am now intrigued.",
+      "cleaned_comment": "i have never heard of this... i am now intrigued.",
+      "comment_id": "peni4j5",
+      "parent_id": "t3_1wzxjx4",
+      "username": "smooshiebear",
+      "replies": [],
+      "sentiment_class": "POSITIVE",
+      "sentiment_conf": [
+        0.0006905414693000791,
+        0.9993094585307
+      ]
+    },
+    {
+      "comment": "When I tell you I cried in the grocery store last year when egg nog emerged again (it was a tough year). I am doing this!! Thanks for the idea",
+      "cleaned_comment": "when i tell you i cried in the grocery store last year when egg nog emerged again (it was a tough year). i am doing this!! thanks for the idea",
+      "comment_id": "pejjc0l",
+      "parent_id": "t3_1wzxjx4",
+      "username": "KB_0626",
+      "replies": [],
+      "sentiment_class": "POSITIVE",
+      "sentiment_conf": [
+        0.002606165766549668,
+        0.9973938342334504
+      ]
+    },
+    {
+      "comment": "This is such a good idea. Don\u2019t know why I didn\u2019t think of it before lol",
+      "cleaned_comment": "this is such a good idea. don\u2019t know why i didn\u2019t think of it before lol",
+      "comment_id": "pefv20z",
+      "parent_id": "t3_1wzxjx4",
+      "username": "cellalovesfrankie",
+      "replies": [],
+      "sentiment_class": "POSITIVE",
+      "sentiment_conf": [
+        0.000800953612508541,
+        0.9991990463874916
+      ]
+    },
+    {
+      "comment": "OMG, this is awesome.    I had a gourmet vendor tell me to use Bailey's Irish cream in my french toast instead of milk and it is a game changer, with bourbon barrel maple syrup.   \n\nThis is brilliant, and I am going to try it.  Thank you.   WOW   fricken awesome!   ",
+      "cleaned_comment": "omg, this is awesome.    i had a gourmet vendor tell me to use bailey's irish cream in my french toast instead of milk and it is a game changer, with bourbon barrel maple syrup.   \n\nthis is brilliant, and i am going to try it.  thank you.   wow   fricken awesome!",
+      "comment_id": "peiuw7w",
+      "parent_id": "t3_1wzxjx4",
+      "username": "bretmon5",
+      "replies": [],
+      "sentiment_class": "POSITIVE",
+      "sentiment_conf": [
+        0.00016997528909631248,
+        0.9998300247109037
+      ]
+    },
+    {
+      "comment": "What about Halloween pancakes?! \ud83e\udd5e ",
+      "cleaned_comment": "what about halloween pancakes?! \ud83e\udd5e",
+      "comment_id": "pefpjzi",
+      "parent_id": "t3_1wzxjx4",
+      "username": "Fuzzy_Welcome8348",
+      "replies": [],
+      "sentiment_class": "NEGATIVE",
+      "sentiment_conf": [
+        0.9699566305886773,
+        0.030043369411322737
+      ]
+    },
+    {
+      "comment": "I highly recommend making a cranberry syrup to go with these!",
+      "cleaned_comment": "i highly recommend making a cranberry syrup to go with these!",
+      "comment_id": "pegfavp",
+      "parent_id": "t3_1wzxjx4",
+      "username": "HighAsAngelTitties",
+      "replies": [
+        {
+          "comment": "And topping with craisins",
+          "cleaned_comment": "and topping with craisins",
+          "comment_id": "pek202e",
+          "parent_id": "t1_pegfavp",
+          "username": "masson34",
+          "replies": [],
+          "sentiment_class": "POSITIVE",
+          "sentiment_conf": [
+            0.0006589401102677214,
+            0.9993410598897322
+          ]
+        }
+      ],
+      "sentiment_class": "POSITIVE",
+      "sentiment_conf": [
+        0.0003507527708246647,
+        0.9996492472291754
+      ]
+    },
+    {
+      "comment": "What?!?!  \n\n\u2026\u2026.. I wonder if my boss will let me leave work early to make pancakes?  ",
+      "cleaned_comment": "what?!?!  \n\n\u2026\u2026.. i wonder if my boss will let me leave work early to make pancakes?",
+      "comment_id": "pega0va",
+      "parent_id": "t3_1wzxjx4",
+      "username": "redbud-avenue-2000",
+      "replies": [],
+      "sentiment_class": "NEGATIVE",
+      "sentiment_conf": [
+        0.9964687931452992,
+        0.0035312068547008507
+      ]
+    },
+    {
+      "comment": "I do an egg nog French Toast bread pudding for Christmas morning breakfast. I usually two little loaf pans--one of them gets some chocolate chips, the other one is just the egg nog spices. Those pancakes sound divine, though! I may have to give them a try this year. ",
+      "cleaned_comment": "i do an egg nog french toast bread pudding for christmas morning breakfast. i usually two little loaf pans--one of them gets some chocolate chips, the other one is just the egg nog spices. those pancakes sound divine, though! i may have to give them a try this year.",
+      "comment_id": "peg12d2",
+      "parent_id": "t3_1wzxjx4",
+      "username": "Effective_Stranger85",
+      "replies": [
+        {
+          "comment": "Stop it, I\u2019m in !!!!!",
+          "cleaned_comment": "stop it, i\u2019m in !!!!!",
+          "comment_id": "pejt76p",
+          "parent_id": "t1_peg12d2",
+          "username": "saragracevt",
+          "replies": [],
+          "sentiment_class": "NEGATIVE",
+          "sentiment_conf": [
+            0.976557709915063,
+            0.023442290084936986
+          ]
+        },
+        {
+          "comment": "This. A stroke of genius. Can't wait to try this out.\n\nAlso, if you don't already, a couple of tablespoons of Bourbon in the bread pudding batter doesn't go astray. And, if you can get thick sliced raisin brioche as your bread \\*mwah\\*.",
+          "cleaned_comment": "this. a stroke of genius. can't wait to try this out.\n\nalso, if you don't already, a couple of tablespoons of bourbon in the bread pudding batter doesn't go astray. and, if you can get thick sliced raisin brioche as your bread \\*mwah\\*.",
+          "comment_id": "pejd8o2",
+          "parent_id": "t1_peg12d2",
+          "username": "T_J_Rain",
+          "replies": [
+            {
+              "comment": "I'm not a fan of raisins, but we do already use a thick-sliced brioche. It's Christmas--time for total indulgence!",
+              "cleaned_comment": "i'm not a fan of raisins, but we do already use a thick-sliced brioche. it's christmas--time for total indulgence!",
+              "comment_id": "pennxna",
+              "parent_id": "t1_pejd8o2",
+              "username": "Effective_Stranger85",
+              "replies": [
+                {
+                  "comment": "We speak the same language!",
+                  "cleaned_comment": "we speak the same language!",
+                  "comment_id": "peqjsmm",
+                  "parent_id": "t1_pennxna",
+                  "username": "T_J_Rain",
+                  "replies": [],
+                  "sentiment_class": "NEGATIVE",
+                  "sentiment_conf": [
+                    0.6814088570454407,
+                    0.31859114295455926
+                  ]
+                }
+              ],
+              "sentiment_class": "NEGATIVE",
+              "sentiment_conf": [
+                0.9666001780666844,
+                0.03339982193331559
+              ]
+            }
+          ],
+          "sentiment_class": "POSITIVE",
+          "sentiment_conf": [
+            0.018582149895652808,
+            0.9814178501043472
+          ]
+        }
+      ],
+      "sentiment_class": "POSITIVE",
+      "sentiment_conf": [
+        0.006602569825646557,
+        0.9933974301743536
+      ]
+    }
+  ],
+  "overall_sentiment": {
+    "count": {
+      "Negative": 6,
+      "Positive": 9
+    },
+    "confidence": 0.97
+  }
+}

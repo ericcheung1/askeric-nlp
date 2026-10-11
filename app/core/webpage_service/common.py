@@ -1,6 +1,7 @@
 import logging
 import tomllib
 from pathlib import Path
+import random
 
 import numpy as np
 
@@ -33,3 +34,7 @@ def softmax(input, axis=None):
     x = np.array(input)
     e_x = np.exp(x - np.max(x, axis=axis, keepdims=True))
     return e_x / np.sum(e_x, axis=axis, keepdims=True)
+
+
+def random_url(urls):
+    return random.choice(urls)
