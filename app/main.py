@@ -6,7 +6,12 @@ import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
-from app.clients.cache import close_sqlite, init_sqlite
+from app.clients.cache import (
+    close_sqlite,
+    init_sqlite,
+    load_saved_posts,
+    write_many_to_table,
+)
 from app.clients.exceptions import CommentFetchingError, comment_error_handler
 from app.clients.reddit import close_reddit_client, start_reddit_client
 from app.clients.spaces import (
@@ -38,7 +43,11 @@ async def lifespan(app: FastAPI):
     spaces_client = start_spaces_client()
     weight_dir_check()
     download_spaces_files(spaces_client=spaces_client)
+
     con = init_sqlite()
+    saved_posts, urls = load_saved_posts()
+    write_many_to_table(data=saved_posts, con=con)
+
     reddit = start_reddit_client()
 
     task_queue, result_queue, inference_process = start_inference_process()
@@ -49,6 +58,7 @@ async def lifespan(app: FastAPI):
         "result_queue": result_queue,
         "task_queue": task_queue,
         "inference_process": inference_process,
+        "urls": urls,
     }
 
     yield state_data

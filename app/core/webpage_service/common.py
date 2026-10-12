@@ -1,4 +1,5 @@
 import logging
+import random
 import tomllib
 from pathlib import Path
 
@@ -33,3 +34,8 @@ def softmax(input, axis=None):
     x = np.array(input)
     e_x = np.exp(x - np.max(x, axis=axis, keepdims=True))
     return e_x / np.sum(e_x, axis=axis, keepdims=True)
+
+
+def random_url(urls):
+    """Randomly picks url for front page highlight"""
+    return random.choice(urls)
