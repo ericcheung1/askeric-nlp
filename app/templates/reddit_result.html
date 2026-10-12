@@ -19,7 +19,7 @@
                 <span class="font-bold text-gray-700 border border-gray-400 px-1.5 py-0.5 text-xs bg-gray-100 rounded-sm ml-1">{{ s_class }}</span>
             {% endif %}
             
-            <span class="text-gray-500 font-normal ml-2 text-xs">Confidence: {{ comment.sentiment_conf|max|round(3) }}</span>
+            <span class="text-gray-500 font-normal ml-2 text-xs">Score: {{ comment.sentiment_conf|max|round(3) }}</span>
         </div>
         
         {# Comment Body #}
@@ -68,8 +68,9 @@
         <div class="font-bold text-gray-700 mb-1">Thread Sentiment Summary</div>
         <div class="flex gap-4 text-xs">
             <span class="font-bold text-green-600 border border-green-600 px-1.5 py-0.5 text-xs bg-green-50 rounded-sm">POSITIVE: {{ overall_sentiment.count.Positive }}</span>
+            <span class="font-bold text-gray-700 border border-gray-400 px-1.5 py-0.5 text-xs bg-gray-100 rounded-sm">NEUTRAL: {{ overall_sentiment.count.Neutral }}</span>
             <span class="font-bold text-[#FF4500] border border-[#FF4500] px-1.5 py-0.5 text-xs bg-orange-50 rounded-sm">NEGATIVE: {{ overall_sentiment.count.Negative }}</span>
-            <span class="text-gray-600 px-1.5 py-0.5 text-xs rounded-sm"><strong>Average Confidence: {{ overall_sentiment.confidence|round(3) }}</strong></span>
+            <span class="text-gray-600 px-1.5 py-0.5 text-xs rounded-sm"><strong>Average Score: {{ overall_sentiment.confidence|round(3) }}</strong></span>
         </div>
     </div>
 

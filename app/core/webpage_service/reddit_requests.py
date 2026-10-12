@@ -3,9 +3,9 @@ import json
 import logging
 from pathlib import Path
 
-import numpy as np
+# import numpy as np
 
-from app.core.webpage_service.common import softmax
+# from app.core.webpage_service.common import softmax
 
 logger = logging.getLogger(__name__)
 MAX_COMMENTS = 15
@@ -74,23 +74,38 @@ def format_reddit_input(comment_map):
     return text_inputs
 
 
-def format_reddit_output(output_list, comment_map):
+def _format_reddit_output(output_list, comment_map):
     """Formats sentiment label and confidence output for Reddit request type"""
-    sentiment_map = {0: "NEGATIVE", 1: "POSITIVE"}
+    # sentiment_map = {0: "NEGATIVE", 1: "POSITIVE"}
 
+    # for output, comment_info in zip(output_list, comment_map.values()):
+    #     conf = softmax(output)
+    #     argmax = np.argmax(output)
+    #     pred_label = sentiment_map[int(argmax)]
+
+    #     comment_info["sentiment_class"] = pred_label
+    #     comment_info["sentiment_conf"] = conf.tolist()
+
+
+def format_reddit_output(output_list, comment_map):
+    """Formats sentiment label and score output for Reddit request type"""
+    
     for output, comment_info in zip(output_list, comment_map.values()):
-        conf = softmax(output)
-        argmax = np.argmax(output)
-        pred_label = sentiment_map[int(argmax)]
+        if output >= 0.05:
+            label = "POSITIVE"
+        elif output <= -0.05:
+            label = "NEGATIVE"
+        else:
+            label = "NEUTRAL"
 
-        comment_info["sentiment_class"] = pred_label
-        comment_info["sentiment_conf"] = conf.tolist()
+        comment_info["sentiment_class"] = label
+        comment_info["sentiment_conf"] = [output]
 
 
 def calculate_overall_sentiment(comment_tree):
     """Calculates counts and averages for sentiment in comment tree"""
 
-    count = {"Negative": 0, "Positive": 0}
+    count = {"Negative": 0, "Positive": 0, "Neutral": 0}
     total_conf = float(0)
 
     comment_tree_copy = copy.deepcopy(comment_tree)
@@ -106,6 +121,8 @@ def calculate_overall_sentiment(comment_tree):
             count["Negative"] += 1
         elif comment["sentiment_class"] == "POSITIVE":
             count["Positive"] += 1
+        elif comment["sentiment_class"] == "NEUTRAL":
+            count["Neutral"] += 1
 
         if "replies" in comment:
             comment_stack.extend(comment["replies"])

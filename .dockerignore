@@ -34,4 +34,7 @@ docker-compose*.yml
 .dockerignore
 .docker/
 
-ml/sentiment/distilbert_fp16_onnx/
+ml/sentiment
+
+app/clients/spaces.py
+app/core/inference_process.py

@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.clients.cache import query_from_table, write_to_table
 from app.clients.reddit import get_post, parse_submission_id
-from app.core.inference_process import start_inference_process
+from app.core.sentiment import score_sentiment
 from app.core.webpage_service.common import VERSION, random_url
 from app.core.webpage_service.reddit_requests import (
     build_tree,
@@ -32,32 +32,26 @@ def index(request: Request):
     urls = request.state.urls
     highlight_post = random_url(urls)
 
-    context = {"version": VERSION, "highlight_post": highlight_post}
+    context = {
+        "version": VERSION, 
+        # "highlight_post": highlight_post
+    }
 
     return templates.TemplateResponse(
-        request=request, name="index.html", context=context
+        request=request, name="index.html", 
+        context=context
     )
 
 
 @router.post("/sentence-request", response_class=HTMLResponse)
 async def user_input(request: Request, input: str = Form(...)):
 
-    result_queue = request.state.result_queue
-    task_queue = request.state.task_queue
-    inference_process = request.state.inference_process
-
-    if not inference_process.is_alive():
-        task_queue, result_queue, inference_process = start_inference_process()
-        request.state.result_queue = result_queue
-        request.state.task_queue = task_queue
-        request.state.inference_process = inference_process
+    sia = request.state.sia
 
     clean_sentence_input(input=input)
     text_input = format_sentence_input(input=input)
 
-    # scores comments with sentiment in separate process
-    task_queue.put(text_input)
-    output_list = result_queue.get()
+    output_list = score_sentiment(sia=sia, text_inputs=text_input)
 
     classification, confidence = format_sentence_output(output_list=output_list)
 
@@ -76,20 +70,15 @@ async def reddit_input(request: Request, url: str = Form(...)):
 
     con = request.state.con
     reddit = request.state.reddit
-    result_queue = request.state.result_queue
-    task_queue = request.state.task_queue
-    inference_process = request.state.inference_process
-
-    if not inference_process.is_alive():
-        task_queue, result_queue, inference_process = start_inference_process()
-        request.state.result_queue = result_queue
-        request.state.task_queue = task_queue
-        request.state.inference_process = inference_process
+    sia = request.state.sia
 
     submission_id = parse_submission_id(url=url)
-    comment_tree, overall_sentiment, post_data = await anyio.to_thread.run_sync(
-        query_from_table, submission_id, con
-    )
+    # comment_tree, overall_sentiment, post_data = await anyio.to_thread.run_sync(
+    #     query_from_table, submission_id, con
+    # )
+    comment_tree = None
+    overall_sentiment = None
+    post_data = None
 
     if comment_tree is None or overall_sentiment is None or post_data is None:
         post_data = await get_post(reddit=reddit, id=submission_id)
@@ -97,23 +86,22 @@ async def reddit_input(request: Request, url: str = Form(...)):
         comment_tree, comment_map = build_tree(comments=comments)
 
         text_inputs = format_reddit_input(comment_map=comment_map)
-
-        task_queue.put(text_inputs)
-        output_list = result_queue.get()
-
+        
+        output_list = score_sentiment(sia=sia, text_inputs=text_inputs)
+        
         format_reddit_output(output_list=output_list, comment_map=comment_map)
 
         overall_sentiment = calculate_overall_sentiment(comment_tree=comment_tree)
 
-        await anyio.to_thread.run_sync(
-            write_to_table,
-            submission_id,
-            comment_tree,
-            overall_sentiment,
-            post_data,
-            con,
-            limiter=limiter_3,
-        )
+        # await anyio.to_thread.run_sync(
+        #     write_to_table,
+        #     submission_id,
+        #     comment_tree,
+        #     overall_sentiment,
+        #     post_data,
+        #     con,
+        #     limiter=limiter_3,
+        # )
 
     # save_post(
     #     submission_id=submission_id,
