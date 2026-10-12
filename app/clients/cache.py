@@ -7,6 +7,7 @@ logger = logging.getLogger(__name__)
 
 DATA_DIRECTORY = Path("app/data")
 
+
 def init_sqlite():
     """Initialized sqlite and creates table"""
 
@@ -38,8 +39,8 @@ def init_sqlite():
         raise RuntimeError
 
 
-def read_seed_data():
-
+def load_saved_posts():
+    """Loads saved posts from app/data directory"""
     DATA_DIRECTORY.mkdir(exist_ok=True)
     data = []
     urls = []
@@ -60,7 +61,7 @@ def read_seed_data():
         data.append((submission_id, comment_tree, overall_sentiment, post_data))
 
     logger.debug("data: %s", data[0])
-    logger.info("successfully read seed data in 'read_seed_data'")
+    logger.info("Successfully Read Seed Data in 'load_saved_posts'")
 
     return data, urls
 
@@ -130,6 +131,7 @@ def write_to_table(submission_id, comment_tree, overall_sentiment, post_data, co
 
 
 def write_many_to_table(data, con):
+    """Caches multiple posts and analysis results to database table"""
     try:
         with con:
             query = """
@@ -142,10 +144,7 @@ def write_many_to_table(data, con):
                 VALUES (?, ?, ?, ?)
                 ON CONFLICT(submission_id) DO NOTHING;
             """
-            con.executemany(
-                query,
-                data
-            )
+            con.executemany(query, data)
             con.commit()
             logger.info(
                 "Successfully Cached Post to Database Table in 'write_many_to_table'"

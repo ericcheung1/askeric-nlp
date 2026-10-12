@@ -4,10 +4,7 @@ import os
 
 import numpy as np
 
-from ml.sentiment.load import (
-    sentiment_load_model,
-    sentiment_load_tokenizer,
-)
+from ml.sentiment.load import sentiment_load_model, sentiment_load_tokenizer
 
 DEBUG_LOGS = os.environ.get("DEBUG_LOGS", "0") == "1"
 

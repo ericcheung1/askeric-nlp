@@ -12,7 +12,7 @@ from app.core.webpage_service.reddit_requests import (
     calculate_overall_sentiment,
     format_reddit_input,
     format_reddit_output,
-    save_post,
+    # save_post,
 )
 from app.core.webpage_service.sentence_requests import (
     clean_sentence_input,
@@ -115,7 +115,12 @@ async def reddit_input(request: Request, url: str = Form(...)):
             limiter=limiter_3,
         )
 
-    save_post(submission_id=submission_id, post_data=post_data, comment_tree=comment_tree, overall_sentiment=overall_sentiment)
+    # save_post(
+    #     submission_id=submission_id,
+    #     post_data=post_data,
+    #     comment_tree=comment_tree,
+    #     overall_sentiment=overall_sentiment,
+    # )
 
     context = {
         "comment_tree": comment_tree,

@@ -123,9 +123,9 @@ def calculate_overall_sentiment(comment_tree):
 
 
 def save_post(submission_id, post_data, comment_tree, overall_sentiment):
-
+    """Save post data to app/data directory"""
     DATA_DIR = Path("app/data")
-    
+
     info = {
         "submission_id": submission_id,
         "post_data": post_data,

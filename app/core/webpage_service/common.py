@@ -1,7 +1,7 @@
 import logging
+import random
 import tomllib
 from pathlib import Path
-import random
 
 import numpy as np
 
@@ -37,4 +37,5 @@ def softmax(input, axis=None):
 
 
 def random_url(urls):
+    """Randomly picks url for front page highlight"""
     return random.choice(urls)
