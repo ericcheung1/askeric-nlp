@@ -1,6 +1,5 @@
 import logging
 
-import numpy as np
 from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
@@ -26,7 +25,7 @@ class SentimentResult(BaseModel):
     id: str | None = None
     text: str
     classification: str
-    confidence: dict[str, float]
+    score: float
 
 
 class SentenceOutput(BaseModel):
@@ -39,7 +38,7 @@ class SentenceOutput(BaseModel):
 def clean_sentence_input(sentence_input: SentenceInput):
     """Lowercase and strip text in sentence input"""
     for item in sentence_input.inputs:
-        item.text = item.text.lower().strip()
+        item.text = item.text.strip()
 
     logger.debug("Cleaned input: %s", sentence_input.inputs)
 
@@ -58,23 +57,22 @@ def prepare_model_inputs(sentence_input: SentenceInput):
     return texts, ids
 
 
-def formats_result(sentiment_output, texts, ids, softmax):
+def formats_result(sentiment_output, texts, ids):
     """Formats model result for output"""
 
-    sentiment_map = {0: "NEGATIVE", 1: "POSITIVE"}
     sentiment_results = []
 
-    for result, text, id in zip(sentiment_output, texts, ids):
-        argmax = np.argmax(result)
-        softmax_result = softmax(result)
-        confidence = {
-            "NEGATIVE": float(softmax_result[0]),
-            "POSITIVE": float(softmax_result[1]),
-        }
-        classification = sentiment_map[int(argmax)]
+    for score, text, id in zip(sentiment_output, texts, ids):
+        if score >= 0.05:
+            classification = "POSITIVE"
+        elif score <= -0.05:
+            classification = "NEGATIVE"
+        else:
+            classification = "NEUTRAL"
+
         sentiment_results.append(
             SentimentResult(
-                id=id, text=text, confidence=confidence, classification=classification
+                id=id, text=text, score=score, classification=classification
             )
         )
 

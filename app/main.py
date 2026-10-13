@@ -14,7 +14,7 @@ from app.clients.cache import (
 )
 from app.clients.exceptions import CommentFetchingError, comment_error_handler
 from app.clients.reddit import close_reddit_client, start_reddit_client
-from app.router import webpage
+from app.router import api, webpage
 from ml.nltk.load import sentiment_load_model
 
 DEBUG_LOGS = os.environ.get("DEBUG_LOGS", "0") == "1"
@@ -59,7 +59,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 app.add_exception_handler(CommentFetchingError, comment_error_handler)
-# app.include_router(router=api.router)
+app.include_router(router=api.router)
 app.include_router(router=webpage.router, include_in_schema=False)
 
 

@@ -24,7 +24,7 @@ def build_tree(comments):
 
         comment_info = {
             "comment": str(comment.body),
-            "cleaned_comment": str(comment.body).strip().lower(),
+            "cleaned_comment": str(comment.body).strip(),
             "comment_id": str(comment.id),
             "parent_id": str(comment.parent_id),
             "username": str(comment.author.name) if comment.author else "[user]",
@@ -74,19 +74,6 @@ def format_reddit_input(comment_map):
     return text_inputs
 
 
-def _format_reddit_output(output_list, comment_map):
-    """Formats sentiment label and confidence output for Reddit request type"""
-    # sentiment_map = {0: "NEGATIVE", 1: "POSITIVE"}
-
-    # for output, comment_info in zip(output_list, comment_map.values()):
-    #     conf = softmax(output)
-    #     argmax = np.argmax(output)
-    #     pred_label = sentiment_map[int(argmax)]
-
-    #     comment_info["sentiment_class"] = pred_label
-    #     comment_info["sentiment_conf"] = conf.tolist()
-
-
 def format_reddit_output(output_list, comment_map):
     """Formats sentiment label and score output for Reddit request type"""
     
@@ -99,14 +86,14 @@ def format_reddit_output(output_list, comment_map):
             label = "NEUTRAL"
 
         comment_info["sentiment_class"] = label
-        comment_info["sentiment_conf"] = [output]
+        comment_info["sentiment_score"] = [output]
 
 
 def calculate_overall_sentiment(comment_tree):
     """Calculates counts and averages for sentiment in comment tree"""
 
     count = {"Negative": 0, "Positive": 0, "Neutral": 0}
-    total_conf = float(0)
+    total_score = float(0)
 
     comment_tree_copy = copy.deepcopy(comment_tree)
     comment_stack = []
@@ -115,7 +102,7 @@ def calculate_overall_sentiment(comment_tree):
     while comment_stack:
         comment = comment_stack.pop()
 
-        total_conf += max(comment["sentiment_conf"])
+        total_score += max(comment["sentiment_score"])
 
         if comment["sentiment_class"] == "NEGATIVE":
             count["Negative"] += 1
@@ -128,15 +115,15 @@ def calculate_overall_sentiment(comment_tree):
             comment_stack.extend(comment["replies"])
 
     try:
-        avg_conf = total_conf / sum(count.values())
+        avg_score = total_score / sum(count.values())
     except ZeroDivisionError:
-        avg_conf = 0
+        avg_score = 0
 
     logger.info(
         "Successfully Calculated Overall Sentiment in 'calculate_overall_sentiment'"
     )
 
-    return {"count": count, "confidence": round(avg_conf, 3)}
+    return {"count": count, "score": round(avg_score, 3)}
 
 
 def save_post(submission_id, post_data, comment_tree, overall_sentiment):

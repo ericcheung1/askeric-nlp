@@ -22,7 +22,7 @@ from app.core.webpage_service.sentence_requests import (
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
-limiter_1 = anyio.CapacityLimiter(1)
+limiter_10 = anyio.CapacityLimiter(10)
 limiter_3 = anyio.CapacityLimiter(3)
 
 
@@ -34,7 +34,7 @@ def index(request: Request):
 
     context = {
         "version": VERSION, 
-        # "highlight_post": highlight_post
+        "highlight_post": highlight_post
     }
 
     return templates.TemplateResponse(
@@ -51,13 +51,13 @@ async def user_input(request: Request, input: str = Form(...)):
     clean_sentence_input(input=input)
     text_input = format_sentence_input(input=input)
 
-    output_list = score_sentiment(sia=sia, text_inputs=text_input)
+    output = await anyio.to_thread.run_sync(score_sentiment, sia, text_input, limiter_10)
 
-    classification, confidence = format_sentence_output(output_list=output_list)
+    classification, score = format_sentence_output(output=output)
 
     context = {
         "classification": classification,
-        "confidence": confidence,
+        "score": score,
     }
 
     return templates.TemplateResponse(
@@ -73,12 +73,9 @@ async def reddit_input(request: Request, url: str = Form(...)):
     sia = request.state.sia
 
     submission_id = parse_submission_id(url=url)
-    # comment_tree, overall_sentiment, post_data = await anyio.to_thread.run_sync(
-    #     query_from_table, submission_id, con
-    # )
-    comment_tree = None
-    overall_sentiment = None
-    post_data = None
+    comment_tree, overall_sentiment, post_data = await anyio.to_thread.run_sync(
+        query_from_table, submission_id, con
+    )
 
     if comment_tree is None or overall_sentiment is None or post_data is None:
         post_data = await get_post(reddit=reddit, id=submission_id)
@@ -86,22 +83,22 @@ async def reddit_input(request: Request, url: str = Form(...)):
         comment_tree, comment_map = build_tree(comments=comments)
 
         text_inputs = format_reddit_input(comment_map=comment_map)
-        
-        output_list = score_sentiment(sia=sia, text_inputs=text_inputs)
+
+        output_list = await anyio.to_thread.run_sync(score_sentiment, sia, text_inputs, limiter=limiter_10)
         
         format_reddit_output(output_list=output_list, comment_map=comment_map)
 
         overall_sentiment = calculate_overall_sentiment(comment_tree=comment_tree)
 
-        # await anyio.to_thread.run_sync(
-        #     write_to_table,
-        #     submission_id,
-        #     comment_tree,
-        #     overall_sentiment,
-        #     post_data,
-        #     con,
-        #     limiter=limiter_3,
-        # )
+        await anyio.to_thread.run_sync(
+            write_to_table,
+            submission_id,
+            comment_tree,
+            overall_sentiment,
+            post_data,
+            con,
+            limiter=limiter_3,
+        )
 
     # save_post(
     #     submission_id=submission_id,
