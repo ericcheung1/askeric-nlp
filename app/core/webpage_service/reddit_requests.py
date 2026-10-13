@@ -3,10 +3,6 @@ import json
 import logging
 from pathlib import Path
 
-# import numpy as np
-
-# from app.core.webpage_service.common import softmax
-
 logger = logging.getLogger(__name__)
 MAX_COMMENTS = 15
 
@@ -76,7 +72,7 @@ def format_reddit_input(comment_map):
 
 def format_reddit_output(output_list, comment_map):
     """Formats sentiment label and score output for Reddit request type"""
-    
+
     for output, comment_info in zip(output_list, comment_map.values()):
         if output >= 0.05:
             label = "POSITIVE"

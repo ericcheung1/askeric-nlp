@@ -32,14 +32,10 @@ def index(request: Request):
     urls = request.state.urls
     highlight_post = random_url(urls)
 
-    context = {
-        "version": VERSION, 
-        "highlight_post": highlight_post
-    }
+    context = {"version": VERSION, "highlight_post": highlight_post}
 
     return templates.TemplateResponse(
-        request=request, name="index.html", 
-        context=context
+        request=request, name="index.html", context=context
     )
 
 
@@ -51,7 +47,9 @@ async def user_input(request: Request, input: str = Form(...)):
     clean_sentence_input(input=input)
     text_input = format_sentence_input(input=input)
 
-    output = await anyio.to_thread.run_sync(score_sentiment, sia, text_input, limiter_10)
+    output = await anyio.to_thread.run_sync(
+        score_sentiment, sia, text_input, limiter_10
+    )
 
     classification, score = format_sentence_output(output=output)
 
@@ -84,8 +82,10 @@ async def reddit_input(request: Request, url: str = Form(...)):
 
         text_inputs = format_reddit_input(comment_map=comment_map)
 
-        output_list = await anyio.to_thread.run_sync(score_sentiment, sia, text_inputs, limiter=limiter_10)
-        
+        output_list = await anyio.to_thread.run_sync(
+            score_sentiment, sia, text_inputs, limiter=limiter_10
+        )
+
         format_reddit_output(output_list=output_list, comment_map=comment_map)
 
         overall_sentiment = calculate_overall_sentiment(comment_tree=comment_tree)

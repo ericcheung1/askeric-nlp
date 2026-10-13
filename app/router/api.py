@@ -28,7 +28,9 @@ async def sentence_sentiment(request: Request, sentence_input: SentenceInput):
     clean_sentence_input(sentence_input=sentence_input)
     texts, ids = prepare_model_inputs(sentence_input=sentence_input)
 
-    sentiment_output = await anyio.to_thread.run_sync(score_sentiment, sia, texts, limiter=limiter_10)
+    sentiment_output = await anyio.to_thread.run_sync(
+        score_sentiment, sia, texts, limiter=limiter_10
+    )
 
     sentiment_results = formats_result(
         sentiment_output=sentiment_output, texts=texts, ids=ids

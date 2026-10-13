@@ -35,7 +35,6 @@ async def lifespan(app: FastAPI):
 
     load_dotenv()
 
-
     con = init_sqlite()
     saved_posts, urls = load_saved_posts()
     write_many_to_table(data=saved_posts, con=con)
