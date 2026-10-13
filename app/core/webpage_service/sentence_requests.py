@@ -1,11 +1,6 @@
-import numpy as np
-
-from app.core.webpage_service.common import softmax
-
-
 def clean_sentence_input(input):
     """Cleans input for sentence request type"""
-    input.strip().lower()
+    input.strip()
 
 
 def format_sentence_input(input):
@@ -13,12 +8,14 @@ def format_sentence_input(input):
     return [input]
 
 
-def format_sentence_output(output_list):
+def format_sentence_output(output):
     """Formats sentiment label and confidence output for sentence request type"""
-    sentiment_map = {0: "NEGATIVE", 1: "POSITIVE"}
-    for output in output_list:
-        conf = softmax(output)
-        argmax = np.argmax(output)
-        pred_label = sentiment_map[int(argmax)]
 
-    return pred_label, conf
+    if output[0] >= 0.05:
+        label = "POSITIVE"
+    elif output[0] <= -0.05:
+        label = "NEGATIVE"
+    else:
+        label = "NEUTRAL"
+
+    return label, output[0]

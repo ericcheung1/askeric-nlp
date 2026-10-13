@@ -9,214 +9,201 @@
   },
   "comment_tree": [
     {
+      "comment": "What setting did you have your rice cooker on?",
+      "cleaned_comment": "What setting did you have your rice cooker on?",
+      "comment_id": "pf5lu4h",
+      "parent_id": "t3_1wypx6k",
+      "username": "SandpaperPeople",
+      "replies": [
+        {
+          "comment": "Just regular rice ",
+          "cleaned_comment": "Just regular rice",
+          "comment_id": "pf8s44d",
+          "parent_id": "t1_pf5lu4h",
+          "username": "diamondtuxedo",
+          "replies": [],
+          "sentiment_class": "NEUTRAL",
+          "sentiment_score": [
+            0.0
+          ]
+        }
+      ],
+      "sentiment_class": "NEUTRAL",
+      "sentiment_score": [
+        0.0
+      ]
+    },
+    {
+      "comment": "I make awesome carrot cake in my rice cooker.",
+      "cleaned_comment": "I make awesome carrot cake in my rice cooker.",
+      "comment_id": "pf2woo4",
+      "parent_id": "t3_1wypx6k",
+      "username": "JBoxodonuts",
+      "replies": [
+        {
+          "comment": "Oh yum is it your own recipe ",
+          "cleaned_comment": "Oh yum is it your own recipe",
+          "comment_id": "pf3073b",
+          "parent_id": "t1_pf2woo4",
+          "username": "diamondtuxedo",
+          "replies": [
+            {
+              "comment": "I came up with it about 10 years ago - pretty sure I tried something I found and tweaked it until I was happy. Here it is:\n\n**RICE COOKER CARROT CAKE + CREAM CHEESE ICING**\n\n**CAKE** \\- this makes 1 cake layer \\~1.5-1.75\" thick when made in a 7.5\" diameter rice cooker, make this twice for a 2 layer cake.  \n**INGREDIENTS**  \n2 eggs  \n1/2 cup sugar  \n1/4 cup brown sugar  \n1/2 cup vegetable oil (doesn't need to be full 1/2 cup)  \n1.5 cups grated carrots (\\~2.5-3 med/lg carrots)  \n1/2 tsp vanilla extract  \n1 tbs orange juice  \n1/2 cup chopped walnuts  \n1 cup all purpose flour (can substitute 1/2 cup with whole wheat flour)  \n1/2 tsp baking powder  \n1/2 tsp baking soda  \n1/2 tsp salt  \n1/2 tsp ground cinnamon  \n1/2 tsp ground ginger\n\n**INSTRUCTIONS**  \nBeat together eggs & sugars until creamy.  \nMix in vegetable oil until well combined.  \nAdd carrots, vanilla, orange juice & walnuts and mix in well.  \nIn separate bowl, whisk together flour, baking powder, baking soda, salt & spices.  \nMix dry ingredients into wet until just combined.  \nLightly spray rice cooker bowl with PAM for baking.  \nPour batter into prepared rice cooker bowl.  \nSet rice cooker to CAKE setting and start, cook 1 cycle \\~45 minutes.\n\n\n\n**ICING** \\- this will make enough for thinly iced 2 layer cake or a heavily iced 1 layer cake.  \n**INGREDIENTS**  \n3 oz (half-brick) cream cheese  \n1/4 cup butter  \n1 tsp vanilla extract  \n2 cups icing (confectioners/powdered) sugar\n\n**INSTRUCTIONS**  \nBeat cream cheese, butter and vanilla with electric beaters until well-blended.  \nGradually add icing sugar \u00bd cup at a time, and beat until smooth and creamy.  \nSpread on COOLED cake.\n\n",
+              "cleaned_comment": "I came up with it about 10 years ago - pretty sure I tried something I found and tweaked it until I was happy. Here it is:\n\n**RICE COOKER CARROT CAKE + CREAM CHEESE ICING**\n\n**CAKE** \\- this makes 1 cake layer \\~1.5-1.75\" thick when made in a 7.5\" diameter rice cooker, make this twice for a 2 layer cake.  \n**INGREDIENTS**  \n2 eggs  \n1/2 cup sugar  \n1/4 cup brown sugar  \n1/2 cup vegetable oil (doesn't need to be full 1/2 cup)  \n1.5 cups grated carrots (\\~2.5-3 med/lg carrots)  \n1/2 tsp vanilla extract  \n1 tbs orange juice  \n1/2 cup chopped walnuts  \n1 cup all purpose flour (can substitute 1/2 cup with whole wheat flour)  \n1/2 tsp baking powder  \n1/2 tsp baking soda  \n1/2 tsp salt  \n1/2 tsp ground cinnamon  \n1/2 tsp ground ginger\n\n**INSTRUCTIONS**  \nBeat together eggs & sugars until creamy.  \nMix in vegetable oil until well combined.  \nAdd carrots, vanilla, orange juice & walnuts and mix in well.  \nIn separate bowl, whisk together flour, baking powder, baking soda, salt & spices.  \nMix dry ingredients into wet until just combined.  \nLightly spray rice cooker bowl with PAM for baking.  \nPour batter into prepared rice cooker bowl.  \nSet rice cooker to CAKE setting and start, cook 1 cycle \\~45 minutes.\n\n\n\n**ICING** \\- this will make enough for thinly iced 2 layer cake or a heavily iced 1 layer cake.  \n**INGREDIENTS**  \n3 oz (half-brick) cream cheese  \n1/4 cup butter  \n1 tsp vanilla extract  \n2 cups icing (confectioners/powdered) sugar\n\n**INSTRUCTIONS**  \nBeat cream cheese, butter and vanilla with electric beaters until well-blended.  \nGradually add icing sugar \u00bd cup at a time, and beat until smooth and creamy.  \nSpread on COOLED cake.",
+              "comment_id": "pf32aqv",
+              "parent_id": "t1_pf3073b",
+              "username": "JBoxodonuts",
+              "replies": [
+                {
+                  "comment": "Very kind of you, thank you \ud83d\ude0a ",
+                  "cleaned_comment": "Very kind of you, thank you \ud83d\ude0a",
+                  "comment_id": "pf3cdx8",
+                  "parent_id": "t1_pf32aqv",
+                  "username": "diamondtuxedo",
+                  "replies": [],
+                  "sentiment_class": "POSITIVE",
+                  "sentiment_score": [
+                    0.3612
+                  ]
+                }
+              ],
+              "sentiment_class": "POSITIVE",
+              "sentiment_score": [
+                0.9231
+              ]
+            }
+          ],
+          "sentiment_class": "NEUTRAL",
+          "sentiment_score": [
+            0.0
+          ]
+        }
+      ],
+      "sentiment_class": "POSITIVE",
+      "sentiment_score": [
+        0.6249
+      ]
+    },
+    {
       "comment": "We par boil boneless ribs in pan (probably could do in cooker!), add to steamer with that water and favorite BBQ sauce. It\u2019s delicious. ",
-      "cleaned_comment": "we par boil boneless ribs in pan (probably could do in cooker!), add to steamer with that water and favorite bbq sauce. it\u2019s delicious.",
+      "cleaned_comment": "We par boil boneless ribs in pan (probably could do in cooker!), add to steamer with that water and favorite BBQ sauce. It\u2019s delicious.",
       "comment_id": "pe9l4c6",
       "parent_id": "t3_1wypx6k",
       "username": "SnooDonkeys5186",
       "replies": [
         {
           "comment": "Ooo clever!",
-          "cleaned_comment": "ooo clever!",
+          "cleaned_comment": "Ooo clever!",
           "comment_id": "pe9stg5",
           "parent_id": "t1_pe9l4c6",
           "username": "diamondtuxedo",
           "replies": [],
           "sentiment_class": "POSITIVE",
-          "sentiment_conf": [
-            0.0001436975293906485,
-            0.9998563024706094
+          "sentiment_score": [
+            0.5093
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
-      "sentiment_conf": [
-        0.0005316132776684706,
-        0.9994683867223316
+      "sentiment_score": [
+        0.7901
       ]
     },
     {
       "comment": "You could make cake too!",
-      "cleaned_comment": "you could make cake too!",
+      "cleaned_comment": "You could make cake too!",
       "comment_id": "pe6346n",
       "parent_id": "t3_1wypx6k",
       "username": "PetulantGrover7",
       "replies": [
         {
           "comment": "I\u2019m going to try!",
-          "cleaned_comment": "i\u2019m going to try!",
+          "cleaned_comment": "I\u2019m going to try!",
           "comment_id": "pe7r3yp",
           "parent_id": "t1_pe6346n",
           "username": "diamondtuxedo",
           "replies": [],
-          "sentiment_class": "POSITIVE",
-          "sentiment_conf": [
-            0.0037654137846738736,
-            0.9962345862153261
+          "sentiment_class": "NEUTRAL",
+          "sentiment_score": [
+            0.0
           ]
         }
       ],
-      "sentiment_class": "POSITIVE",
-      "sentiment_conf": [
-        0.008677716704989246,
-        0.9913222832950107
+      "sentiment_class": "NEUTRAL",
+      "sentiment_score": [
+        0.0
       ]
     },
     {
       "comment": "Did you just follow the recipe?",
-      "cleaned_comment": "did you just follow the recipe?",
+      "cleaned_comment": "Did you just follow the recipe?",
       "comment_id": "pe5l2st",
       "parent_id": "t3_1wypx6k",
       "username": "CodyKyle",
       "replies": [
         {
           "comment": "Yeah no dofferent",
-          "cleaned_comment": "yeah no dofferent",
+          "cleaned_comment": "Yeah no dofferent",
           "comment_id": "pe7r2i8",
           "parent_id": "t1_pe5l2st",
           "username": "diamondtuxedo",
           "replies": [],
-          "sentiment_class": "NEGATIVE",
-          "sentiment_conf": [
-            0.9776285401622385,
-            0.02237145983776148
+          "sentiment_class": "NEUTRAL",
+          "sentiment_score": [
+            0.0
           ]
         }
       ],
-      "sentiment_class": "NEGATIVE",
-      "sentiment_conf": [
-        0.9980505978724697,
-        0.0019494021275301952
+      "sentiment_class": "NEUTRAL",
+      "sentiment_score": [
+        0.0
       ]
     },
     {
       "comment": "Can you share recipe? How long? I only have a low medium and high setting",
-      "cleaned_comment": "can you share recipe? how long? i only have a low medium and high setting",
+      "cleaned_comment": "Can you share recipe? How long? I only have a low medium and high setting",
       "comment_id": "pe5dnmh",
       "parent_id": "t3_1wypx6k",
       "username": "Thesexiestcow",
       "replies": [
         {
           "comment": "I followed the cornbread recipe from the jiffy box. Poured the batter in and use whatever setting you use to make regular rice. When it\u2019s done add salted butter and honey if you wish",
-          "cleaned_comment": "i followed the cornbread recipe from the jiffy box. poured the batter in and use whatever setting you use to make regular rice. when it\u2019s done add salted butter and honey if you wish",
+          "cleaned_comment": "I followed the cornbread recipe from the jiffy box. Poured the batter in and use whatever setting you use to make regular rice. When it\u2019s done add salted butter and honey if you wish",
           "comment_id": "pe7r1hx",
           "parent_id": "t1_pe5dnmh",
           "username": "diamondtuxedo",
           "replies": [
             {
               "comment": "Thanks a bunch! Can't wait to try \ud83d\udc93",
-              "cleaned_comment": "thanks a bunch! can't wait to try \ud83d\udc93",
+              "cleaned_comment": "Thanks a bunch! Can't wait to try \ud83d\udc93",
               "comment_id": "pe7vuy3",
               "parent_id": "t1_pe7r1hx",
               "username": "Thesexiestcow",
               "replies": [],
               "sentiment_class": "POSITIVE",
-              "sentiment_conf": [
-                0.0019304942224697714,
-                0.9980695057775303
+              "sentiment_score": [
+                0.4926
               ]
             }
           ],
-          "sentiment_class": "NEGATIVE",
-          "sentiment_conf": [
-            0.9802052211384412,
-            0.019794778861558837
-          ]
-        }
-      ],
-      "sentiment_class": "NEGATIVE",
-      "sentiment_conf": [
-        0.9967013487421672,
-        0.0032986512578329413
-      ]
-    },
-    {
-      "comment": "Wait.  So just pour in the batter mixed per the directions.  Hit the rice setting and lets it do its thing and\u2026 voila  cornbread?",
-      "cleaned_comment": "wait.  so just pour in the batter mixed per the directions.  hit the rice setting and lets it do its thing and\u2026 voila  cornbread?",
-      "comment_id": "pe5bvpf",
-      "parent_id": "t3_1wypx6k",
-      "username": "dkwinsea",
-      "replies": [
-        {
-          "comment": "Yup no gimmick here, it works ",
-          "cleaned_comment": "yup no gimmick here, it works",
-          "comment_id": "pe7qt65",
-          "parent_id": "t1_pe5bvpf",
-          "username": "diamondtuxedo",
-          "replies": [],
           "sentiment_class": "POSITIVE",
-          "sentiment_conf": [
-            0.0006865099282843005,
-            0.9993134900717157
-          ]
-        },
-        {
-          "comment": " Just mix the Jiffy like normal, pour it in, hit the rice setting and let it do its thing. The moist texture is honestly what makes it so good.",
-          "cleaned_comment": "just mix the jiffy like normal, pour it in, hit the rice setting and let it do its thing. the moist texture is honestly what makes it so good.",
-          "comment_id": "pe6zy9y",
-          "parent_id": "t1_pe5bvpf",
-          "username": "Exotic-Effective-412",
-          "replies": [],
-          "sentiment_class": "POSITIVE",
-          "sentiment_conf": [
-            0.000125337514256461,
-            0.9998746624857435
-          ]
-        }
-      ],
-      "sentiment_class": "NEGATIVE",
-      "sentiment_conf": [
-        0.9853983877389041,
-        0.014601612261095825
-      ]
-    },
-    {
-      "comment": "That\u2019s a cool idea. What size is your rice cooker?",
-      "cleaned_comment": "that\u2019s a cool idea. what size is your rice cooker?",
-      "comment_id": "pe4xlw7",
-      "parent_id": "t3_1wypx6k",
-      "username": "entrelac",
-      "replies": [
-        {
-          "comment": "It can cook 5.5 cups according to Google. 1L pan. I had to look it up. I have a zojirushi",
-          "cleaned_comment": "it can cook 5.5 cups according to google. 1l pan. i had to look it up. i have a zojirushi",
-          "comment_id": "pe4yi02",
-          "parent_id": "t1_pe4xlw7",
-          "username": "diamondtuxedo",
-          "replies": [
-            {
-              "comment": "OK, thanks. Mine only holds 2 cups so I'll try it with half a package.",
-              "cleaned_comment": "ok, thanks. mine only holds 2 cups so i'll try it with half a package.",
-              "comment_id": "pe7hqz2",
-              "parent_id": "t1_pe4yi02",
-              "username": "entrelac",
-              "replies": [],
-              "sentiment_class": "POSITIVE",
-              "sentiment_conf": [
-                0.003876926469761008,
-                0.9961230735302391
-              ]
-            }
-          ],
-          "sentiment_class": "NEGATIVE",
-          "sentiment_conf": [
-            0.883889030504656,
-            0.1161109694953441
+          "sentiment_score": [
+            0.4019
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
-      "sentiment_conf": [
-        0.0018639287400864615,
-        0.9981360712599135
+      "sentiment_score": [
+        0.1179
       ]
     }
   ],
   "overall_sentiment": {
     "count": {
-      "Negative": 6,
-      "Positive": 9
+      "Negative": 0,
+      "Positive": 8,
+      "Neutral": 7
     },
-    "confidence": 0.987
+    "score": 0.281
   }
 }

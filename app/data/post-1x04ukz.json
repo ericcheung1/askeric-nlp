@@ -10,15 +10,14 @@
   "comment_tree": [
     {
       "comment": "My daughter was the same way at an early age. One thing I thought was important was teaching her to use both hands, not just her dominant. We would play catch with a tennis ball and alternate catching and throwing with right and left hand. Get both sides of their brain working. I also bought some small cones and wrote a letter of the alphabet on each one. I spread them out and tell her to go grab the cone with \"A\" on it. She would have to dribble the basketball with one hand to go grab the letter. Eventually I would ask her to pick up multiple letters to spell simple words like, cat, dog . . .  This way she was learning to dribble and the alphabet at the same time. Again alternating right hand and left hand to dribble. Another game she loved was dribble tag. You both have a ball and have to keep dribbling while you run around playing tag. Encourage using right then left hand. \nJust incorporate his love for basketball in any kids game you can think of. Little kids like to race, give them a basketball and make it a dribbling race. Add some obstacles and make it a slalom type race.     \nHope this helps! ",
-      "cleaned_comment": "my daughter was the same way at an early age. one thing i thought was important was teaching her to use both hands, not just her dominant. we would play catch with a tennis ball and alternate catching and throwing with right and left hand. get both sides of their brain working. i also bought some small cones and wrote a letter of the alphabet on each one. i spread them out and tell her to go grab the cone with \"a\" on it. she would have to dribble the basketball with one hand to go grab the letter. eventually i would ask her to pick up multiple letters to spell simple words like, cat, dog . . .  this way she was learning to dribble and the alphabet at the same time. again alternating right hand and left hand to dribble. another game she loved was dribble tag. you both have a ball and have to keep dribbling while you run around playing tag. encourage using right then left hand. \njust incorporate his love for basketball in any kids game you can think of. little kids like to race, give them a basketball and make it a dribbling race. add some obstacles and make it a slalom type race.     \nhope this helps!",
+      "cleaned_comment": "My daughter was the same way at an early age. One thing I thought was important was teaching her to use both hands, not just her dominant. We would play catch with a tennis ball and alternate catching and throwing with right and left hand. Get both sides of their brain working. I also bought some small cones and wrote a letter of the alphabet on each one. I spread them out and tell her to go grab the cone with \"A\" on it. She would have to dribble the basketball with one hand to go grab the letter. Eventually I would ask her to pick up multiple letters to spell simple words like, cat, dog . . .  This way she was learning to dribble and the alphabet at the same time. Again alternating right hand and left hand to dribble. Another game she loved was dribble tag. You both have a ball and have to keep dribbling while you run around playing tag. Encourage using right then left hand. \nJust incorporate his love for basketball in any kids game you can think of. Little kids like to race, give them a basketball and make it a dribbling race. Add some obstacles and make it a slalom type race.     \nHope this helps!",
       "comment_id": "pf4t0ou",
       "parent_id": "t3_1x04ukz",
       "username": "bballaddict8",
       "replies": [],
       "sentiment_class": "POSITIVE",
-      "sentiment_conf": [
-        0.009821792919693043,
-        0.9901782070803069
+      "sentiment_score": [
+        0.9906
       ]
     },
     {
@@ -29,191 +28,178 @@
       "username": "Maryy_Green0",
       "replies": [],
       "sentiment_class": "POSITIVE",
-      "sentiment_conf": [
-        0.0020870345619111133,
-        0.9979129654380888
+      "sentiment_score": [
+        0.9337
       ]
     },
     {
       "comment": "An hour of resistance training and cardi with sprint intervals before he is allowed to touch the ball. Another hour of on court training and he has to make 10 free throws to go home",
-      "cleaned_comment": "an hour of resistance training and cardi with sprint intervals before he is allowed to touch the ball. another hour of on court training and he has to make 10 free throws to go home",
+      "cleaned_comment": "An hour of resistance training and cardi with sprint intervals before he is allowed to touch the ball. Another hour of on court training and he has to make 10 free throws to go home",
       "comment_id": "pekfqwz",
       "parent_id": "t3_1x04ukz",
       "username": "BukowskyTheCat",
       "replies": [],
-      "sentiment_class": "NEGATIVE",
-      "sentiment_conf": [
-        0.9867771782476948,
-        0.013222821752305148
+      "sentiment_class": "POSITIVE",
+      "sentiment_score": [
+        0.5106
       ]
     },
     {
       "comment": "my grandson was in a league when he was 4-5.  I seriously doubt that any of the kids in that league developed any skills they would build on from the experience.  The coaches seemed to mean well.  I'd just keep him active with things that promote body awareness and coordination.  taking him to games is a good idea as well.  ",
-      "cleaned_comment": "my grandson was in a league when he was 4-5.  i seriously doubt that any of the kids in that league developed any skills they would build on from the experience.  the coaches seemed to mean well.  i'd just keep him active with things that promote body awareness and coordination.  taking him to games is a good idea as well.",
+      "cleaned_comment": "my grandson was in a league when he was 4-5.  I seriously doubt that any of the kids in that league developed any skills they would build on from the experience.  The coaches seemed to mean well.  I'd just keep him active with things that promote body awareness and coordination.  taking him to games is a good idea as well.",
       "comment_id": "pejvwp5",
       "parent_id": "t3_1x04ukz",
       "username": "AddressSerious8240",
       "replies": [],
       "sentiment_class": "POSITIVE",
-      "sentiment_conf": [
-        0.0012207952467143705,
-        0.9987792047532855
+      "sentiment_score": [
+        0.802
       ]
     },
     {
       "comment": "It\u2019s going to be hard with him starting so late. Definitely going to need a pro trainer to get him up to speed. The fact a size 5 ball is half his height is absolutely no excuse. Sheesh, I wish parents had a more realistic grasp of what it takes these days.",
-      "cleaned_comment": "it\u2019s going to be hard with him starting so late. definitely going to need a pro trainer to get him up to speed. the fact a size 5 ball is half his height is absolutely no excuse. sheesh, i wish parents had a more realistic grasp of what it takes these days.",
+      "cleaned_comment": "It\u2019s going to be hard with him starting so late. Definitely going to need a pro trainer to get him up to speed. The fact a size 5 ball is half his height is absolutely no excuse. Sheesh, I wish parents had a more realistic grasp of what it takes these days.",
       "comment_id": "peinsjt",
       "parent_id": "t3_1x04ukz",
       "username": "WhyIsTheDuck",
       "replies": [
         {
           "comment": "This is sarcasm, right? lol",
-          "cleaned_comment": "this is sarcasm, right? lol",
+          "cleaned_comment": "This is sarcasm, right? lol",
           "comment_id": "pesgdqy",
           "parent_id": "t1_peinsjt",
           "username": "thecatinaction",
           "replies": [],
-          "sentiment_class": "NEGATIVE",
-          "sentiment_conf": [
-            0.9804500517335472,
-            0.019549948266452875
+          "sentiment_class": "POSITIVE",
+          "sentiment_score": [
+            0.2263
           ]
         }
       ],
-      "sentiment_class": "NEGATIVE",
-      "sentiment_conf": [
-        0.9985534255946917,
-        0.0014465744053082752
+      "sentiment_class": "POSITIVE",
+      "sentiment_score": [
+        0.5209
       ]
     },
     {
       "comment": "lol don\u2019t mean to be harsh but he\u2019s 2, a few months from now it might be trains or trucks. Just have fun with him. Let his interests be nothing but pure joy, as soon as it becomes a chore or a lesson he\u2019ll probably be turned away from it. I\u2019m not down playing or saying he won\u2019t be obsessed with basketball as he gets older, I hope he is! Just make it as fun as possible, give him opportunities to play/try (and other sports as well) and teach him new skills along the way. Good luck! ",
-      "cleaned_comment": "lol don\u2019t mean to be harsh but he\u2019s 2, a few months from now it might be trains or trucks. just have fun with him. let his interests be nothing but pure joy, as soon as it becomes a chore or a lesson he\u2019ll probably be turned away from it. i\u2019m not down playing or saying he won\u2019t be obsessed with basketball as he gets older, i hope he is! just make it as fun as possible, give him opportunities to play/try (and other sports as well) and teach him new skills along the way. good luck!",
+      "cleaned_comment": "lol don\u2019t mean to be harsh but he\u2019s 2, a few months from now it might be trains or trucks. Just have fun with him. Let his interests be nothing but pure joy, as soon as it becomes a chore or a lesson he\u2019ll probably be turned away from it. I\u2019m not down playing or saying he won\u2019t be obsessed with basketball as he gets older, I hope he is! Just make it as fun as possible, give him opportunities to play/try (and other sports as well) and teach him new skills along the way. Good luck!",
       "comment_id": "pek8mcr",
       "parent_id": "t3_1x04ukz",
       "username": "ajbucci_",
       "replies": [
         {
           "comment": "Very fair! And I agree, my parents were pretty strict on us so I try to be mindful about not forcing or pushing interests on to him. Thanks for the advice!",
-          "cleaned_comment": "very fair! and i agree, my parents were pretty strict on us so i try to be mindful about not forcing or pushing interests on to him. thanks for the advice!",
+          "cleaned_comment": "Very fair! And I agree, my parents were pretty strict on us so I try to be mindful about not forcing or pushing interests on to him. Thanks for the advice!",
           "comment_id": "peqbl18",
           "parent_id": "t1_pek8mcr",
           "username": "ElAdrel",
           "replies": [],
           "sentiment_class": "POSITIVE",
-          "sentiment_conf": [
-            0.0005162725259494884,
-            0.9994837274740506
+          "sentiment_score": [
+            0.9192
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
-      "sentiment_conf": [
-        0.0006732405637810608,
-        0.999326759436219
+      "sentiment_score": [
+        0.9682
       ]
     },
     {
       "comment": "Build up his physical skills that apply to the game, instead of hyper focusing on it with him. He may lose interest if it doesn\u2019t come from himself so the best way to accentuate that natural love for the game is to help him build skills that can help him play and know the game better.",
-      "cleaned_comment": "build up his physical skills that apply to the game, instead of hyper focusing on it with him. he may lose interest if it doesn\u2019t come from himself so the best way to accentuate that natural love for the game is to help him build skills that can help him play and know the game better.",
+      "cleaned_comment": "Build up his physical skills that apply to the game, instead of hyper focusing on it with him. He may lose interest if it doesn\u2019t come from himself so the best way to accentuate that natural love for the game is to help him build skills that can help him play and know the game better.",
       "comment_id": "peif3mq",
       "parent_id": "t3_1x04ukz",
       "username": "runthepoint1",
       "replies": [],
-      "sentiment_class": "NEGATIVE",
-      "sentiment_conf": [
-        0.9925682266657089,
-        0.007431773334291191
+      "sentiment_class": "POSITIVE",
+      "sentiment_score": [
+        0.969
       ]
     },
     {
       "comment": "Put him in u8 travel. Sink or swim time ",
-      "cleaned_comment": "put him in u8 travel. sink or swim time",
+      "cleaned_comment": "Put him in u8 travel. Sink or swim time",
       "comment_id": "pehkou9",
       "parent_id": "t3_1x04ukz",
       "username": "PlatoAU",
       "replies": [
         {
           "comment": "Kid's walking already and he doesn't have a personal trainer. The hell is this guy doing? Soft.",
-          "cleaned_comment": "kid's walking already and he doesn't have a personal trainer. the hell is this guy doing? soft.",
+          "cleaned_comment": "Kid's walking already and he doesn't have a personal trainer. The hell is this guy doing? Soft.",
           "comment_id": "peim43j",
           "parent_id": "t1_pehkou9",
           "username": "teflong",
           "replies": [],
           "sentiment_class": "NEGATIVE",
-          "sentiment_conf": [
-            0.9972262172089156,
-            0.002773782791084544
+          "sentiment_score": [
+            -0.6808
           ]
         }
       ],
-      "sentiment_class": "NEGATIVE",
-      "sentiment_conf": [
-        0.998539250425049,
-        0.001460749574951026
+      "sentiment_class": "NEUTRAL",
+      "sentiment_score": [
+        0.0
       ]
     },
     {
       "comment": "Just foster the interest in the sport or the general idea of sports for now....\n\nBy watching it, do you mean on TV? Start taking him to games, and I don't mean the NBA or big time college. He will probably be mesmerized going to the local high school game on Friday nights this winter. Sit up close and high five the guys from the sideline during layup lines if they'd let you. Make it interactive with cheering (yell when the other team shoots free throws, DE-FENCE!). After the game let him run on the floor some. \n\nThe opportunities where he can do something more organized will come in time, but basketball is tough because it is a very regimented sport. Soccer is better for this at his age as it's more free-flowing and can still look like the real thing even when it's sloppy. I'm sure there's a soccer program he could probably do in the spring, maybe even indoor in the winter somewhere around you. Even if he's not even aware of soccer, he'll enjoy running around and the idea of being competitive with others.",
-      "cleaned_comment": "just foster the interest in the sport or the general idea of sports for now....\n\nby watching it, do you mean on tv? start taking him to games, and i don't mean the nba or big time college. he will probably be mesmerized going to the local high school game on friday nights this winter. sit up close and high five the guys from the sideline during layup lines if they'd let you. make it interactive with cheering (yell when the other team shoots free throws, de-fence!). after the game let him run on the floor some. \n\nthe opportunities where he can do something more organized will come in time, but basketball is tough because it is a very regimented sport. soccer is better for this at his age as it's more free-flowing and can still look like the real thing even when it's sloppy. i'm sure there's a soccer program he could probably do in the spring, maybe even indoor in the winter somewhere around you. even if he's not even aware of soccer, he'll enjoy running around and the idea of being competitive with others.",
+      "cleaned_comment": "Just foster the interest in the sport or the general idea of sports for now....\n\nBy watching it, do you mean on TV? Start taking him to games, and I don't mean the NBA or big time college. He will probably be mesmerized going to the local high school game on Friday nights this winter. Sit up close and high five the guys from the sideline during layup lines if they'd let you. Make it interactive with cheering (yell when the other team shoots free throws, DE-FENCE!). After the game let him run on the floor some. \n\nThe opportunities where he can do something more organized will come in time, but basketball is tough because it is a very regimented sport. Soccer is better for this at his age as it's more free-flowing and can still look like the real thing even when it's sloppy. I'm sure there's a soccer program he could probably do in the spring, maybe even indoor in the winter somewhere around you. Even if he's not even aware of soccer, he'll enjoy running around and the idea of being competitive with others.",
       "comment_id": "pehmzcq",
       "parent_id": "t3_1x04ukz",
       "username": "shabamon",
       "replies": [
         {
           "comment": "He watches games when we go to the park or at the community center. Sometimes I'll find a youth league game on Youtube. I love the idea of taking him to a live game, and letting him engage with the players. I also hadn't thought of how much more interactive being a spectator is when it's live. I'll see about getting him into soccer when he's at a better age for it, and fostering the competitive spirit. Thanks for the tips!",
-          "cleaned_comment": "he watches games when we go to the park or at the community center. sometimes i'll find a youth league game on youtube. i love the idea of taking him to a live game, and letting him engage with the players. i also hadn't thought of how much more interactive being a spectator is when it's live. i'll see about getting him into soccer when he's at a better age for it, and fostering the competitive spirit. thanks for the tips!",
+          "cleaned_comment": "He watches games when we go to the park or at the community center. Sometimes I'll find a youth league game on Youtube. I love the idea of taking him to a live game, and letting him engage with the players. I also hadn't thought of how much more interactive being a spectator is when it's live. I'll see about getting him into soccer when he's at a better age for it, and fostering the competitive spirit. Thanks for the tips!",
           "comment_id": "peioa84",
           "parent_id": "t1_pehmzcq",
           "username": "ElAdrel",
           "replies": [
             {
               "comment": "T-ball/wee ball is also an option for toddlers, my daughter was able to play on a team when she was 3. Basketball doesn\u2019t start until 5ish where I am at least",
-              "cleaned_comment": "t-ball/wee ball is also an option for toddlers, my daughter was able to play on a team when she was 3. basketball doesn\u2019t start until 5ish where i am at least",
+              "cleaned_comment": "T-ball/wee ball is also an option for toddlers, my daughter was able to play on a team when she was 3. Basketball doesn\u2019t start until 5ish where I am at least",
               "comment_id": "pekqrv6",
               "parent_id": "t1_peioa84",
               "username": "Big__If_True",
               "replies": [],
               "sentiment_class": "POSITIVE",
-              "sentiment_conf": [
-                0.07807816514495095,
-                0.9219218348550491
+              "sentiment_score": [
+                0.34
               ]
             }
           ],
           "sentiment_class": "POSITIVE",
-          "sentiment_conf": [
-            0.0011559008071517437,
-            0.9988440991928482
+          "sentiment_score": [
+            0.9336
           ]
         },
         {
           "comment": "OP, u/shabamon is giving some really good advice. Youth soccer is great for little kids & the skills developed will transfer to basketball better than most other sports.   \nTaking him to the local jr high & HS games is a great idea.   \nIf you don\u2019t already have a little tikes goal or a nerf goal on a closet door, those are great for inside and will help his hand/eye coordination overall. ",
-          "cleaned_comment": "op, u/shabamon is giving some really good advice. youth soccer is great for little kids & the skills developed will transfer to basketball better than most other sports.   \ntaking him to the local jr high & hs games is a great idea.   \nif you don\u2019t already have a little tikes goal or a nerf goal on a closet door, those are great for inside and will help his hand/eye coordination overall.",
+          "cleaned_comment": "OP, u/shabamon is giving some really good advice. Youth soccer is great for little kids & the skills developed will transfer to basketball better than most other sports.   \nTaking him to the local jr high & HS games is a great idea.   \nIf you don\u2019t already have a little tikes goal or a nerf goal on a closet door, those are great for inside and will help his hand/eye coordination overall.",
           "comment_id": "pehvy86",
           "parent_id": "t1_pehmzcq",
           "username": "Conscious_Purple7723",
           "replies": [],
           "sentiment_class": "POSITIVE",
-          "sentiment_conf": [
-            0.0012207952467143705,
-            0.9987792047532855
+          "sentiment_score": [
+            0.9735
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
-      "sentiment_conf": [
-        0.03021458706739398,
-        0.9697854129326061
+      "sentiment_score": [
+        0.9684
       ]
     }
   ],
   "overall_sentiment": {
     "count": {
-      "Negative": 6,
-      "Positive": 9
+      "Negative": 1,
+      "Positive": 13,
+      "Neutral": 1
     },
-    "confidence": 0.989
+    "score": 0.625
   }
 }

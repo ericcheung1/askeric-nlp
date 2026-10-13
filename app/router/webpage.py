@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.clients.cache import query_from_table, write_to_table
 from app.clients.reddit import get_post, parse_submission_id
-from app.core.inference_process import start_inference_process
+from app.core.sentiment import score_sentiment
 from app.core.webpage_service.common import VERSION, random_url
 from app.core.webpage_service.reddit_requests import (
     build_tree,
@@ -22,7 +22,7 @@ from app.core.webpage_service.sentence_requests import (
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
-limiter_1 = anyio.CapacityLimiter(1)
+limiter_10 = anyio.CapacityLimiter(10)
 limiter_3 = anyio.CapacityLimiter(3)
 
 
@@ -42,28 +42,20 @@ def index(request: Request):
 @router.post("/sentence-request", response_class=HTMLResponse)
 async def user_input(request: Request, input: str = Form(...)):
 
-    result_queue = request.state.result_queue
-    task_queue = request.state.task_queue
-    inference_process = request.state.inference_process
-
-    if not inference_process.is_alive():
-        task_queue, result_queue, inference_process = start_inference_process()
-        request.state.result_queue = result_queue
-        request.state.task_queue = task_queue
-        request.state.inference_process = inference_process
+    sia = request.state.sia
 
     clean_sentence_input(input=input)
     text_input = format_sentence_input(input=input)
 
-    # scores comments with sentiment in separate process
-    task_queue.put(text_input)
-    output_list = result_queue.get()
+    output = await anyio.to_thread.run_sync(
+        score_sentiment, sia, text_input, limiter_10
+    )
 
-    classification, confidence = format_sentence_output(output_list=output_list)
+    classification, score = format_sentence_output(output=output)
 
     context = {
         "classification": classification,
-        "confidence": confidence,
+        "score": score,
     }
 
     return templates.TemplateResponse(
@@ -76,15 +68,7 @@ async def reddit_input(request: Request, url: str = Form(...)):
 
     con = request.state.con
     reddit = request.state.reddit
-    result_queue = request.state.result_queue
-    task_queue = request.state.task_queue
-    inference_process = request.state.inference_process
-
-    if not inference_process.is_alive():
-        task_queue, result_queue, inference_process = start_inference_process()
-        request.state.result_queue = result_queue
-        request.state.task_queue = task_queue
-        request.state.inference_process = inference_process
+    sia = request.state.sia
 
     submission_id = parse_submission_id(url=url)
     comment_tree, overall_sentiment, post_data = await anyio.to_thread.run_sync(
@@ -98,8 +82,9 @@ async def reddit_input(request: Request, url: str = Form(...)):
 
         text_inputs = format_reddit_input(comment_map=comment_map)
 
-        task_queue.put(text_inputs)
-        output_list = result_queue.get()
+        output_list = await anyio.to_thread.run_sync(
+            score_sentiment, sia, text_inputs, limiter=limiter_10
+        )
 
         format_reddit_output(output_list=output_list, comment_map=comment_map)
 

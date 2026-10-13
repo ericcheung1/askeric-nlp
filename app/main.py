@@ -14,13 +14,8 @@ from app.clients.cache import (
 )
 from app.clients.exceptions import CommentFetchingError, comment_error_handler
 from app.clients.reddit import close_reddit_client, start_reddit_client
-from app.clients.spaces import (
-    download_spaces_files,
-    start_spaces_client,
-    weight_dir_check,
-)
-from app.core.inference_process import start_inference_process
 from app.router import api, webpage
+from ml.nltk.load import sentiment_load_model
 
 DEBUG_LOGS = os.environ.get("DEBUG_LOGS", "0") == "1"
 
@@ -40,40 +35,22 @@ async def lifespan(app: FastAPI):
 
     load_dotenv()
 
-    spaces_client = start_spaces_client()
-    weight_dir_check()
-    download_spaces_files(spaces_client=spaces_client)
-
     con = init_sqlite()
     saved_posts, urls = load_saved_posts()
     write_many_to_table(data=saved_posts, con=con)
 
     reddit = start_reddit_client()
 
-    task_queue, result_queue, inference_process = start_inference_process()
+    sia = sentiment_load_model()
 
     state_data = {
         "con": con,
         "reddit": reddit,
-        "result_queue": result_queue,
-        "task_queue": task_queue,
-        "inference_process": inference_process,
+        "sia": sia,
         "urls": urls,
     }
 
     yield state_data
-
-    task_queue.put(None)
-
-    task_queue.close()
-    task_queue.join_thread()
-    result_queue.close()
-    result_queue.join_thread()
-
-    inference_process.join(timeout=2)
-    if inference_process.is_alive():
-        inference_process.terminate()
-        inference_process.join()
 
     close_sqlite(con=con)
     await close_reddit_client(reddit=reddit)
