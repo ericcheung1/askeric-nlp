@@ -1,21 +1,17 @@
 # askeric-nlp - Reddit & Sentence Analysis App
 
-A FastAPI application for real-time sentiment analysis on standalone text and live Reddit threads. Built with a dynamic HTMX web interface and a dedicated REST API layer for programmatic JSON payloads, the application is designed for throughput and concurrency on minimal production resources.
+A FastAPI application for real-time natural language processing (NLP) analysis on Reddit threads and standalone text. Built with a dynamic HTMX web interface and a dedicated REST API layer for programmatic JSON payloads, the application is designed for throughput and concurrency on minimal production resources.
 
-### Highlights
-
-* **Web & API Access:** Serves an HTMX-powered webpage alongside a REST endpoint for programmatic JSON sentence analysis.
-* **Thread-Offloaded Inference:** Runs ML predictions on separate worker threads to keep the main event loop responsive under concurrent load.
-* **Lightweight FP16 ONNX Weights:** Uses an FP16-quantized DistilBERT model for low-memory, fast CPU inference.
-* **Cached Reddit Pipeline:** Ingests Reddit threads asynchronously via `AsyncPRAW` and caches results in SQLite to bypass redundant processing.
+Current NLP taks supported:
+- Sentiment Analysis
+- Keyword Extraction
 
 ## Built With
 
 * **Backend & API:** FastAPI, Python, SQLite
 * **Frontend:** Jinja2, HTMX, Tailwind CSS
-* **ML Inference:** ONNX Runtime, Hugging Face Tokenizer
 * **External APIs:** AsyncPRAW (Reddit API)
-* **Infrastructure & Ops:** Docker, Caddy, Terraform, GitHub Actions
+* **Infrastructure & Ops:** Docker, Caddy, Terraform, Digital Ocean Droplet, GitHub Actions
 
 The application follows a Server-Side Rendering (SSR) pattern with HTMX handling dynamic UI state updates. On application startup, model artifacts are fetched from object storage and loaded into memory for immediate inference execution.
 
@@ -31,34 +27,47 @@ The REST API layer accepts JSON payloads for sentence sentiment analysis.
 askeric-nlp/
 ├── app/
 │   ├── clients/
-│   │   ├── cache.py                # Handles mechanism for caching already processed posts  
-│   │   ├── exceptions.py           # Handles exceptions occuring in client modules
-│   │   ├── reddit.py               # Connects with AsyncPRAW to get reddit posts
-│   │   └── spaces.py               # Connects to object store to download weight files from
+│   │   ├── cache.py                    # Handles mechanism for caching processed posts
+│   │   ├── exception.py                # Handles exceptions occuring in clients modules
+│   │   └── reddit.py                   # Handles connection with AyncPraw to parse Reddit posts
 │   ├── core/
-│   │   ├── api_service.py          # Handles core data transform logic for api side
-│   │   └── webpage_service.py      # Handles core user input and data transform logic for the webpage side
+│   │   ├── webpage_service/
+│   │   │   ├── common.py               # Shared operations between Reddit and sentence requests
+│   │   │   ├── reddit_requests.py      # Operations related to Reddit requests
+│   │   │   └── sentence_requests.py    # Operations related to sentence requests
+│   │   ├── api_service.py              # API related operations
+│   │   ├── keyword.py                  # Handles operating keyword extraction model
+│   │   └── sentiment.py                # Handles operating sentiment model
 │   ├── router/
-│   │   ├── api.py                  # Defines routes used in the api layer
-│   │   └── webpage.py              # Defines routes used in main text analysis webpage
+│   │   ├── api.py                      # Defines routes used in API layer
+│   │   └── webpage.py                  # Defines routes used in webpage layer
 │   ├── templates/
 │   │   ├── error.html
 │   │   ├── index.html
 │   │   ├── reddit_result.html
 │   │   └── sentence_result.html
-│   └── main.py                     # App entry point
+│   └── main.py                         # App entrypoint
 └── ml/
-    └── sentiment/
-        ├── distilbert_fp16_onnx/   # ML weights directory, not committed in repo
-        │   ├── distilbert_fp16.onnx
-        │   └── tokenizer.json
-        └── inference.py            # Loads model and handles ML inference
+    ├── nltk/
+    │   ├── sentiment/
+    │   │   └── vader_lexicon.txt
+    │   └── load.py
+    └── yake/
+        └── load.py
 ```
 
 ## Model & Artifact Details
 
 #### Sentiment
 
-- **Architecture:** DistilBERT ([`distilbert-base-uncased-finetuned-sst-2-english`](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english)) fine-tuned for binary sentiment classification.
-- **Optimization:** Exported to `.onnx` and quantized to FP16 precision for improved loading and CPU inference speed. Model artifacts are downloaded dynamically on startup if not present locally.
-- **Export Scripts:** Located in `docs/distilbert_onnx/`.
+- **Model:** NLTK Vader ([`Vader`](https://www.nltk.org/_modules/nltk/sentiment/vader.html)) is a lexicon- and rule-based sentiment analysis tool designed specifically to catch emotions in short, informal text like social media posts, reviews, and headlines
+
+```
+Hutto, C.J. & Gilbert, E.E. (2014). VADER: A Parsimonious Rule-based Model for
+Sentiment Analysis of Social Media Text. Eighth International Conference on
+Weblogs and Social Media (ICWSM-14). Ann Arbor, MI, June 2014.
+```
+
+#### Keywords
+
+- **Model:** Yake ([`Yake!`](https://github.com/INESCTEC/yake)) a lightweight unsupervised automatic keyword extraction method
