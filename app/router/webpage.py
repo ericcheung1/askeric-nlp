@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.clients.cache import query_from_table, write_to_table
 from app.clients.reddit import get_post, parse_submission_id
+from app.core.keyword import score_keywords
 from app.core.sentiment import score_sentiment
 from app.core.webpage_service.common import VERSION, random_url
 from app.core.webpage_service.reddit_requests import (
@@ -13,6 +14,7 @@ from app.core.webpage_service.reddit_requests import (
     format_reddit_input,
     format_reddit_output,
     # save_post,
+    format_keywords,
 )
 from app.core.webpage_service.sentence_requests import (
     clean_sentence_input,
@@ -69,6 +71,7 @@ async def reddit_input(request: Request, url: str = Form(...)):
     con = request.state.con
     reddit = request.state.reddit
     sia = request.state.sia
+    yake = request.state.yake
 
     submission_id = parse_submission_id(url=url)
     comment_tree, overall_sentiment, post_data = await anyio.to_thread.run_sync(
@@ -86,7 +89,10 @@ async def reddit_input(request: Request, url: str = Form(...)):
             score_sentiment, sia, text_inputs, limiter=limiter_10
         )
 
+        keywords = score_keywords(yake=yake, text_inputs=text_inputs)
+
         format_reddit_output(output_list=output_list, comment_map=comment_map)
+        format_keywords(keywords_list=keywords, comment_map=comment_map)
 
         overall_sentiment = calculate_overall_sentiment(comment_tree=comment_tree)
 

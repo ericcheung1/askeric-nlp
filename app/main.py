@@ -16,6 +16,7 @@ from app.clients.exceptions import CommentFetchingError, comment_error_handler
 from app.clients.reddit import close_reddit_client, start_reddit_client
 from app.router import api, webpage
 from ml.nltk.load import sentiment_load_model
+from ml.yake.load import keyword_load_model
 
 DEBUG_LOGS = os.environ.get("DEBUG_LOGS", "0") == "1"
 
@@ -42,12 +43,14 @@ async def lifespan(app: FastAPI):
     reddit = start_reddit_client()
 
     sia = sentiment_load_model()
+    yake = keyword_load_model()
 
     state_data = {
         "con": con,
         "reddit": reddit,
         "sia": sia,
         "urls": urls,
+        "yake": yake,
     }
 
     yield state_data

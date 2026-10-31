@@ -122,6 +122,21 @@ def calculate_overall_sentiment(comment_tree):
     return {"count": count, "score": round(avg_score, 3)}
 
 
+def format_keywords(keywords_list, comment_map):
+    for keywords, comment_info in zip(keywords_list, comment_map.values()):
+        keyword_per_comment = []
+
+        for keyword in keywords:
+            keyword_per_comment.append(keyword[0])
+
+        comment_info["keywords"] = keyword_per_comment
+
+    logger.debug(
+        "comment info after appending keywords: \n%s",
+        json.dumps(comment_map, default=str, indent=2)
+    )
+
+
 def save_post(submission_id, post_data, comment_tree, overall_sentiment):
     """Save post data to app/data directory"""
     DATA_DIR = Path("app/data")
