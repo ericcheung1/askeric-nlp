@@ -18,6 +18,15 @@
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.4019
+      ],
+      "keywords": [
+        "holiday season",
+        "Eggnog",
+        "season",
+        "oatmeal",
+        "cream",
+        "wheat",
+        "holiday"
       ]
     },
     {
@@ -30,6 +39,13 @@
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.743
+      ],
+      "keywords": [
+        "Yum",
+        "French toast",
+        "French",
+        "amazing",
+        "toast"
       ]
     },
     {
@@ -42,6 +58,10 @@
       "sentiment_class": "NEUTRAL",
       "sentiment_score": [
         0.0
+      ],
+      "keywords": [
+        "heard",
+        "intrigued"
       ]
     },
     {
@@ -54,6 +74,18 @@
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.2165
+      ],
+      "keywords": [
+        "grocery store",
+        "egg nog",
+        "nog emerged",
+        "tough year",
+        "year",
+        "cried",
+        "grocery",
+        "store",
+        "egg",
+        "nog"
       ]
     },
     {
@@ -66,6 +98,13 @@
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.6908
+      ],
+      "keywords": [
+        "good idea",
+        "idea",
+        "good",
+        "n\u2019t",
+        "lol"
       ]
     },
     {
@@ -78,6 +117,18 @@
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.9653
+      ],
+      "keywords": [
+        "OMG",
+        "Bailey Irish",
+        "Irish cream",
+        "awesome",
+        "game changer",
+        "maple syrup",
+        "Bailey",
+        "Irish",
+        "WOW fricken",
+        "gourmet vendor"
       ]
     },
     {
@@ -90,6 +141,11 @@
       "sentiment_class": "NEUTRAL",
       "sentiment_score": [
         0.0
+      ],
+      "keywords": [
+        "Halloween pancakes",
+        "Halloween",
+        "pancakes"
       ]
     },
     {
@@ -109,12 +165,26 @@
           "sentiment_class": "NEUTRAL",
           "sentiment_score": [
             0.0
+          ],
+          "keywords": [
+            "craisins",
+            "topping"
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.474
+      ],
+      "keywords": [
+        "highly recommend",
+        "recommend making",
+        "cranberry syrup",
+        "highly",
+        "recommend",
+        "making",
+        "cranberry",
+        "syrup"
       ]
     },
     {
@@ -127,6 +197,17 @@
       "sentiment_class": "NEGATIVE",
       "sentiment_score": [
         -0.3235
+      ],
+      "keywords": [
+        "pancakes",
+        "boss",
+        "leave",
+        "work",
+        "early",
+        "make",
+        "make pancakes",
+        "leave work",
+        "work early"
       ]
     },
     {
@@ -146,6 +227,18 @@
           "sentiment_class": "NEUTRAL",
           "sentiment_score": [
             0.0
+          ],
+          "keywords": [
+            "Christmas brunch",
+            "big pan",
+            "egg nog",
+            "nog bread",
+            "bread pudding",
+            "cinnamon whiskey",
+            "Christmas",
+            "whiskey caramel",
+            "caramel sauce",
+            "year"
           ]
         },
         {
@@ -158,6 +251,9 @@
           "sentiment_class": "NEGATIVE",
           "sentiment_score": [
             -0.5216
+          ],
+          "keywords": [
+            "Stop"
           ]
         },
         {
@@ -177,18 +273,54 @@
               "sentiment_class": "NEGATIVE",
               "sentiment_score": [
                 -0.1957
+              ],
+              "keywords": [
+                "thick-sliced brioche",
+                "raisins",
+                "brioche",
+                "total indulgence",
+                "Christmas",
+                "fan",
+                "thick-sliced",
+                "time",
+                "indulgence",
+                "total"
               ]
             }
           ],
           "sentiment_class": "NEUTRAL",
           "sentiment_score": [
             0.0
+          ],
+          "keywords": [
+            "bread",
+            "genius",
+            "Bourbon",
+            "mwah",
+            "stroke",
+            "astray",
+            "wait",
+            "couple",
+            "tablespoons",
+            "pudding"
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.5983
+      ],
+      "keywords": [
+        "French Toast",
+        "Toast bread",
+        "Christmas morning",
+        "nog French",
+        "morning breakfast",
+        "bread pudding",
+        "egg nog",
+        "French",
+        "Toast",
+        "Christmas"
       ]
     }
   ],

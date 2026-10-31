@@ -18,6 +18,18 @@
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.9446
+      ],
+      "keywords": [
+        "GPA",
+        "BCIT",
+        "entrance",
+        "program",
+        "program requirements",
+        "record",
+        "boost",
+        "previous grades",
+        "requirements",
+        "finish"
       ]
     },
     {
@@ -30,6 +42,18 @@
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.4817
+      ],
+      "keywords": [
+        "SFU",
+        "program",
+        "SIAT",
+        "GPA dropped",
+        "psychology",
+        "back",
+        "Masters program",
+        "GPA",
+        "Masters",
+        "student"
       ]
     },
     {
@@ -56,18 +80,54 @@
               "sentiment_class": "POSITIVE",
               "sentiment_score": [
                 0.891
+              ],
+              "keywords": [
+                "BCIT",
+                "save money",
+                "transfer",
+                "credits transferred",
+                "money",
+                "advantage",
+                "admission",
+                "save",
+                "choice",
+                "matter"
               ]
             }
           ],
           "sentiment_class": "POSITIVE",
           "sentiment_score": [
             0.1643
+          ],
+          "keywords": [
+            "program advisor",
+            "kinda disheartened",
+            "Admission averages",
+            "advisor",
+            "crazy competitive",
+            "reach",
+            "program",
+            "Admission",
+            "chance",
+            "kinda"
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.9504
+      ],
+      "keywords": [
+        "degree",
+        "Congrats",
+        "bcit",
+        "completing",
+        "career development",
+        "grounded attitude",
+        "coming back",
+        "program advisor",
+        "urgently",
+        "career"
       ]
     },
     {
@@ -87,6 +147,18 @@
           "sentiment_class": "NEGATIVE",
           "sentiment_score": [
             -0.5719
+          ],
+          "keywords": [
+            "Yea",
+            "boat",
+            "Sfu",
+            "n\u2019t worry",
+            "taking",
+            "programs",
+            "transferring",
+            "late",
+            "graduating",
+            "internships"
           ]
         },
         {
@@ -99,12 +171,36 @@
           "sentiment_class": "POSITIVE",
           "sentiment_score": [
             0.5888
+          ],
+          "keywords": [
+            "day difference",
+            "SFU",
+            "BCIT",
+            "Yeah",
+            "relate",
+            "time",
+            "night",
+            "day",
+            "difference",
+            "Partly"
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.925
+      ],
+      "keywords": [
+        "General Science",
+        "Science Associate",
+        "n\u2019t",
+        "years",
+        "finished",
+        "Langara",
+        "bit",
+        "Langara transferred",
+        "LOT",
+        "failed"
       ]
     },
     {
@@ -131,18 +227,50 @@
               "sentiment_class": "POSITIVE",
               "sentiment_score": [
                 0.8999
+              ],
+              "keywords": [
+                "sfu program",
+                "program sucked",
+                "sfu",
+                "sucked",
+                "dropped",
+                "program",
+                "Good luck",
+                "Good",
+                "luck"
               ]
             }
           ],
           "sentiment_class": "POSITIVE",
           "sentiment_score": [
             0.9205
+          ],
+          "keywords": [
+            "hope",
+            "Good luck",
+            "grad school",
+            "Good",
+            "school",
+            "luck",
+            "grad"
           ]
         }
       ],
       "sentiment_class": "NEGATIVE",
       "sentiment_score": [
         -0.296
+      ],
+      "keywords": [
+        "UBC",
+        "sfu",
+        "grad school",
+        "failed",
+        "finished",
+        "accepted back",
+        "school",
+        "years",
+        "accepted",
+        "back"
       ]
     }
   ],
