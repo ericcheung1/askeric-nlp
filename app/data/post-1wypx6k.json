@@ -25,12 +25,23 @@
           "sentiment_class": "NEUTRAL",
           "sentiment_score": [
             0.0
+          ],
+          "keywords": [
+            "regular rice",
+            "rice",
+            "regular"
           ]
         }
       ],
       "sentiment_class": "NEUTRAL",
       "sentiment_score": [
         0.0
+      ],
+      "keywords": [
+        "rice cooker",
+        "setting",
+        "rice",
+        "cooker"
       ]
     },
     {
@@ -64,24 +75,55 @@
                   "sentiment_class": "POSITIVE",
                   "sentiment_score": [
                     0.3612
+                  ],
+                  "keywords": [
+                    "kind"
                   ]
                 }
               ],
               "sentiment_class": "POSITIVE",
               "sentiment_score": [
                 0.9231
+              ],
+              "keywords": [
+                "RICE COOKER",
+                "cup",
+                "CAKE",
+                "tsp",
+                "years ago",
+                "CREAM CHEESE",
+                "COOKER",
+                "RICE",
+                "layer cake",
+                "baking"
               ]
             }
           ],
           "sentiment_class": "NEUTRAL",
           "sentiment_score": [
             0.0
+          ],
+          "keywords": [
+            "recipe",
+            "yum"
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.6249
+      ],
+      "keywords": [
+        "rice cooker",
+        "make awesome",
+        "awesome carrot",
+        "carrot cake",
+        "cooker",
+        "make",
+        "awesome",
+        "carrot",
+        "cake",
+        "rice"
       ]
     },
     {
@@ -101,12 +143,29 @@
           "sentiment_class": "POSITIVE",
           "sentiment_score": [
             0.5093
+          ],
+          "keywords": [
+            "Ooo clever",
+            "Ooo",
+            "clever"
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.7901
+      ],
+      "keywords": [
+        "BBQ sauce",
+        "favorite BBQ",
+        "par boil",
+        "boil boneless",
+        "boneless ribs",
+        "BBQ",
+        "pan",
+        "cooker",
+        "add",
+        "sauce"
       ]
     },
     {
@@ -126,12 +185,18 @@
           "sentiment_class": "NEUTRAL",
           "sentiment_score": [
             0.0
-          ]
+          ],
+          "keywords": []
         }
       ],
       "sentiment_class": "NEUTRAL",
       "sentiment_score": [
         0.0
+      ],
+      "keywords": [
+        "make cake",
+        "make",
+        "cake"
       ]
     },
     {
@@ -151,12 +216,20 @@
           "sentiment_class": "NEUTRAL",
           "sentiment_score": [
             0.0
+          ],
+          "keywords": [
+            "Yeah",
+            "dofferent"
           ]
         }
       ],
       "sentiment_class": "NEUTRAL",
       "sentiment_score": [
         0.0
+      ],
+      "keywords": [
+        "recipe",
+        "follow"
       ]
     },
     {
@@ -183,18 +256,46 @@
               "sentiment_class": "POSITIVE",
               "sentiment_score": [
                 0.4926
+              ],
+              "keywords": [
+                "bunch",
+                "wait"
               ]
             }
           ],
           "sentiment_class": "POSITIVE",
           "sentiment_score": [
             0.4019
+          ],
+          "keywords": [
+            "jiffy box",
+            "cornbread recipe",
+            "box",
+            "regular rice",
+            "cornbread",
+            "recipe",
+            "jiffy",
+            "make regular",
+            "Poured",
+            "rice"
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.1179
+      ],
+      "keywords": [
+        "share recipe",
+        "recipe",
+        "share",
+        "long",
+        "setting",
+        "low",
+        "medium",
+        "high",
+        "high setting",
+        "low medium"
       ]
     }
   ],

@@ -18,6 +18,10 @@
       "sentiment_class": "NEUTRAL",
       "sentiment_score": [
         0.0
+      ],
+      "keywords": [
+        "nutrition",
+        "zucchini"
       ]
     },
     {
@@ -37,12 +41,25 @@
           "sentiment_class": "NEUTRAL",
           "sentiment_score": [
             0.0
-          ]
+          ],
+          "keywords": []
         }
       ],
       "sentiment_class": "NEGATIVE",
       "sentiment_score": [
         -0.4939
+      ],
+      "keywords": [
+        "water content",
+        "absorb mad",
+        "mad glyphosate",
+        "high water",
+        "Zucchini",
+        "content",
+        "family",
+        "plants",
+        "absorb",
+        "mad"
       ]
     },
     {
@@ -62,13 +79,15 @@
           "sentiment_class": "NEGATIVE",
           "sentiment_score": [
             -0.2411
-          ]
+          ],
+          "keywords": []
         }
       ],
       "sentiment_class": "NEUTRAL",
       "sentiment_score": [
         0.0
-      ]
+      ],
+      "keywords": []
     },
     {
       "comment": "In India, we have Nutri (soya granules or chunks); blending them into any sort of burger patty significantly increases the protein and does not hamper with the taste (makes it tastier sometimes)",
@@ -94,18 +113,54 @@
               "sentiment_class": "POSITIVE",
               "sentiment_score": [
                 0.8999
+              ],
+              "keywords": [
+                "complete protein",
+                "great idea",
+                "blending veggies",
+                "soya",
+                "plant-based",
+                "protein",
+                "protein-heavy",
+                "idea",
+                "awesome",
+                "complete"
               ]
             }
           ],
           "sentiment_class": "POSITIVE",
           "sentiment_score": [
             0.8439
+          ],
+          "keywords": [
+            "cost effectiveness",
+            "wow",
+            "learning",
+            "cultures",
+            "added veggies",
+            "fibre",
+            "taste",
+            "effectiveness",
+            "specifically",
+            "added"
           ]
         }
       ],
       "sentiment_class": "NEUTRAL",
       "sentiment_score": [
         0.0
+      ],
+      "keywords": [
+        "soya granules",
+        "burger patty",
+        "patty significantly",
+        "significantly increases",
+        "India",
+        "Nutri",
+        "soya",
+        "chunks",
+        "blending",
+        "taste"
       ]
     },
     {
@@ -125,12 +180,34 @@
           "sentiment_class": "NEUTRAL",
           "sentiment_score": [
             0.0
+          ],
+          "keywords": [
+            "talking",
+            "Def saves",
+            "Def",
+            "healthier",
+            "saves",
+            "money",
+            "makes",
+            "saves money"
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.3384
+      ],
+      "keywords": [
+        "twenties",
+        "mince",
+        "veg",
+        "lived",
+        "added",
+        "running late",
+        "start cooking",
+        "beef mince",
+        "housemates",
+        "housemate"
       ]
     },
     {
@@ -150,12 +227,18 @@
           "sentiment_class": "POSITIVE",
           "sentiment_score": [
             0.4199
-          ]
+          ],
+          "keywords": []
         }
       ],
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.6249
+      ],
+      "keywords": [
+        "Great hack",
+        "Great",
+        "hack"
       ]
     },
     {
@@ -182,18 +265,51 @@
               "sentiment_class": "NEUTRAL",
               "sentiment_score": [
                 0.0
+              ],
+              "keywords": [
+                "ground beef",
+                "bun",
+                "patty",
+                "minced meat",
+                "actual sandwich",
+                "Hamburger",
+                "ground",
+                "beef",
+                "minced",
+                "sandwich"
               ]
             }
           ],
           "sentiment_class": "POSITIVE",
           "sentiment_score": [
             0.5023
+          ],
+          "keywords": [
+            "minced meat",
+            "guys call",
+            "Huh",
+            "meat",
+            "call",
+            "guys",
+            "minced",
+            "ground beef",
+            "Canadian",
+            "beef"
           ]
         }
       ],
       "sentiment_class": "NEUTRAL",
       "sentiment_score": [
         0.0
+      ],
+      "keywords": [
+        "minced meat",
+        "call minced",
+        "meat",
+        "hamburger",
+        "americans",
+        "call",
+        "minced"
       ]
     }
   ],

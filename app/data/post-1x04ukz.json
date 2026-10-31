@@ -9,18 +9,6 @@
   },
   "comment_tree": [
     {
-      "comment": "My daughter was the same way at an early age. One thing I thought was important was teaching her to use both hands, not just her dominant. We would play catch with a tennis ball and alternate catching and throwing with right and left hand. Get both sides of their brain working. I also bought some small cones and wrote a letter of the alphabet on each one. I spread them out and tell her to go grab the cone with \"A\" on it. She would have to dribble the basketball with one hand to go grab the letter. Eventually I would ask her to pick up multiple letters to spell simple words like, cat, dog . . .  This way she was learning to dribble and the alphabet at the same time. Again alternating right hand and left hand to dribble. Another game she loved was dribble tag. You both have a ball and have to keep dribbling while you run around playing tag. Encourage using right then left hand. \nJust incorporate his love for basketball in any kids game you can think of. Little kids like to race, give them a basketball and make it a dribbling race. Add some obstacles and make it a slalom type race.     \nHope this helps! ",
-      "cleaned_comment": "My daughter was the same way at an early age. One thing I thought was important was teaching her to use both hands, not just her dominant. We would play catch with a tennis ball and alternate catching and throwing with right and left hand. Get both sides of their brain working. I also bought some small cones and wrote a letter of the alphabet on each one. I spread them out and tell her to go grab the cone with \"A\" on it. She would have to dribble the basketball with one hand to go grab the letter. Eventually I would ask her to pick up multiple letters to spell simple words like, cat, dog . . .  This way she was learning to dribble and the alphabet at the same time. Again alternating right hand and left hand to dribble. Another game she loved was dribble tag. You both have a ball and have to keep dribbling while you run around playing tag. Encourage using right then left hand. \nJust incorporate his love for basketball in any kids game you can think of. Little kids like to race, give them a basketball and make it a dribbling race. Add some obstacles and make it a slalom type race.     \nHope this helps!",
-      "comment_id": "pf4t0ou",
-      "parent_id": "t3_1x04ukz",
-      "username": "bballaddict8",
-      "replies": [],
-      "sentiment_class": "POSITIVE",
-      "sentiment_score": [
-        0.9906
-      ]
-    },
-    {
       "comment": "at 2 just follow his lead, youre already doing great. the scootering and throwing games are building balance and coordination which is the real foundation anyway. keep it fun and varied, the second it feels like drills at this age the love for it dies ",
       "cleaned_comment": "at 2 just follow his lead, youre already doing great. the scootering and throwing games are building balance and coordination which is the real foundation anyway. keep it fun and varied, the second it feels like drills at this age the love for it dies",
       "comment_id": "peoljv4",
@@ -30,6 +18,18 @@
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.9337
+      ],
+      "keywords": [
+        "lead",
+        "youre",
+        "great",
+        "follow",
+        "throwing games",
+        "building balance",
+        "real foundation",
+        "scootering",
+        "throwing",
+        "games"
       ]
     },
     {
@@ -42,6 +42,18 @@
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.5106
+      ],
+      "keywords": [
+        "sprint intervals",
+        "resistance training",
+        "ball",
+        "court training",
+        "hour",
+        "training",
+        "free throws",
+        "resistance",
+        "cardi",
+        "sprint"
       ]
     },
     {
@@ -54,6 +66,18 @@
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.802
+      ],
+      "keywords": [
+        "league",
+        "grandson",
+        "league developed",
+        "experience",
+        "doubt",
+        "kids",
+        "developed",
+        "skills",
+        "build",
+        "coordination"
       ]
     },
     {
@@ -73,12 +97,77 @@
           "sentiment_class": "POSITIVE",
           "sentiment_score": [
             0.2263
+          ],
+          "keywords": [
+            "lol",
+            "sarcasm"
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.5209
+      ],
+      "keywords": [
+        "late",
+        "hard",
+        "starting",
+        "pro trainer",
+        "speed",
+        "Sheesh",
+        "realistic grasp",
+        "pro",
+        "trainer",
+        "size"
+      ]
+    },
+    {
+      "comment": "My daughter was the same way at an early age. One thing I thought was important was teaching her to use both hands, not just her dominant. We would play catch with a tennis ball and alternate catching and throwing with right and left hand. Get both sides of their brain working. I also bought some small cones and wrote a letter of the alphabet on each one. I spread them out and tell her to go grab the cone with \"A\" on it. She would have to dribble the basketball with one hand to go grab the letter. Eventually I would ask her to pick up multiple letters to spell simple words like, cat, dog . . .  This way she was learning to dribble and the alphabet at the same time. Again alternating right hand and left hand to dribble. Another game she loved was dribble tag. You both have a ball and have to keep dribbling while you run around playing tag. Encourage using right then left hand. \nJust incorporate his love for basketball in any kids game you can think of. Little kids like to race, give them a basketball and make it a dribbling race. Add some obstacles and make it a slalom type race.     \nHope this helps! ",
+      "cleaned_comment": "My daughter was the same way at an early age. One thing I thought was important was teaching her to use both hands, not just her dominant. We would play catch with a tennis ball and alternate catching and throwing with right and left hand. Get both sides of their brain working. I also bought some small cones and wrote a letter of the alphabet on each one. I spread them out and tell her to go grab the cone with \"A\" on it. She would have to dribble the basketball with one hand to go grab the letter. Eventually I would ask her to pick up multiple letters to spell simple words like, cat, dog . . .  This way she was learning to dribble and the alphabet at the same time. Again alternating right hand and left hand to dribble. Another game she loved was dribble tag. You both have a ball and have to keep dribbling while you run around playing tag. Encourage using right then left hand. \nJust incorporate his love for basketball in any kids game you can think of. Little kids like to race, give them a basketball and make it a dribbling race. Add some obstacles and make it a slalom type race.     \nHope this helps!",
+      "comment_id": "pf4t0ou",
+      "parent_id": "t3_1x04ukz",
+      "username": "bballaddict8",
+      "replies": [
+        {
+          "comment": "These suggestions are great! I hadn't thought about getting him to use both hands for shooting, dribbling, or throwing. A little variety will keep things interesting! I think the idea with letters on cones will be really fun for him and eventually work up to spelling. Thank you!",
+          "cleaned_comment": "These suggestions are great! I hadn't thought about getting him to use both hands for shooting, dribbling, or throwing. A little variety will keep things interesting! I think the idea with letters on cones will be really fun for him and eventually work up to spelling. Thank you!",
+          "comment_id": "pgucy3b",
+          "parent_id": "t1_pf4t0ou",
+          "username": "ElAdrel",
+          "replies": [],
+          "sentiment_class": "POSITIVE",
+          "sentiment_score": [
+            0.9296
+          ],
+          "keywords": [
+            "great",
+            "dribbling",
+            "suggestions",
+            "shooting",
+            "throwing",
+            "things interesting",
+            "interesting",
+            "thought",
+            "hands",
+            "spelling"
+          ]
+        }
+      ],
+      "sentiment_class": "POSITIVE",
+      "sentiment_score": [
+        0.9906
+      ],
+      "keywords": [
+        "early age",
+        "hand",
+        "left hand",
+        "dribble",
+        "left",
+        "race",
+        "age",
+        "basketball",
+        "daughter",
+        "early"
       ]
     },
     {
@@ -98,12 +187,36 @@
           "sentiment_class": "POSITIVE",
           "sentiment_score": [
             0.9192
+          ],
+          "keywords": [
+            "fair",
+            "pretty strict",
+            "pushing interests",
+            "agree",
+            "advice",
+            "parents",
+            "pretty",
+            "strict",
+            "mindful",
+            "forcing"
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.9682
+      ],
+      "keywords": [
+        "lol",
+        "trucks",
+        "harsh",
+        "months",
+        "trains",
+        "n\u2019t",
+        "fun",
+        "pure joy",
+        "Good luck",
+        "joy"
       ]
     },
     {
@@ -116,6 +229,18 @@
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.969
+      ],
+      "keywords": [
+        "hyper focusing",
+        "physical skills",
+        "build skills",
+        "game",
+        "skills",
+        "Build",
+        "physical",
+        "apply",
+        "hyper",
+        "focusing"
       ]
     },
     {
@@ -135,12 +260,31 @@
           "sentiment_class": "NEGATIVE",
           "sentiment_score": [
             -0.6808
+          ],
+          "keywords": [
+            "Kid walking",
+            "personal trainer",
+            "Kid",
+            "trainer",
+            "Soft",
+            "walking",
+            "personal",
+            "hell",
+            "guy"
           ]
         }
       ],
       "sentiment_class": "NEUTRAL",
       "sentiment_score": [
         0.0
+      ],
+      "keywords": [
+        "travel",
+        "Put",
+        "swim time",
+        "Sink",
+        "time",
+        "swim"
       ]
     },
     {
@@ -167,30 +311,54 @@
               "sentiment_class": "POSITIVE",
               "sentiment_score": [
                 0.34
+              ],
+              "keywords": [
+                "wee ball",
+                "T-ball",
+                "wee",
+                "toddlers",
+                "ball",
+                "option",
+                "daughter",
+                "play",
+                "team",
+                "n\u2019t start"
               ]
             }
           ],
           "sentiment_class": "POSITIVE",
           "sentiment_score": [
             0.9336
-          ]
-        },
-        {
-          "comment": "OP, u/shabamon is giving some really good advice. Youth soccer is great for little kids & the skills developed will transfer to basketball better than most other sports.   \nTaking him to the local jr high & HS games is a great idea.   \nIf you don\u2019t already have a little tikes goal or a nerf goal on a closet door, those are great for inside and will help his hand/eye coordination overall. ",
-          "cleaned_comment": "OP, u/shabamon is giving some really good advice. Youth soccer is great for little kids & the skills developed will transfer to basketball better than most other sports.   \nTaking him to the local jr high & HS games is a great idea.   \nIf you don\u2019t already have a little tikes goal or a nerf goal on a closet door, those are great for inside and will help his hand/eye coordination overall.",
-          "comment_id": "pehvy86",
-          "parent_id": "t1_pehmzcq",
-          "username": "Conscious_Purple7723",
-          "replies": [],
-          "sentiment_class": "POSITIVE",
-          "sentiment_score": [
-            0.9735
+          ],
+          "keywords": [
+            "community center",
+            "watches games",
+            "center",
+            "league game",
+            "watches",
+            "park",
+            "community",
+            "game",
+            "Youtube",
+            "live game"
           ]
         }
       ],
       "sentiment_class": "POSITIVE",
       "sentiment_score": [
         0.9684
+      ],
+      "keywords": [
+        "general idea",
+        "foster",
+        "interest",
+        "general",
+        "Soccer",
+        "game",
+        "Friday nights",
+        "sport",
+        "high",
+        "idea"
       ]
     }
   ],
@@ -200,6 +368,6 @@
       "Positive": 13,
       "Neutral": 1
     },
-    "score": 0.625
+    "score": 0.622
   }
 }

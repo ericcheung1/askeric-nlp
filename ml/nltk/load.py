@@ -11,6 +11,7 @@ nltk.data.path.append(VADER_PATH)
 
 
 def sentiment_load_model():
+    """Loads nltk vader sentiment model"""
     try:
         return SentimentIntensityAnalyzer(lexicon_file=f"file://{VADER_PATH.resolve()}")
     except Exception as e:
